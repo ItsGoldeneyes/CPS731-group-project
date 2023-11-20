@@ -2,7 +2,7 @@
 
 ## File Structure
 ```
-django-rest-starter/
+CPS731-group-project/Phase 2/back-end
 ├── main/
 │   ├── __init__.py
 │   ├── asgi.py
@@ -12,11 +12,14 @@ django-rest-starter/
 │   ├── urls.py
 │   ├── views.py
 │   ├── wsgi.py
-├── requirements.txt
-├── helpdesk.db
+├── venv
+│   ├── venv contents
 ├── db.sqlite3
-├── README.md
+├── helpdesk.db
 ├── manage.py
+├── railway.json
+├── README.md
+├── requirements.txt
 ```
 
 ## Launching the backend locally
