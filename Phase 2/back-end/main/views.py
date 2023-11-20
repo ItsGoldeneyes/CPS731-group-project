@@ -1,11 +1,34 @@
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+import sqlite3
 
 
 def login_helper(username, password):
-    return True
-
+    con = sqlite3.connect('helpdesk.db')
+    cur = con.cursor()
+    
+    # Check if the username exists
+    cur.execute("SELECT * FROM users WHERE username=?", (username,))
+    user = cur.fetchone()
+    
+    # Username does not exist
+    if user==None:
+        con.close()
+        return False
+    
+    # Username exists
+    else:
+        # Check if the password is correct
+        if user[2]==password:
+            con.close()
+            return True
+        else:
+            con.close()
+            return False
+        
+    
+    
 @csrf_exempt
 def login(request):
     if request.method == "POST":
