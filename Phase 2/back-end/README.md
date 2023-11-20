@@ -1,6 +1,4 @@
-# Django REST Starter
-
-Welcome to Django REST Starter! This repository provides a starting point for building RESTful APIs using the Django REST framework
+# Django REST Helpdesk Backend
 
 ## File Structure
 ```
@@ -12,28 +10,30 @@ django-rest-starter/
 │   ├── production_settings.py
 │   ├── settings.py
 │   ├── urls.py
+│   ├── views.py
 │   ├── wsgi.py
 ├── requirements.txt
+├── helpdesk.db
+├── db.sqlite3
 ├── README.md
 ├── manage.py
 ```
 
-## Getting Started
+## Launching the backend locally
 
 1. Clone this repository to your local machine:
    ```shell
-   git clone https://github.com/Grey-A/django-rest-starter.git
+   git clone https://github.com/ItsGoldeneyes/CPS731-group-project.git
    ```
 
-2. Navigate to the project directory:
+2. Navigate to the backend directory:
    ```shell
-   cd django-rest-starter
+   cd CPS731-group-project/Phase 2/back-end
    ```
 
-3. Set up a virtual environment (recommended) and install dependencies:
+3. Activate the virtual environment and install dependencies:
    ```shell
-   python -m venv venv
-   source venv/bin/activate
+   .\venv\Scripts\activate
    pip install -r requirements.txt
    ```
 
@@ -51,14 +51,6 @@ django-rest-starter/
 
 This project includes two settings files:
 
-- `production_settings.py`: Configuration for when the app is live on railway, it uses PostgreSQL. 
-  
-NOTE: Remember to change the secret key on railway, you can use websites like `https://djecrety.ir/` to generate your new secret key
+- `production_settings.py`: Configuration for when the app is live on railway, it uses a secret key from the environment variables and a sqlite db
 
 - `local_settings.py`: Configuration for local development uses a randomly generated secret key with sqlite db
-  
-NOTE: The DJANG_ENV variable from Railway is used to determine which settings file to use.
-
-## Contributing
-
-Contributions are welcome! If you find a bug, have a feature request, or want to contribute improvements, feel free to open an issue or submit a pull request.
