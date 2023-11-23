@@ -6,6 +6,7 @@ import Login from '../Login/Login';
 import Header from '../Header/Header';
 import Sidebar from '../Sidebar/Sidebar';
 import TicketInterface from '../TicketInterface/TicketInterface';
+import CreateTicket from '../CreateTicket/CreateTicket';
 
 function App() {
   return (

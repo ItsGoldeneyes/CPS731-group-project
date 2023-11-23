@@ -19,11 +19,41 @@
     box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
 }
 
-.ticket-header {
+.create-ticket-header {
     display: flex;
     align-items: center;
     height: auto;
     padding-bottom: 50px;
+}
+
+.create-ticket-title {
+    font-weight: bold;
+}
+
+.create-ticket-buttons-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-left: auto;
+    width: auto;
+    gap: 60px;
+}
+
+.create-ticket-button {
+    >button {
+        padding: 15px 50px;
+        background-color: #080957;
+        color: #ffffff;
+        border: none;
+        border-radius: 6px;
+    }
+}
+
+#create-ticket-button {
+    background-color: #51993f;
+}
+
+#cancel-ticket-button {
+    background-color: #f5471b;
 }
 
 input[type="text"], input[type="datetime-local"] {
@@ -41,61 +71,49 @@ select {
     width: 100%;
 }
 
-.ticket-title {
-    font-weight: bold;
-}
+.create-ticket-first-container {
+    display: grid;
+    grid-template-columns: 1fr 87%; 
+    gap: 10px; 
+    margin: auto; 
+    margin-bottom: 20px;
 
-.buttons-container {
-    display: flex;
-    justify-content: flex-end;
-    margin-left: auto;
-    width: auto;
-    gap: 60px;
-}
-
-.ticket-button {
-    >button {
-        padding: 15px 50px;
-        background-color: #080957;
-        color: #ffffff;
-        border: none;
-        border-radius: 6px;
+    > label {
+        padding: 12px;
     }
 }
 
-.ticket-middle-container {
+.create-ticket-middle-container {
     display: grid;
     grid-template-columns: 1fr 1fr; 
     gap: 100px; 
     margin-bottom: 20px;
 }
 
-.ticket-middle-section {
+.create-ticket-middle-section{
     display: grid;
-    grid-template-columns: 1fr 2fr; 
-    grid-template-rows: repeat(4, 1fr);;
+    grid-template-columns: 1fr 3fr; 
+    grid-template-rows: repeat(2, 1fr);
     gap: 30px;
 
     > label {
         text-align: center;
         padding: 12px;
     }
-
 }
 
-
-.ticket-last-section {
+.create-ticket-last-section {
     display: grid;
-    grid-template-columns: 1fr 1fr; 
+    grid-template-columns: 1fr 87%; 
     gap: 10px; 
     margin: auto; 
 
     > label {
-        text-align: right;
+        text-align: center;
         padding: 12px;
     }
 }
 
-#notes {
-    height: 150px;
+#create-notes {
+    height: 200px;
 }

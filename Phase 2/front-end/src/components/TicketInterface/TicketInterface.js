@@ -23,7 +23,7 @@ export default function TicketInterface() {
                     </div>
                 </div>
                 <div className="ticket-middle-container">
-                    <div className="ticket-middle-section-left">
+                    <div className="ticket-middle-section">
                             <label for='number'>Number</label>
                             <input id='number' type='text' />
 
