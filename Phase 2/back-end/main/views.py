@@ -7,7 +7,7 @@ from .models import Login
 import json
 
 
-
+@csrf_exempt
 def index(request):
     # Get all URLs from the URL resolver
     url_patterns = get_resolver().url_patterns
