@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './createticket-styles.css';
 
-export default function TicketInterface() {
+export default function CreateTicket() {
   return (
     <div className="ticket-background">
         <div className="ticket-form-card">

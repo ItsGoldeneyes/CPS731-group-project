@@ -1,0 +1,74 @@
+.ticket-background {
+    padding: 25px;
+    background-color: #f0f0f0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ticket-form-card {
+    background-color: white;
+    padding: 25px;
+    padding-left: 40px;
+    padding-right: 40px;
+    height: 100%;
+    width: 100vw;
+    border-radius: 15px;
+    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
+}
+
+.all-tickets-table-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 60px;
+}
+
+table {
+    border-collapse: separate;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    padding: 25px;
+}
+
+th {
+    position: relative;
+}
+
+tbody tr {
+    border: 2px solid black; /* Border for each row */
+    margin-bottom: 10px; /* Adjust the space between rows as needed */
+    background: pink;
+}
+
+th::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    border-bottom: 2px solid #000; /* Adjust the thickness of the underline */
+}
+
+tr {
+    border: 2px solid black; /* Border for each row */
+    margin-bottom: 15px; /* Adjust the space between rows as needed */
+}
+
+th:first-child {
+    text-align: right; 
+}
+
+td:first-child {
+    text-align: right; 
+}
+
+
+
+
+
+
