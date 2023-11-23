@@ -8,6 +8,7 @@ import Sidebar from '../Sidebar/Sidebar';
 import TicketInterface from '../TicketInterface/TicketInterface';
 import CreateTicket from '../CreateTicket/CreateTicket';
 import ViewAllTickets from '../ViewAllTickets/ViewAllTickets';
+import CustomerDashboard from '../CustomerDashboard/CustomerDashboard';
 
 function App() {
   return (
