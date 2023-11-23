@@ -8,7 +8,7 @@ export default function TicketInterface() {
             <form action="" className="ticket-form">
                 <div className="ticket-header">
                     <div className="ticket-title">
-                        Ticket Details - INC09394
+                        Ticket Details - <span id="ticketNumber">INC09394</span>
                     </div>
                     <div className="buttons-container">
                         <div className="ticket-button">
@@ -22,39 +22,31 @@ export default function TicketInterface() {
                         </div>
                     </div>
                 </div>
-                <div className="ticket-middle-section">
-                    <div>
-                        <div>
+                <div className="ticket-middle-container">
+                    <div className="ticket-middle-section-left">
                             <label for='number'>Number</label>
                             <input id='number' type='text' />
-                        </div>
-                        <div>
+
                             <label for='requested-by'>Requested by</label>
                             <input id='requested-by' type='text' />
-                        </div>
-                        <div>
+
                             <label for='assigned-to'>Assigned to</label>
                             <input id='assigned-to' type='text' />
-                        </div>
                     </div>
-                    <div>
-                        <div>
+                    <div className="ticket-middle-section">
                             <label for='opened'>Opened</label>
                             <input id='opened' type='datetime-local' />
-                        </div>
-                        <div>
+
                             <label for='updated'>Updated</label>
                             <input id='updated' type='datetime-local' />
-                        </div>
-                        <div>
+
                             <label for='priority'>Priority</label>
                             <select id="priority" name="priority">
                                 <option value="Low">3 - Low</option>
                                 <option value="Medium">2 - Medium</option>
                                 <option value="High">1 - High</option>
                             </select>
-                        </div>
-                        <div>
+
                             <label for='category'>Category</label>
                             <select id="category" name="category">
                                 <option value="" selected disabled></option>
@@ -66,11 +58,13 @@ export default function TicketInterface() {
                                 <option value="Printer">Printer</option>
                                 <option value="Tablet">Tablet</option>
                             </select>
-                        </div>
                     </div>
                 </div>
                 <div className="ticket-last-section">
-                    
+                        <label for='shortDescription'>Short description</label>
+                        <input id='shortDescription' type='text' />
+                        <label for='notes'>Notes</label>
+                        <input id='notes' type='text' />
                 </div>
             </form>
         </div>
