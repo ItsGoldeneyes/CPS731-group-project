@@ -16,7 +16,7 @@ def index(request):
     # Render the index template with the list of URLs
     return render(request, 'index.html', {'urls': urls})
 
-@csrf_exempt
+
 def login(request):
     if request.method == "POST":
         try:
