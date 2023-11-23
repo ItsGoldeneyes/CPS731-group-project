@@ -1,0 +1,17 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index Page</title>
+</head>
+<body>
+    <h1>List of Endpoints</h1>
+    <ul>
+        {% for url in urls %}
+            <li><a href="{{ url.url }}">{{ url.name }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
