@@ -5,7 +5,7 @@ class Login(models.Model):
     user_email = models.CharField(unique=True, max_length=255)
     password = models.CharField(max_length=255)
     class Meta:
-        managed = False
+        managed = True
         db_table = 'login'
         app_label = 'helpdesk'
         
@@ -16,7 +16,7 @@ class Users(models.Model):
     user_permissions = models.CharField(max_length=255)
     department = models.CharField(max_length=255)
     class Meta:
-        managed = False
+        managed = True
         db_table = 'users'
         app_label = 'helpdesk'
 
@@ -24,7 +24,7 @@ class UserSchedules(models.Model):
     user_id = models.OneToOneField(Users, on_delete=models.CASCADE, primary_key=True)
     schedule = models.CharField(max_length=255)
     class Meta:
-        managed = False
+        managed = True
         db_table = 'userschedules'
         app_label = 'helpdesk'
 
@@ -39,7 +39,7 @@ class Tickets(models.Model):
     description = models.CharField(max_length=255)
     notes = models.CharField(max_length=255)
     class Meta:
-        managed = False
+        managed = True
         db_table = 'tickets'
         app_label = 'helpdesk'
     
@@ -49,6 +49,6 @@ class TicketMeetings(models.Model):
     meeting_date = models.CharField(max_length=255)
     meeting_time = models.CharField(max_length=255)
     class Meta:
-        managed = False
+        managed = True
         db_table = 'ticketmeetings'
         app_label = 'helpdesk'
