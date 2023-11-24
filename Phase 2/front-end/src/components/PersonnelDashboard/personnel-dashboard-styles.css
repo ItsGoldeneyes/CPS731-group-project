@@ -8,16 +8,16 @@
     padding: 20px;
     padding-left: 40px;
     padding-right: 40px;
-    height: 33vh;
+    height: 28vh;
     border-radius: 15px;
     box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
-    margin-bottom: 40px;
+    margin-bottom: 25px;
 }
 
 .personnel-dashboard-info-title {
     font-weight: bold;
     font-size: 22px;
-    margin-bottom: 40px;
+    margin-bottom: 1.8vw;
 }
 
 .personnel_user_icon-style {
@@ -60,6 +60,20 @@
     width: 25px;
 }
 
+.personnel-availability-button-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    >button {
+        padding: 15px 50px;
+        background-color: #080957;
+        color: #ffffff;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+}
 
 .personnel-dashboard-tickets-card {
     background-color: white;
@@ -73,5 +87,71 @@
 .personnel-dashboard-tickets-title {
     font-weight: bold;
     font-size: 22px;
+    margin-bottom: 25px;
 }
+
+.personnel-dashboard-tickets-buttons {
+    margin-bottom: 16px;
+    >button {
+        background-color: #f0f0f0;
+        padding: 10px;
+        margin-right: 50px;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        &:hover {
+            background-color: #080957;
+            color: white;
+        }
+    }
+}
+
+
+table {
+    border-spacing: 0 25px;
+    width: 100%;
+}
+
+a {
+    color: black;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #626263;
+}
+
+th:first-child {
+    text-align: right; 
+}
+
+td:first-child {
+    text-align: right; 
+}
+
+th, td {
+    text-align: left;
+    padding: 20px;
+}
+
+th {
+    position: relative;
+}
+
+tbody tr {
+    margin-bottom: 10px; 
+    background: #f7f7f7;
+}
+
+th::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    border-bottom: 2px solid #000; /* Adjust the thickness of the underline */
+}
+
+
+
 

@@ -5,7 +5,7 @@ import Sidebar from '../Sidebar/Sidebar';
 
 export default function CreateTicket() {
   return (
-    <div>
+    <div className="page-background">
         <Header/>
         <div className="sidebar-container">
             <div>

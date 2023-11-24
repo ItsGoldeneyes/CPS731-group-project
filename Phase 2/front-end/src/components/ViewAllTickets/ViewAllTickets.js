@@ -6,7 +6,7 @@ import Sidebar from '../Sidebar/Sidebar';
 
 export default function ViewAllTickets() {
   return (
-    <div>
+    <div className="page-background">
         <Header/>
         <div className="sidebar-container">
             <div>
