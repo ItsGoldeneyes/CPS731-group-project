@@ -16,8 +16,21 @@ def index(request):
     # Render the index template with the list of URLs
     return render(request, 'index.html', {'urls': urls})
 
-
+@csrf_exempt
 def login(request):
+    '''
+    POST
+    {
+        "username": "username",
+        "password": "password"
+    }
+    
+    RESPONSE
+    {
+        "success": true,
+        "message": "Login successful"
+    }
+    '''
     if request.method == "POST":
         try:
             data = json.loads(request.body)
@@ -53,6 +66,37 @@ def authenticate_user(username, password):
     
     
 def ticket_info(request):
+    '''
+    POST
+    {
+        "ticket_id": "ticket_id"
+    }
+    
+    RESPONSE
+    {
+        "success": true,
+        "message": "Ticket found",
+        "ticket": {
+            "ticket_id": "ticket_id",
+            "requestor_id": "requestor_id",
+            "assignee_id": "assignee_id",
+            "opened_on": "opened_on",
+            "updated_on": "updated_on",
+            "priority": "priority",
+            "category": "category",
+            "description": "description",
+            "notes": "notes"
+        },
+        "meetings": [
+            {
+                "meeting_id": "meeting_id",
+                "meeting_date": "meeting_date",
+                "meeting_time": "meeting_time"
+            },
+            ...
+        ]
+    }
+    '''
     if request.method == "GET":
         try:
             data = json.loads(request.body)
