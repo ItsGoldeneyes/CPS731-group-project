@@ -3,3 +3,4 @@ package-lock.json
 package.json
 Phase 2\package-lock.json
 Phase 2\package.json
+*.DS_Store
