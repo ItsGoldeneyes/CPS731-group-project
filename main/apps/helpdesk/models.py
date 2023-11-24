@@ -7,7 +7,7 @@ class Login(models.Model):
     class Meta:
         managed = False
         db_table = 'login'
-        app_label = 'main'
+        app_label = 'helpdesk'
         
 class Users(models.Model):
     user_id = models.CharField(primary_key=True, max_length=255)
@@ -18,7 +18,7 @@ class Users(models.Model):
     class Meta:
         managed = False
         db_table = 'users'
-        app_label = 'main'
+        app_label = 'helpdesk'
 
 class UserSchedules(models.Model):
     user_id = models.OneToOneField(Users, on_delete=models.CASCADE, primary_key=True)
@@ -26,7 +26,7 @@ class UserSchedules(models.Model):
     class Meta:
         managed = False
         db_table = 'userschedules'
-        app_label = 'main'
+        app_label = 'helpdesk'
 
 class Tickets(models.Model):
     ticket_id = models.CharField(primary_key=True, max_length=255)
@@ -41,7 +41,7 @@ class Tickets(models.Model):
     class Meta:
         managed = False
         db_table = 'tickets'
-        app_label = 'main'
+        app_label = 'helpdesk'
     
 class TicketMeetings(models.Model):
     ticket_id = models.ForeignKey(Tickets, on_delete=models.CASCADE)
@@ -51,4 +51,4 @@ class TicketMeetings(models.Model):
     class Meta:
         managed = False
         db_table = 'ticketmeetings'
-        app_label = 'main'
+        app_label = 'helpdesk'
