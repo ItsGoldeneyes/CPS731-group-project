@@ -2,8 +2,9 @@
     display: grid;
     grid-template-columns: 7.5vh 1fr;
 }
+
 .body-container {
-    
+    width: calc(100vw - 10vh);
 }
 
 .sidebar-element {
