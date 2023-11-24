@@ -64,7 +64,7 @@ def authenticate_user(username, password):
         # Username does not exist
         return None
     
-    
+@csrf_exempt
 def ticket_info(request):
     '''
     POST
