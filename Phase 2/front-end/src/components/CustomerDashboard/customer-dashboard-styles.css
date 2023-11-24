@@ -69,6 +69,7 @@
 .options-titlecase {
     font-size: 26px;
     font-weight: bold;
+    margin-bottom: 7px;
 }
 
 .customer-option-text-container {
@@ -84,10 +85,35 @@
     position: absolute;
     top: 55vh;
     left: 8vw;
-    padding: 50px;
+    padding: 16px;
     border-radius: 15px;
     background: #ffffff;
     box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.30);
+    text-align: center;
+}
+
+.faq-titlecase {
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.customer-faq-card-container {
+    margin-top: 10px;
+    height: 29vh;
     display: grid;
     grid-template-columns: 1fr 1fr; 
+    gap: 50px; 
+}
+
+.customer-faq-card-section {
+    border-radius: 15px;
+    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.30);
+    padding: 20px;
+    font-size: 22px;
+    text-align: left;
+}
+
+.faq-questioncase {
+    font-weight: bold;
+    padding-bottom: 20px;
 }
