@@ -46,8 +46,12 @@ export default function TicketInterface() {
                                         <label for='opened'>Opened</label>
                                         <input id='opened' type='datetime-local' />
 
-                                        <label for='updated'>Updated</label>
-                                        <input id='updated' type='datetime-local' />
+                                        <label for='status'>Status</label>
+                                        <select id="status" name="status" >
+                                            <option value="Waiting-to-be-assigned">Waiting to be assigned</option>
+                                            <option value="In-progress">In progress</option>
+                                            <option value="Complete">Complete</option>
+                                        </select>
 
                                         <label for='priority'>Priority</label>
                                         <select id="priority" name="priority">
