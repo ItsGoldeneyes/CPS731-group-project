@@ -86,7 +86,7 @@ select {
 
 .ticket-last-section {
     display: grid;
-    grid-template-columns: 1fr 1fr; 
+    grid-template-columns: 1fr 5fr; 
     gap: 10px; 
     margin: auto; 
 
