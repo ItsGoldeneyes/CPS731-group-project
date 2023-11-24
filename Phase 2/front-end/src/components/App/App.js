@@ -9,6 +9,7 @@ import TicketInterface from '../TicketInterface/TicketInterface';
 import CreateTicket from '../CreateTicket/CreateTicket';
 import ViewAllTickets from '../ViewAllTickets/ViewAllTickets';
 import CustomerDashboard from '../CustomerDashboard/CustomerDashboard';
+import PersonnelDashboard from '../PersonnelDashboard/PersonnelDashboard';
 
 function App() {
   return (
