@@ -3,7 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.hashers import check_password
 from django.shortcuts import render
 from django.urls import get_resolver
-from .models import Login 
+from .models import *
 import json
 
 
@@ -24,17 +24,16 @@ def login(request):
             username = data.get('username')
             password = data.get('password')
 
-            # Authenticate the user
             user = authenticate_user(username=username, password=password)
 
             # Username and password are correct
             if user:
                 return JsonResponse({'success': True, 'message': 'Login successful'}, status=200)
+            # Username and password are incorrect
             else:
                 return JsonResponse({'success': False, 'message': 'Invalid credentials'}, status=403)
         except json.JSONDecodeError:
             return JsonResponse({'success': False, 'message': 'Invalid JSON data'}, status=400)
-
     return JsonResponse({'success': False, 'message': 'Invalid request method'}, status=405)
 
 def authenticate_user(username, password):
@@ -50,4 +49,49 @@ def authenticate_user(username, password):
 
     except Login.DoesNotExist:
         # Username does not exist
+        return None
+    
+    
+def ticket_info(request):
+    if request.method == "GET":
+        try:
+            data = json.loads(request.body)
+            ticket_id = data.get('ticket_id')
+            
+            ticket = get_ticket(ticket_id=ticket_id)
+            
+            # Ticket ID is correct
+            if ticket:
+                meetings = ticket.ticketmeetings_set.all()
+                meetings = [{'meeting_id': meeting.meeting_id, 'meeting_date': meeting.meeting_date, 'meeting_time': meeting.meeting_time} for meeting in meetings]
+                return JsonResponse({'success': True, 'message': 'Ticket found',
+                                     'ticket':{ticket.ticket_id: ticket.ticket_id,
+                                               ticket.requestor_id: ticket.requestor_id,
+                                               ticket.assignee_id: ticket.assignee_id,
+                                               ticket.opened_on: ticket.opened_on,
+                                               ticket.updated_on: ticket.updated_on,
+                                               ticket.priority: ticket.priority,
+                                               ticket.category: ticket.category,
+                                               ticket.description: ticket.description,
+                                               ticket.notes: ticket.notes},
+                                     'meetings':meetings,
+                                     }, status=200)
+            # Ticket ID is incorrect
+            else:
+                return JsonResponse({'success': False, 'message': 'Ticket not found',
+                                    'ticket':{}, 'meetings': {} }, status=403)
+        except json.JSONDecodeError:
+            return JsonResponse({'success': False, 'message': 'Invalid JSON data',
+                                    'ticket':{}, 'meetings': {} }, status=400)
+    return JsonResponse({'success': False, 'message': 'Invalid request method',
+                                    'ticket':{}, 'meetings': {} }, status=405)
+
+
+def get_ticket(ticket_id):
+    try:
+        # Get the ticket with the given ticket_id from the Tickets model
+        ticket = Tickets.objects.get(ticket_id=ticket_id)
+        
+        return ticket
+    except Tickets.DoesNotExist:
         return None

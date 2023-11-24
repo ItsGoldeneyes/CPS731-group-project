@@ -20,4 +20,5 @@ from . import views
 urlpatterns = [
     path("", views.index, name="index"),
     path("login", views.login, name="login"),
+    path("ticket_info", views.ticket_info, name="ticket_info"),
 ]

@@ -9,3 +9,5 @@ sqlparse==0.4.4
 tzdata==2023.3
 whitenoise==6.5.0
 cron-descriptor==1.4.0
+requests==2.26.0
+```

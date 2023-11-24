@@ -20,5 +20,15 @@ class Tickets(models.Model):
     ticket_id = models.CharField(primary_key=True, max_length=255)
     requestor_id = models.CharField(max_length=255)
     assignee_id = models.CharField(max_length=255)
-    department = models.CharField(max_length=255)
-    meeting_timestamp = models.CharField(max_length=255)
+    opened_on = models.CharField(max_length=255)
+    updated_on = models.CharField(max_length=255)
+    priority = models.IntegerField()
+    category = models.CharField(max_length=255)
+    description = models.CharField(max_length=255)
+    notes = models.CharField(max_length=255)
+    
+class TicketMeetings(models.Model):
+    ticket_id = models.ForeignKey(Tickets, on_delete=models.CASCADE)
+    meeting_id = models.CharField(max_length=255)
+    meeting_date = models.CharField(max_length=255)
+    meeting_time = models.CharField(max_length=255)
