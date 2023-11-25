@@ -67,6 +67,6 @@ th::after {
     left: 0;
     bottom: 0;
     width: 100%;
-    border-bottom: 2px solid #000; /* Adjust the thickness of the underline */
+    border-bottom: 2px solid #000;
 }
 
