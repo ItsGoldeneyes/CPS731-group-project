@@ -1,9 +1,14 @@
+.page-background {
+    background-color: #7577CB;
+}
+
 .sidebar-container {
     display: grid;
     grid-template-columns: 7.5vh 1fr;
 }
+
 .body-container {
-    
+    width: calc(100vw - 10vh);
 }
 
 .sidebar-element {
@@ -17,19 +22,32 @@
 }
 
 .sidebar-icons-container {
-    margin-top: 1.5vh;
+    margin-top: 1.8vh;
 }
 
-
-.sidebar-icon-style {
+.sidebar-icons-container button {
+    border: none;
     cursor: pointer;
     padding: 1vh;
     height: 6.5vh;
     width: 6.5vh;
-    margin-top: 0.5vh;
+    margin-top: 1.5vh;
     margin-bottom: 0.5vh;
     &:hover {
         background-color:#080957;
         border-radius: 50%;
     }
 }
+
+.sidebar-home-icon-style {
+    background: url('../../assets/sidebar-home-icon.svg') no-repeat center center;
+}
+
+.sidebar-inbox-icon-style {
+    background: url('../../assets/sidebar-inbox-icon.svg') no-repeat center center;
+}
+
+.sidebar-list-icon-style {
+    background: url('../../assets/sidebar-list-icon.svg') no-repeat center center;
+}
+

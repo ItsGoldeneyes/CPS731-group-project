@@ -6,16 +6,11 @@ import list_icon from '../../assets/sidebar-list-icon.svg';
 
 export default function Sidebar() {
   return (
-    <div className="sidebar-container">
-        <div className="sidebar-element">
-            <div className="sidebar-icons-container"> 
-                <img className="sidebar-icon-style" src={home_icon} alt='FAQ' />
-                <img className="sidebar-icon-style" src={inbox_icon} alt='Notifications' />
-                <img className="sidebar-icon-style" src={list_icon} alt='User Icon' />
-            </div>
-        </div>
-        <div className="body-container">
-            
+    <div className="sidebar-element">
+        <div className="sidebar-icons-container"> 
+            <button className="sidebar-home-icon-style" type='button' alt='FAQ'></button>
+            <button className="sidebar-inbox-icon-style" type='button' alt='Notifications'></button>
+            <button className="sidebar-list-icon-style" type='button' alt='User Icon'></button>
         </div>
     </div>
   )
