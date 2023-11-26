@@ -7,10 +7,10 @@ export default function AllTicketsTable() {
   return (
     <div>
         <div className="personnel-dashboard-tickets-table">
-            <table className="all-tickets-table-header-component">
+            <table className="all-tickets-table-component">
                 <thead>
                     <tr>
-                        <th><img src={whitespace}/></th>
+                        <th></th>
                         <th >Number</th>
                         <th>Description</th>
                         <th>Requested By</th>
@@ -18,8 +18,6 @@ export default function AllTicketsTable() {
                         <th>Assigned To</th>
                     </tr>
                 </thead>
-            </table>
-            <table className="all-tickets-table-component">
                 <tbody>
                     <tr>
                         <td><img src={info_icon} alt='Notifications' /></td>

@@ -9,7 +9,7 @@ import info_icon from '../../assets/ticket-info-icon.svg';
 
 export default function PersonnelSubmitAvailability() {
   return (
-    <div className="page-background">
+    <div className="page-background-availability">
         <Header/>
         <div className="sidebar-container">
             <div>

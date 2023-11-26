@@ -33,34 +33,33 @@ td:nth-child(6) {
   width: 15%; 
 }
 
-.all-tickets-table-header-component {
-    width: 100%;
-    text-align: left;
-    border-collapse: collapse;
-}
-
-.all-tickets-table-header-component th {
-  padding: 20px;
-  padding-bottom: 0px;
-  position: relative;
-}
-
-.all-tickets-table-header-component th::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  border-bottom: 2px solid #000;
-}
-
-
 .all-tickets-table-component {
     width: 100%;
     border-spacing: 0 25px;
 }
+
+.all-tickets-table-component thead {
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+}
+
+.all-tickets-table-component thead th {
+padding: 20px;
+padding-bottom: 15px;
+position: relative;
+}
+
+.all-tickets-table-component thead th::after {
+content: "";
+position: absolute;
+left: 0;
+bottom: 0;
+width: 100%;
+border-bottom: 2px solid #000;
+}
     
-.all-tickets-table-component a {
+.all-tickets-table-component tbody a {
   color: black;
   font-weight: bold;
   &:hover {
@@ -68,7 +67,7 @@ td:nth-child(6) {
   }
 }
 
-.all-tickets-table-component th, td {
+.all-tickets-table-component tbody th, tbody td {
   padding: 20px;
 }
 
