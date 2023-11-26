@@ -1,15 +1,16 @@
 import React from 'react'
 import styles from './all-tickets-table.css';
 import info_icon from '../../assets/ticket-info-icon.svg';
+import whitespace from '../../assets/tickets-table-placeholder.svg';
 
 export default function AllTicketsTable() {
   return (
     <div>
         <div className="personnel-dashboard-tickets-table">
-            <table id="all-tickets-table-header">
+            <table className="all-tickets-table-header-component">
                 <thead>
                     <tr>
-                        <th></th>
+                        <th><img src={whitespace}/></th>
                         <th >Number</th>
                         <th>Description</th>
                         <th>Requested By</th>
@@ -18,7 +19,7 @@ export default function AllTicketsTable() {
                     </tr>
                 </thead>
             </table>
-            <table id="all-tickets-table">
+            <table className="all-tickets-table-component">
                 <tbody>
                     <tr>
                         <td><img src={info_icon} alt='Notifications' /></td>

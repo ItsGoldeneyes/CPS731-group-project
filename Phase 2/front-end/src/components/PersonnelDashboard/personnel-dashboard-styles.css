@@ -91,7 +91,6 @@
 }
 
 .personnel-dashboard-tickets-buttons {
-    margin-bottom: 16px;
     >button {
         background-color: #f0f0f0;
         padding: 10px;
@@ -107,50 +106,7 @@
 }
 
 
-table {
-    border-spacing: 0 25px;
-    width: 100%;
-}
 
-a {
-    color: black;
-    font-weight: bold;
-}
-
-a:hover {
-    color: #626263;
-}
-
-th:first-child {
-    text-align: right; 
-}
-
-td:first-child {
-    text-align: right; 
-}
-
-th, td {
-    text-align: left;
-    padding: 20px;
-}
-
-th {
-    position: relative;
-}
-
-tbody tr {
-    margin-bottom: 10px; 
-    background: #f7f7f7;
-}
-
-th::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    border-bottom: 2px solid #000;
-}
 
 
 

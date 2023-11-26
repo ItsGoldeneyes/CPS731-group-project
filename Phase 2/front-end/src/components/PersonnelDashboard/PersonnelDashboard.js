@@ -2,6 +2,7 @@ import React from 'react'
 import styles from './personnel-dashboard-styles.css';
 import Header from '../Header/Header';
 import Sidebar from '../Sidebar/Sidebar';
+import TicketsTable from '../AllTicketsTable/AllTicketsTable';
 import personnel_user_icon from '../../assets/personnel-dashboard-user-icon.svg';
 import personnel_mail_icon from '../../assets/personnel-dashboard-mail-icon.svg';
 import personnel_phone_icon from '../../assets/personnel-dashboard-phone-icon.svg';
@@ -51,53 +52,8 @@ export default function PersonnelDashboard() {
                                 <button type="button">Assigned to me</button>
                                 <button type="button">All Tickets</button>
                         </div>
-                        <div className="personnel-dashboard-tickets-table">
-                            <table id="all-tickets-table">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Number</th>
-                                        <th>Description</th>
-                                        <th>Requested By</th>
-                                        <th>Category</th>
-                                        <th>Assigned To</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><img src={info_icon} alt='Notifications' /></td>
-                                        <td><a href="https://example.com/ticket/1">TCKT001</a></td>
-                                        <td>This is a sample description that is quite long</td>
-                                        <td>John Doe</td>
-                                        <td>Software</td>
-                                        <td>Jane Smith</td>
-                                    </tr>
-                                    <tr>
-                                        <td><img src={info_icon} alt='Notifications' /></td>
-                                        <td><a href="https://example.com/ticket/2">TCKT002</a></td>
-                                        <td>Short Description</td>
-                                        <td>Alice Johnson</td>
-                                        <td>Hardware</td>
-                                        <td>Bob Williams</td>
-                                    </tr>
-                                    <tr>
-                                        <td><img src={info_icon} alt='Notifications' /></td>
-                                        <td><a href="https://example.com/ticket/3">TCKT003</a></td>
-                                        <td>Another Description</td>
-                                        <td>Charlie Brown</td>
-                                        <td>Network</td>
-                                        <td>Diana Miller</td>
-                                    </tr>
-                                    <tr>
-                                        <td><img src={info_icon} alt='Notifications' /></td>
-                                        <td><a href="https://example.com/ticket/4">TCKT004</a></td>
-                                        <td>Lorem Ipsum</td>
-                                        <td>Eve Davis</td>
-                                        <td>Database</td>
-                                        <td>Frank Wilson</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div>
+                            <TicketsTable/>
                         </div>
                     </div>
                 </div>

@@ -10,6 +10,7 @@ import CreateTicket from '../CreateTicket/CreateTicket';
 import ViewAllTickets from '../ViewAllTickets/ViewAllTickets';
 import CustomerDashboard from '../CustomerDashboard/CustomerDashboard';
 import PersonnelDashboard from '../PersonnelDashboard/PersonnelDashboard';
+import AllTicketsTable from '../AllTicketsTable/AllTicketsTable';
 
 function App() {
   return (
