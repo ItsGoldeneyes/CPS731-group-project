@@ -25,8 +25,8 @@
     margin-top: 1.8vh;
 }
 
-
-.sidebar-icon-style {
+.sidebar-icons-container button {
+    border: none;
     cursor: pointer;
     padding: 1vh;
     height: 6.5vh;
@@ -38,3 +38,16 @@
         border-radius: 50%;
     }
 }
+
+.sidebar-home-icon-style {
+    background: url('../../assets/sidebar-home-icon.svg') no-repeat center center;
+}
+
+.sidebar-inbox-icon-style {
+    background: url('../../assets/sidebar-inbox-icon.svg') no-repeat center center;
+}
+
+.sidebar-list-icon-style {
+    background: url('../../assets/sidebar-list-icon.svg') no-repeat center center;
+}
+
