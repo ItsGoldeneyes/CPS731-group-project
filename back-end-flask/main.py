@@ -1,4 +1,5 @@
 from flask import Flask
+from functions import *
 
 api = Flask(__name__)
 
@@ -10,3 +11,9 @@ def my_login():
   }
 
   return response_body
+
+
+@api.route('/reset')
+def reset():
+    setup_db()
+    return "Database reset"
