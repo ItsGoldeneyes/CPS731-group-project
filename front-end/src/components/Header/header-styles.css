@@ -1,0 +1,36 @@
+.header-container {
+    height: 8vh;
+    width: 100%;
+    background-color: #080957;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+}
+
+.logo-name-container {
+    display: flex;
+    justify-content: start;
+    margin-left: 3vh;
+}
+
+.logo-resize {
+    height: 3vh;
+}
+
+.header-icons-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-left: auto;
+    width: auto;
+    padding-left: 2vh;
+    padding-right: 2vh;
+}
+
+.header-icon-style {
+    cursor: pointer;
+    height: 5vh;
+    width: 5vh;
+    margin-left: 1vh;
+    margin-right: 1vh;
+}
