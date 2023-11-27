@@ -79,3 +79,15 @@ def create_new_user(user_name, user_email, user_permissions, department, passwor
     cur.execute("INSERT INTO user_schedules VALUES(?,?)", (user_id, ""))
     con.commit()
     con.close()
+    
+
+def login(username, password):
+    con = sqlite3.connect('helpdesk.db')
+    cur = con.cursor()
+    results = cur.execute("SELECT user_id FROM login WHERE user_email = ? AND password = ?", (username, password))
+    user_id = results.fetchone()
+    con.close()
+    if user_id == None:
+        return None
+    else:
+        return user_id[0]
