@@ -1,9 +1,9 @@
 from flask import Flask, request
 from functions import *
 
-api = Flask(__name__)
+app = Flask(__name__)
 
-@api.route('/api')
+@app.route('/api')
 def my_login():
   response_body = {
     'api': 'version 1',
@@ -12,13 +12,13 @@ def my_login():
   return response_body
 
 
-@api.route('/reset')
+@app.route('/reset')
 def reset_endpoint():
     setup_db()
     return "Database reset"
 
 
-@api.route('/login', methods=['POST'])
+@app.route('/login', methods=['POST'])
 def login_endpoint():
     '''
     POST
