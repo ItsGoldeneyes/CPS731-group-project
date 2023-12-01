@@ -14,18 +14,23 @@ def setup_db():
                 user_email STRING NOT NULL UNIQUE, \
                 user_permissions STRING NOT NULL, \
                 department STRING NOT NULL\
-                    )",
+                )",
         "CREATE TABLE user_schedules(\
                 user_id INTEGER NOT NULL PRIMARY KEY, \
                 schedule STRING NOT NULL\
-                    )",
+                )",
         "CREATE TABLE tickets(\
                 ticket_id STRING NOT NULL PRIMARY KEY, \
                 requestor_id STRING NOT NULL, \
                 assignee_id STRING NOT NULL, \
-                department STRING NOT NULL, \
+                description STRING NOT NULL, \
+                category STRING NOT NULL, \
+                openedon STRING NOT NULL, \
+                priority STRING NOT NULL, \
+                status STRING NOT NULL, \
+                notes STRING, \
                 meeting_timestamp STRING NOT NULL\
-                    )"
+                )"
     ]
     con = sqlite3.connect('helpdesk.db')
     cur = con.cursor()
