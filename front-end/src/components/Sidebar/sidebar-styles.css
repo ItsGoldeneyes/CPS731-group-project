@@ -1,0 +1,35 @@
+.sidebar-container {
+    display: grid;
+    grid-template-columns: 7.5vh 1fr;
+}
+.body-container {
+    
+}
+
+.sidebar-element {
+    background-color: #7577CB;
+    height: 100vh;
+    width: 7.5vh;
+    display: grid;
+    grid-template-columns: 1fr;
+    text-align: center;
+    top: 0;
+}
+
+.sidebar-icons-container {
+    margin-top: 1.5vh;
+}
+
+
+.sidebar-icon-style {
+    cursor: pointer;
+    padding: 1vh;
+    height: 6.5vh;
+    width: 6.5vh;
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
+    &:hover {
+        background-color:#080957;
+        border-radius: 50%;
+    }
+}

@@ -1,0 +1,5 @@
+python-dotenv==1.0.0
+Flask==2.2.3
+cron-descriptor==1.4.0
+Werkzeug==2.3.7
+gunicorn==21.2.0
