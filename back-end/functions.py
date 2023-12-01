@@ -91,3 +91,8 @@ def login(username, password):
         return None
     else:
         return user_id[0]
+
+def create_ticket(title, category, requestor_id, assignee_id, description, notes):
+    con = sqlite3.connect('helpdesk.db')
+    cur = con.cursor()
+    con.close()
