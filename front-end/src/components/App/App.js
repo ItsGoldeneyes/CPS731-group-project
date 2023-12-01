@@ -12,6 +12,7 @@ import CustomerDashboard from '../CustomerDashboard/CustomerDashboard';
 import PersonnelDashboard from '../PersonnelDashboard/PersonnelDashboard';
 import PersonnelSubmitAvailability from '../PersonnelDashboard/PersonnelSubmitAvailability';
 import AllTicketsTable from '../AllTicketsTable/AllTicketsTable';
+import AvailabilityChart from '../AvailabilityChart/AvailabilityChart';
 
 function App() {
   return (

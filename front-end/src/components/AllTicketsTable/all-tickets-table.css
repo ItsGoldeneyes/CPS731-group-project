@@ -1,36 +1,36 @@
-td:nth-child(1) {
-    display: flex;
-    justify-content: left;
+.all-tickets-table-component td:nth-child(1) {
+  display: flex;
+  justify-content: left;
 }
 
-th:nth-child(1),
-td:nth-child(1) {
-  width: 82px;
+.all-tickets-table-component th:nth-child(1),
+.all-tickets-table-component td:nth-child(1) {
+width: 82px;
 }
 
-th:nth-child(2),
-td:nth-child(2) {
-  width: 10%;
+.all-tickets-table-component th:nth-child(2),
+.all-tickets-table-component td:nth-child(2) {
+width: 10%;
 }
 
-th:nth-child(3),
-td:nth-child(3) {
-  width: 45%; 
+.all-tickets-table-component th:nth-child(3),
+.all-tickets-table-component td:nth-child(3) {
+width: 45%;
 }
 
-th:nth-child(4),
-td:nth-child(4) {
-  width: 15%; 
+.all-tickets-table-component th:nth-child(4),
+.all-tickets-table-component td:nth-child(4) {
+width: 15%;
 }
 
-th:nth-child(5),
-td:nth-child(5) {
-  width: 15%; 
+.all-tickets-table-component th:nth-child(5),
+.all-tickets-table-component td:nth-child(5) {
+width: 15%;
 }
 
-th:nth-child(6),
-td:nth-child(6) {
-  width: 15%; 
+.all-tickets-table-component th:nth-child(6),
+.all-tickets-table-component td:nth-child(6) {
+width: 15%;
 }
 
 .all-tickets-table-component {
