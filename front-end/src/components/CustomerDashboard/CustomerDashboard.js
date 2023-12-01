@@ -13,20 +13,20 @@ export default function CustomerDashboard() {
                 IT Help Desk
             </div>
             <div className="customer-options-card">
-                <div className="customer-first-option">
+                <button className="customer-first-option" type='button'>
                     <img className="customer-icons" src={compose_icon} alt='Compose' />
                     <div className="customer-option-text-container">
                         <div className="options-titlecase">Create Ticket</div>
                         Request IT services for issues you are facing
                     </div>
-                </div>
-                <div className="customer-second-option">
+                </button>
+                <button className="customer-second-option" type='button'>
                     <img className="customer-icons" src={inbox_icon} alt='Inbox' />
                     <div className="customer-option-text-container">
                         <div className="options-titlecase">View My Tickets</div>
                         Get a detailed list of all your open tickets
                     </div>
-                </div>
+                </button>
             </div>
             <div className="customer-faq-card">
                 <span className="faq-titlecase">FAQ</span>

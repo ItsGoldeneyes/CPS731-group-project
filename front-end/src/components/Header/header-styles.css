@@ -27,10 +27,21 @@
     padding-right: 2vh;
 }
 
-.header-icon-style {
+.header-icons-container button {
+    border: None;
     cursor: pointer;
-    height: 5vh;
-    width: 5vh;
-    margin-left: 1vh;
-    margin-right: 1vh;
+    height: 10vh;
+    width: 10vh;
+}
+
+.header-help-icon-style {
+    background: url('../../assets/header-help-icon.svg') no-repeat center center;
+}
+
+.header-notifications-icon-style {
+    background: url('../../assets/header-notification-icon.svg') no-repeat center center;
+}
+
+.header-user-icon-style {
+    background: url('../../assets/header-user-icon.svg') no-repeat center center;
 }
