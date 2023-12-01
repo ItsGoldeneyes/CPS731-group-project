@@ -13,7 +13,8 @@ def setup_db():
                 user_name STRING NOT NULL, \
                 user_email STRING NOT NULL UNIQUE, \
                 user_permissions STRING NOT NULL, \
-                department STRING NOT NULL\
+                user_specialty STRING NOT NULL, \
+                department STRING NOT NULL \
                 )",
         "CREATE TABLE user_schedules(\
                 user_id INTEGER NOT NULL PRIMARY KEY, \
@@ -33,17 +34,22 @@ def setup_db():
                 )"
     ]
     con = sqlite3.connect('helpdesk.db')
+    # Remove all data from database
     cur = con.cursor()
+    cur.execute("DROP TABLE IF EXISTS login")
+    cur.execute("DROP TABLE IF EXISTS users")
+    cur.execute("DROP TABLE IF EXISTS user_schedules")
+    cur.execute("DROP TABLE IF EXISTS tickets")
     for query in query_strings:
         cur.execute(query)
     con.close()
     
     # Create new admin users
-    create_new_user("Adam Cameron", "adam.cameron@aaier.ca", 'admin', 'IT')
-    create_new_user("Rachita Singh", "rachita.singh@aaier.ca", 'admin', 'IT')
-    create_new_user("Inaya Rajwani", "inaya.rajwani@aaier.ca", 'admin', 'IT')
-    create_new_user("Emily Chiu", "emily.chiu@aaier.ca", 'admin', 'IT')
-    create_new_user("Abee Allen", "abee.allen@aaier.ca", 'admin', 'IT')
+    create_new_user("Adam Cameron", "adam.cameron@aaier.ca", 'admin', 'IT', specialty="computer")
+    create_new_user("Rachita Singh", "rachita.singh@aaier.ca", 'admin', 'IT', specialty="phone")
+    create_new_user("Inaya Rajwani", "inaya.rajwani@aaier.ca", 'admin', 'IT', specialty="other")
+    create_new_user("Emily Chiu", "emily.chiu@aaier.ca", 'admin', 'IT', specialty="computer")
+    create_new_user("Abee Allen", "abee.allen@aaier.ca", 'admin', 'IT', specialty="other")
 
     # Create new user users
     create_new_user("Ella Johnson", "ella.johnson@aaier.ca", "user", "Sales")
@@ -68,7 +74,7 @@ def setup_db():
     create_new_user("Emma Baker", "emma.baker@aaier.ca", "user", "Marketing")
     
 
-def create_new_user(user_name, user_email, user_permissions, department, password="password"):
+def create_new_user(user_name, user_email, user_permissions, department, specialty="None", password="password"):
     con = sqlite3.connect('helpdesk.db')
     cur = con.cursor()
     results = cur.execute("SELECT MAX(user_id) FROM users")
@@ -78,8 +84,7 @@ def create_new_user(user_name, user_email, user_permissions, department, passwor
         results = cur.execute("SELECT MAX(user_id) FROM users")
         max_id = results.fetchone()[0]
         user_id = max_id + 1
-        
-    cur.execute("INSERT INTO users VALUES(?,?,?,?,?)", (user_id, user_name, user_email, user_permissions, department)) 
+    cur.execute("INSERT INTO users VALUES(?,?,?,?,?,?)", (user_id, user_name, user_email, user_permissions, specialty, department)) 
     cur.execute("INSERT INTO login VALUES(?,?,?)", (user_id, user_email, password))
     cur.execute("INSERT INTO user_schedules VALUES(?,?)", (user_id, ""))
     con.commit()
