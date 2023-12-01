@@ -1,0 +1,29 @@
+.availabilityTable {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.availabilityTable th,
+.availabilityTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+    box-sizing: border-box;
+    width: 80px;
+}
+
+.availabilityTable th:first-child {
+    border: None;
+}
+
+.availabilityTable th:not(:first-child) {
+    background-color: #f2f2f2;
+}
+
+.availabilityTable td {
+    cursor: pointer;
+}
+
+.selected {
+    background-color: #a6a7f8;
+}

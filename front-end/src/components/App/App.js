@@ -6,6 +6,13 @@ import Login from '../Login/Login';
 import Header from '../Header/Header';
 import Sidebar from '../Sidebar/Sidebar';
 import TicketInterface from '../TicketInterface/TicketInterface';
+import CreateTicket from '../CreateTicket/CreateTicket';
+import ViewAllTickets from '../ViewAllTickets/ViewAllTickets';
+import CustomerDashboard from '../CustomerDashboard/CustomerDashboard';
+import PersonnelDashboard from '../PersonnelDashboard/PersonnelDashboard';
+import PersonnelSubmitAvailability from '../PersonnelDashboard/PersonnelSubmitAvailability';
+import AllTicketsTable from '../AllTicketsTable/AllTicketsTable';
+import AvailabilityChart from '../AvailabilityChart/AvailabilityChart';
 
 function App() {
   return (

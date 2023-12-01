@@ -1,0 +1,96 @@
+.page-background-availability {
+    background-color: #7577CB;
+}
+
+.personnel-submit-availability-card {
+    background-color: white;
+    padding: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
+}
+
+.personnel-dashboard-availability-header-container {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    height: auto;
+    padding-bottom: 20px;
+}
+
+.personnel-dashboard-availability-title {
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.availability-buttons-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-left: auto;
+    width: auto;
+    gap: 60px;
+}
+
+.availability-button {
+    >button {
+        padding: 15px 50px;
+        color: #ffffff;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+}
+
+#availability-update-button {
+    background-color: #51993f;
+}
+
+#availability-update-button:hover {
+    background-color: #66bd50;
+}
+
+#availability-cancel-button {
+    background-color: #f5471b;
+}
+
+#availability-cancel-button:hover {
+    background-color: #f36e4d;
+}
+
+.personnel-dashboard-availability-table {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.availabilityTable {
+    border-collapse: collapse;
+}
+
+.availabilityTable th,
+.availabilityTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+    box-sizing: border-box;
+    width: 80px;
+}
+
+.availabilityTable th:first-child {
+    border: None;
+}
+
+.availabilityTable th:not(:first-child) {
+    background-color: #f2f2f2;
+}
+
+.availabilityTable td {
+    cursor: pointer;
+}
+
+.selected {
+    background-color: #a6a7f8;
+}
+
+
