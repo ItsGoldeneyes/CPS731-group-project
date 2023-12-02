@@ -35,10 +35,12 @@ def login_endpoint():
     '''
     data = request.json
     
-    assert data.get('username') != None
-    assert data.get('password') != None
-    
-    if login(data.get('username'), data.get('password')):
+    # Check if username and password are provided without error
+    if None in [data.get('username'), data.get('password')]:
+      return {"success": False, "message": "Missing fields"}
+  
+    # Check if username and password are correct
+    elif login(data.get('username'), data.get('password')):
       return {"success": True, "message": "Login successful"}
     else:
       return {"success": False, "message": "Login failed"}
@@ -68,7 +70,9 @@ def get_user_endpoint():
     '''
     data = request.json
     
-    assert data.get('user_id') != None
+    # Check if user_id is provided without error
+    if data.get('user_id') == None:
+        return {"success": False, "message": "Missing fields"}
     
     user = get_user(data.get('user_id'))
     if user == None:
@@ -104,10 +108,12 @@ def get_user_tickets_endpoint():
         ]
     }
     '''
-    
-    assert data.get('user_id') != None
-    
     data = request.json
+    
+    # Check if user_id is provided without error
+    if data.get('user_id') == None:
+        return {"success": False, "message": "Missing fields"}
+    
     tickets = get_user_tickets(data.get('user_id'))
     if tickets == None:
         return {"success": False, "message": "No tickets found"}
@@ -137,11 +143,9 @@ def create_ticket_endpoint():
     '''
     data = request.json
     
-    assert data.get('title') != None
-    assert data.get('requestor_id') != None
-    assert data.get('description') != None
-    assert data.get('category') != None
-    assert data.get('priority') != None
+    # Check if all fields are provided without error
+    if None in [data.get('title'), data.get('requestor_id'), data.get('description'), data.get('category'), data.get('priority'), data.get('notes')]:
+        return {"success": False, "message": "Missing fields"}
     
     ticket_id = create_ticket(data.get('title'), 
                   data.get('requestor_id'), 
@@ -179,7 +183,9 @@ def get_ticket_endpoint():
     '''    
     data = request.json
     
-    assert data.get('ticket_id') != None
+    # Check if ticket_id is provided without error
+    if data.get('ticket_id') == None:
+        return {"success": False, "message": "Missing fields"}
     
     ticket = get_ticket(data.get('ticket_id'))
     if ticket == None:
@@ -205,7 +211,9 @@ def get_user_schedule_endpoint():
     '''
     data = request.json
     
-    assert data.get('user_id') != None
+    # Check if user_id is provided without error
+    if data.get('user_id') == None:
+        return {"success": False, "message": "Missing fields"}
     
     schedule = get_user_schedule(data.get('user_id'))
     if schedule == None:
@@ -231,7 +239,9 @@ def set_user_schedule_endpoint():
     '''
     data = request.json
     
-    assert data.get('user_id') != None
+    # Check if user_id and schedule are provided without error
+    if None in [data.get('user_id'), data.get('schedule')]:
+        return {"success": False, "message": "Missing fields"}
     
     set_user_schedule(data.get('user_id'), data.get('schedule'))
     return {"success": True, "message": "Schedule set"}
@@ -256,9 +266,9 @@ def update_ticket_endpoint():
     '''
     data = request.json
     
-    assert data.get('ticket_id') != None
-    assert data.get('status') != None
-    assert data.get('assignee_id') != None
+    # Check if all fields are provided without error
+    if None in [data.get('ticket_id'), data.get('status'), data.get('assignee_id'), data.get('notes')]:
+        return {"success": False, "message": "Missing fields"}
     
     update_ticket(data.get('ticket_id'), data.get('status'), data.get('assignee_id'), data.get('notes'))
     return {"success": True, "message": "Ticket updated"}
