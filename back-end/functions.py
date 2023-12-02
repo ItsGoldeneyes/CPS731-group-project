@@ -147,6 +147,29 @@ def get_user_tickets(user_id):
     return tickets, "Tickets found"
 
 
+
+
+def assign_personnel(specialty, requester_id):
+    con = sqlite3.connect('helpdesk.db')
+    cur = con.cursor()
+    it_personnel_schedule = cur.execute(f"SELECT user_id, schedule FROM users as t1 inner join user_schedules as t2 on t1.user_id = t2.user_id where user_specialty = {specialty}")
+    it_customer_schedule = cur.execute(f"SELECT user_id, schedule FROM users as t1 inner join user_schedules as t2 on t1.user_id = t2.user_id where user_id = {requester_id}")
+    it_personnel_schedule = it_personnel_schedule.fetchall()
+    it_customer_schedule = it_customer_schedule.fetchone()[0]
+    if it_personnel_schedule == []:
+        return False, "No compatible IT personnel found"
+    if it_customer_schedule  == []:
+        return False, "Customer id not valid"
+    for personnel in it_personnel_schedule:
+        schedule1 = personnel[1].split(',')
+        schedule2 = it_customer_schedule[1].split(',')
+        result = [x for x in schedule1 if x in schedule2]
+        if result == []:
+            continue
+        return personnel[0], result[0]
+
+
+
 def create_ticket(title, requestor_id, description, category, priority, notes):
     con = sqlite3.connect('helpdesk.db')
     cur = con.cursor()
@@ -179,7 +202,7 @@ def create_ticket(title, requestor_id, description, category, priority, notes):
         max_id = results.fetchone()[0]
         ticket_id = max_id + 1
     
-    # assignee_id, meeting_timestamp = assign_and_meet(requestor_id, category)
+    assignee_id, meeting_timestamp = assign_personnel(requestor_id, category)
     assignee_id = 1
     meeting_timestamp = "0 6 * * 5"
     
