@@ -1,5 +1,7 @@
 import sqlite3
 from cron_descriptor import get_description, ExpressionDescriptor
+import datetime
+
 
 def setup_db():
     query_strings = [
@@ -13,32 +15,44 @@ def setup_db():
                 user_name STRING NOT NULL, \
                 user_email STRING NOT NULL UNIQUE, \
                 user_permissions STRING NOT NULL, \
-                department STRING NOT NULL\
-                    )",
+                user_specialty STRING NOT NULL, \
+                department STRING NOT NULL \
+                )",
         "CREATE TABLE user_schedules(\
                 user_id INTEGER NOT NULL PRIMARY KEY, \
                 schedule STRING NOT NULL\
-                    )",
+                )",
         "CREATE TABLE tickets(\
                 ticket_id STRING NOT NULL PRIMARY KEY, \
                 requestor_id STRING NOT NULL, \
                 assignee_id STRING NOT NULL, \
-                department STRING NOT NULL, \
+                title STRING NOT NULL, \
+                description STRING NOT NULL, \
+                category STRING NOT NULL, \
+                openedon STRING NOT NULL, \
+                priority STRING NOT NULL, \
+                status STRING NOT NULL, \
+                notes STRING, \
                 meeting_timestamp STRING NOT NULL\
-                    )"
+                )"
     ]
     con = sqlite3.connect('helpdesk.db')
+    # Remove all data from database
     cur = con.cursor()
+    cur.execute("DROP TABLE IF EXISTS login")
+    cur.execute("DROP TABLE IF EXISTS users")
+    cur.execute("DROP TABLE IF EXISTS user_schedules")
+    cur.execute("DROP TABLE IF EXISTS tickets")
     for query in query_strings:
         cur.execute(query)
     con.close()
     
     # Create new admin users
-    create_new_user("Adam Cameron", "adam.cameron@aaier.ca", 'admin', 'IT')
-    create_new_user("Rachita Singh", "rachita.singh@aaier.ca", 'admin', 'IT')
-    create_new_user("Inaya Rajwani", "inaya.rajwani@aaier.ca", 'admin', 'IT')
-    create_new_user("Emily Chiu", "emily.chiu@aaier.ca", 'admin', 'IT')
-    create_new_user("Abee Allen", "abee.allen@aaier.ca", 'admin', 'IT')
+    create_new_user("Adam Cameron", "adam.cameron@aaier.ca", 'admin', 'IT', specialty="computer")
+    create_new_user("Rachita Singh", "rachita.singh@aaier.ca", 'admin', 'IT', specialty="phone")
+    create_new_user("Inaya Rajwani", "inaya.rajwani@aaier.ca", 'admin', 'IT', specialty="other")
+    create_new_user("Emily Chiu", "emily.chiu@aaier.ca", 'admin', 'IT', specialty="computer")
+    create_new_user("Abee Allen", "abee.allen@aaier.ca", 'admin', 'IT', specialty="other")
 
     # Create new user users
     create_new_user("Ella Johnson", "ella.johnson@aaier.ca", "user", "Sales")
@@ -63,7 +77,7 @@ def setup_db():
     create_new_user("Emma Baker", "emma.baker@aaier.ca", "user", "Marketing")
     
 
-def create_new_user(user_name, user_email, user_permissions, department, password="password"):
+def create_new_user(user_name, user_email, user_permissions, department, specialty="None", password="password"):
     con = sqlite3.connect('helpdesk.db')
     cur = con.cursor()
     results = cur.execute("SELECT MAX(user_id) FROM users")
@@ -73,8 +87,7 @@ def create_new_user(user_name, user_email, user_permissions, department, passwor
         results = cur.execute("SELECT MAX(user_id) FROM users")
         max_id = results.fetchone()[0]
         user_id = max_id + 1
-        
-    cur.execute("INSERT INTO users VALUES(?,?,?,?,?)", (user_id, user_name, user_email, user_permissions, department)) 
+    cur.execute("INSERT INTO users VALUES(?,?,?,?,?,?)", (user_id, user_name, user_email, user_permissions, specialty, department)) 
     cur.execute("INSERT INTO login VALUES(?,?,?)", (user_id, user_email, password))
     cur.execute("INSERT INTO user_schedules VALUES(?,?)", (user_id, ""))
     con.commit()
@@ -91,3 +104,84 @@ def login(username, password):
         return None
     else:
         return user_id[0]
+
+
+def get_user_tickets(user_id):
+    con = sqlite3.connect('helpdesk.db')
+    cur = con.cursor()
+    results = cur.execute("SELECT * FROM tickets WHERE requestor_id = ? OR assignee_id = ?", (user_id, user_id))
+    tickets = results.fetchall()
+    con.close()
+    if tickets == []:
+        return None
+    return tickets
+
+
+def create_ticket(title, requestor_id, description, category, priority, notes):
+    con = sqlite3.connect('helpdesk.db')
+    cur = con.cursor()
+    results = cur.execute("SELECT MAX(ticket_id) FROM tickets")
+    if results.fetchone()[0] == None:
+        ticket_id = 1
+    else:
+        results = cur.execute("SELECT MAX(ticket_id) FROM tickets")
+        max_id = results.fetchone()[0]
+        ticket_id = max_id + 1
+    # assignee_id, meeting_timestamp = assign_and_meet(requestor_id, category)
+    assignee_id = 1
+    meeting_timestamp = "0 6 * * 5"
+    cur.execute("INSERT INTO tickets VALUES(?,?,?,?,?,?,?,?,?,?,?)", (ticket_id, requestor_id, assignee_id, title, description, category, datetime.datetime.now(), priority, "Open", notes, meeting_timestamp))
+    con.commit()
+    con.close()
+    return ticket_id
+
+
+def get_ticket(ticket_id):
+    con = sqlite3.connect('helpdesk.db')
+    cur = con.cursor()
+    results = cur.execute("SELECT * FROM tickets WHERE ticket_id = ?", (ticket_id,))
+    ticket = results.fetchone()
+    con.close()
+    if ticket == None:
+        return None
+    return ticket
+
+
+def get_user(user_id):
+    con = sqlite3.connect('helpdesk.db')
+    cur = con.cursor()
+    results = cur.execute("SELECT * FROM users WHERE user_id = ?", (user_id,))
+    user = results.fetchone()
+    con.close()
+    if user == None:
+        return None
+    return user
+
+def get_user_schedule(user_id):
+    con = sqlite3.connect('helpdesk.db')
+    cur = con.cursor()
+    results = cur.execute("SELECT schedule FROM user_schedules WHERE user_id = ?", (user_id,))
+    schedule = results.fetchone()
+    con.close()
+    if schedule == None:
+        return None
+    return schedule[0].split(",")
+
+
+def set_user_schedule(user_id, schedule):
+    # Schedule is a list of cronstrings, e.g. ["0 6 * * 5", "0 6 * * 5"]
+    # Convert to comma separated string
+    schedule = ",".join(schedule)
+    con = sqlite3.connect('helpdesk.db')
+    cur = con.cursor()
+    cur.execute("UPDATE user_schedules SET schedule = ? WHERE user_id = ?", (schedule, user_id))
+    con.commit()
+    con.close()
+    
+    
+def update_ticket(ticket_id, assignee_id, status, notes):
+    con = sqlite3.connect('helpdesk.db')
+    cur = con.cursor()
+    cur.execute("UPDATE tickets SET assignee_id = ?, status = ?, notes = ? WHERE ticket_id = ?", (assignee_id, status, notes, ticket_id))
+    con.commit()
+    con.close()
