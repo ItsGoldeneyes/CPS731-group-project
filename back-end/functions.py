@@ -146,6 +146,7 @@ def get_ticket(ticket_id):
         return None
     return ticket
 
+
 def get_user(user_id):
     con = sqlite3.connect('helpdesk.db')
     cur = con.cursor()
@@ -155,3 +156,24 @@ def get_user(user_id):
     if user == None:
         return None
     return user
+
+def get_user_schedule(user_id):
+    con = sqlite3.connect('helpdesk.db')
+    cur = con.cursor()
+    results = cur.execute("SELECT schedule FROM user_schedules WHERE user_id = ?", (user_id,))
+    schedule = results.fetchone()
+    con.close()
+    if schedule == None:
+        return None
+    return schedule[0].split(",")
+
+
+def set_user_schedule(user_id, schedule):
+    # Schedule is a list of cronstrings, e.g. ["0 6 * * 5", "0 6 * * 5"]
+    # Convert to comma separated string
+    schedule = ",".join(schedule)
+    con = sqlite3.connect('helpdesk.db')
+    cur = con.cursor()
+    cur.execute("UPDATE user_schedules SET schedule = ? WHERE user_id = ?", (schedule, user_id))
+    con.commit()
+    con.close()

@@ -165,3 +165,46 @@ def get_user_endpoint():
         return {"success": False, "message": "User not found"}
     else:
         return {"success": True, "message": "User found", "user": user}
+      
+      
+@app.route('/get_user_schedule', methods=['POST'])
+def get_user_schedule_endpoint():
+    '''
+    POST
+    {
+        "user_id": "user_id"
+    }
+
+    RESPONSE
+    {
+        "success": true,
+        "message": "Schedule found",
+        "schedule": [cronstring, cronstring, ...]
+    }
+    '''
+    data = request.json
+    schedule = get_user_schedule(data.get('user_id'))
+    if schedule == None:
+        return {"success": False, "message": "Schedule not found"}
+    else:
+        return {"success": True, "message": "Schedule found", "schedule": schedule}
+      
+      
+@app.route('/set_user_schedule', methods=['POST'])
+def set_user_schedule_endpoint():
+    '''
+    POST
+    {
+        "user_id": "user_id",
+        "schedule": [cronstring, cronstring, ...]
+    }
+
+    RESPONSE
+    {
+        "success": true,
+        "message": "Schedule set"
+    }
+    '''
+    data = request.json
+    set_user_schedule(data.get('user_id'), data.get('schedule'))
+    return {"success": True, "message": "Schedule set"}
