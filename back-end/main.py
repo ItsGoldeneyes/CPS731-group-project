@@ -135,3 +135,33 @@ def get_ticket_endpoint():
         return {"success": False, "message": "Ticket not found"}
     else:
         return {"success": True, "message": "Ticket found", "ticket": ticket}
+      
+      
+@app.route('/get_user', methods=['POST'])
+def get_user_endpoint():
+    '''
+    POST
+    {
+        "user_id": "user_id"
+    }
+
+    RESPONSE
+    {
+        "success": true,
+        "message": "User found",
+        "user": {
+            "user_id": "user_id",
+            "user_name": "user_name",
+            "user_email": "user_email",
+            "user_permissions": "user_permissions",
+            "specialty": "specialty",
+            "department": "department"
+        }
+    }
+    '''
+    data = request.json
+    user = get_user(data.get('user_id'))
+    if user == None:
+        return {"success": False, "message": "User not found"}
+    else:
+        return {"success": True, "message": "User found", "user": user}

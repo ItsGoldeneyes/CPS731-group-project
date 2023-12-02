@@ -145,3 +145,13 @@ def get_ticket(ticket_id):
     if ticket == None:
         return None
     return ticket
+
+def get_user(user_id):
+    con = sqlite3.connect('helpdesk.db')
+    cur = con.cursor()
+    results = cur.execute("SELECT * FROM users WHERE user_id = ?", (user_id,))
+    user = results.fetchone()
+    con.close()
+    if user == None:
+        return None
+    return user
