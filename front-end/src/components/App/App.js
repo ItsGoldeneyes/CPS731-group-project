@@ -6,6 +6,7 @@ import Login from '../Login/Login';
 import Header from '../Header/Header';
 import Sidebar from '../Sidebar/Sidebar';
 import TicketInterface from '../TicketInterface/TicketInterface';
+import EditTicketInterface from '../TicketInterface/EditTicketInterface';
 import CreateTicket from '../CreateTicket/CreateTicket';
 import ViewAllTickets from '../ViewAllTickets/ViewAllTickets';
 import CustomerDashboard from '../CustomerDashboard/CustomerDashboard';
@@ -27,6 +28,7 @@ function App() {
           <Route path='/create-ticket' element={<CreateTicket />} />
           <Route path='/view-all-tickets' element={<ViewAllTickets />} />
           <Route path='/individual-ticket' element={<TicketInterface />} />
+          <Route path='/edit-ticket' element={<EditTicketInterface />} />
         </Routes>
       </Router>
     </div>
