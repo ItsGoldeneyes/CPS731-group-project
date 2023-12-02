@@ -40,37 +40,99 @@ def login_endpoint():
     else:
       return {"success": False, "message": "Login failed"}
   
-  
-# @api.route('/ticket_info', methods=['POST']):
-#     '''
-#     POST
-#     {
-#         "ticket_id": "ticket_id"
-#     }
 
-#     RESPONSE
-#     {
-#         "success": true,
-#         "message": "Ticket found",
-#         "ticket": {
-#             "ticket_id": "ticket_id",
-#             "requestor_id": "requestor_id",
-#             "assignee_id": "assignee_id",
-#             "opened_on": "opened_on",
-#             "updated_on": "updated_on",
-#             "priority": "priority",
-#             "category": "category",
-#             "description": "description",
-#             "notes": "notes"
-#         },
-#         "meetings": [
-#             {
-#                 "meeting_id": "meeting_id",
-#                 "meeting_date": "meeting_date",
-#                 "meeting_time": "meeting_time"
-#             },
-#             ...
-#         ]
-#     }
-#     '''
-#     pass
+@app.route('/view_all_tickets', methods=['POST'])
+def view_all_tickets_endpoint():
+    '''
+    POST
+    {
+        "user_id": "user_id"
+    }
+
+    RESPONSE
+    {
+        "success": true,
+        "message": "Tickets found",
+        "tickets": [
+            {
+                "ticket_id": "ticket_id",
+                "requestor_id": "requestor_id",
+                "assignee_id": "assignee_id",
+                "opened_on": "opened_on",
+                "updated_on": "updated_on",
+                "priority": "priority",
+                "category": "category",
+                "description": "description",
+                "notes": "notes"
+            }
+        ]
+    }
+    '''
+    data = request.json
+    tickets = view_all_tickets(data.get('user_id'))
+    if tickets == None:
+        return {"success": False, "message": "No tickets found"}
+    else:
+        return {"success": True, "message": "Tickets found", "tickets": tickets}
+  
+  
+@app.route('/create_ticket', methods=['POST'])
+def create_ticket_endpoint():
+    '''
+    POST
+    {
+        "title": "title",
+        "requestor_id": "requestor_id",
+        "description": "description",
+        "category": "category",
+        "priority": "priority",
+        "notes": "notes",
+    }
+
+    RESPONSE
+    {
+        "success": true,
+        "message": "Ticket created"
+        "ticket_id": "ticket_id"
+    }
+    '''
+    ticket_id = create_ticket(request.json.get('title'), 
+                  request.json.get('requestor_id'), 
+                  request.json.get('description'), 
+                  request.json.get('category'), 
+                  request.json.get('priority'), 
+                  request.json.get('notes'))
+    return {"success": True, "message": "Ticket created", "ticket_id": ticket_id}
+  
+  
+@app.route('/get_ticket', methods=['POST'])
+def get_ticket_endpoint():
+    '''
+    POST
+    {
+        "ticket_id": "ticket_id"
+    }
+
+    RESPONSE
+    {
+        "success": true,
+        "message": "Ticket found",
+        "ticket": {
+            "ticket_id": "ticket_id",
+            "requestor_id": "requestor_id",
+            "assignee_id": "assignee_id",
+            "opened_on": "opened_on",
+            "updated_on": "updated_on",
+            "priority": "priority",
+            "category": "category",
+            "description": "description",
+            "notes": "notes"
+        }
+    }
+    '''
+    data = request.json
+    ticket = get_ticket(data.get('ticket_id'))
+    if ticket == None:
+        return {"success": False, "message": "Ticket not found"}
+    else:
+        return {"success": True, "message": "Ticket found", "ticket": ticket}

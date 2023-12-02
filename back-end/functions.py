@@ -1,5 +1,7 @@
 import sqlite3
 from cron_descriptor import get_description, ExpressionDescriptor
+import datetime
+
 
 def setup_db():
     query_strings = [
@@ -24,6 +26,7 @@ def setup_db():
                 ticket_id STRING NOT NULL PRIMARY KEY, \
                 requestor_id STRING NOT NULL, \
                 assignee_id STRING NOT NULL, \
+                title STRING NOT NULL, \
                 description STRING NOT NULL, \
                 category STRING NOT NULL, \
                 openedon STRING NOT NULL, \
@@ -102,7 +105,43 @@ def login(username, password):
     else:
         return user_id[0]
 
-def create_ticket(title, category, requestor_id, assignee_id, description, notes):
+
+def view_all_tickets(user_id):
     con = sqlite3.connect('helpdesk.db')
     cur = con.cursor()
+    results = cur.execute("SELECT * FROM tickets WHERE requestor_id = ? OR assignee_id = ?", (user_id, user_id))
+    tickets = results.fetchall()
     con.close()
+    if tickets == []:
+        return None
+    return tickets
+
+
+def create_ticket(title, requestor_id, description, category, priority, notes):
+    con = sqlite3.connect('helpdesk.db')
+    cur = con.cursor()
+    results = cur.execute("SELECT MAX(ticket_id) FROM tickets")
+    if results.fetchone()[0] == None:
+        ticket_id = 1
+    else:
+        results = cur.execute("SELECT MAX(ticket_id) FROM tickets")
+        max_id = results.fetchone()[0]
+        ticket_id = max_id + 1
+    # assignee_id, meeting_timestamp = assign_and_meet(requestor_id, category)
+    assignee_id = 1
+    meeting_timestamp = "0 6 * * 5"
+    cur.execute("INSERT INTO tickets VALUES(?,?,?,?,?,?,?,?,?,?,?)", (ticket_id, requestor_id, assignee_id, title, description, category, datetime.datetime.now(), priority, "Open", notes, meeting_timestamp))
+    con.commit()
+    con.close()
+    return ticket_id
+
+
+def get_ticket(ticket_id):
+    con = sqlite3.connect('helpdesk.db')
+    cur = con.cursor()
+    results = cur.execute("SELECT * FROM tickets WHERE ticket_id = ?", (ticket_id,))
+    ticket = results.fetchone()
+    con.close()
+    if ticket == None:
+        return None
+    return ticket
