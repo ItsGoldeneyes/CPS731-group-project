@@ -152,13 +152,15 @@ def get_user_tickets(user_id):
 def assign_personnel(specialty, requester_id):
     con = sqlite3.connect('helpdesk.db')
     cur = con.cursor()
-    it_personnel_schedule = cur.execute(f"SELECT user_id, schedule FROM users as t1 inner join user_schedules as t2 on t1.user_id = t2.user_id where user_specialty = {specialty}")
-    it_customer_schedule = cur.execute(f"SELECT user_id, schedule FROM users as t1 inner join user_schedules as t2 on t1.user_id = t2.user_id where user_id = {requester_id}")
+    it_personnel_schedule = cur.execute(f'SELECT t1.user_id, schedule FROM users as t1 inner join user_schedules as t2 on t1.user_id = t2.user_id where user_specialty = "{specialty}"')
+    it_customer_schedule = cur.execute(f'SELECT t1.user_id, schedule FROM users as t1 inner join user_schedules as t2 on t1.user_id = t2.user_id where t1.user_id = "{requester_id}"')
     it_personnel_schedule = it_personnel_schedule.fetchall()
-    it_customer_schedule = it_customer_schedule.fetchone()[0]
-    if it_personnel_schedule == []:
+    it_customer_schedule = it_customer_schedule.fetchone()
+    print(it_personnel_schedule)
+    print(it_customer_schedule)
+    if it_personnel_schedule == None:
         return False, "No compatible IT personnel found"
-    if it_customer_schedule  == []:
+    if it_customer_schedule  == None:
         return False, "Customer id not valid"
     for personnel in it_personnel_schedule:
         schedule1 = personnel[1].split(',')
@@ -202,7 +204,7 @@ def create_ticket(title, requestor_id, description, category, priority, notes):
         max_id = results.fetchone()[0]
         ticket_id = max_id + 1
     
-    assignee_id, meeting_timestamp = assign_personnel(requestor_id, category)
+    assignee_id, meeting_timestamp = assign_personnel(category, requestor_id)
     assignee_id = 1
     meeting_timestamp = "0 6 * * 5"
     
