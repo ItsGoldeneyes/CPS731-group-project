@@ -34,6 +34,10 @@ def login_endpoint():
     }
     '''
     data = request.json
+    
+    assert data.get('username') != None
+    assert data.get('password') != None
+    
     if login(data.get('username'), data.get('password')):
       return {"success": True, "message": "Login successful"}
     else:
@@ -63,6 +67,9 @@ def get_user_endpoint():
     }
     '''
     data = request.json
+    
+    assert data.get('user_id') != None
+    
     user = get_user(data.get('user_id'))
     if user == None:
         return {"success": False, "message": "User not found"}
@@ -70,8 +77,8 @@ def get_user_endpoint():
         return {"success": True, "message": "User found", "user": user}
 
 
-@app.route('/view_all_tickets', methods=['POST'])
-def view_all_tickets_endpoint():
+@app.route('/get_user_tickets', methods=['POST'])
+def get_user_tickets_endpoint():
     '''
     POST
     {
@@ -97,8 +104,11 @@ def view_all_tickets_endpoint():
         ]
     }
     '''
+    
+    assert data.get('user_id') != None
+    
     data = request.json
-    tickets = view_all_tickets(data.get('user_id'))
+    tickets = get_user_tickets(data.get('user_id'))
     if tickets == None:
         return {"success": False, "message": "No tickets found"}
     else:
@@ -125,12 +135,20 @@ def create_ticket_endpoint():
         "ticket_id": "ticket_id"
     }
     '''
-    ticket_id = create_ticket(request.json.get('title'), 
-                  request.json.get('requestor_id'), 
-                  request.json.get('description'), 
-                  request.json.get('category'), 
-                  request.json.get('priority'), 
-                  request.json.get('notes'))
+    data = request.json
+    
+    assert data.get('title') != None
+    assert data.get('requestor_id') != None
+    assert data.get('description') != None
+    assert data.get('category') != None
+    assert data.get('priority') != None
+    
+    ticket_id = create_ticket(data.get('title'), 
+                  data.get('requestor_id'), 
+                  data.get('description'), 
+                  data.get('category'), 
+                  data.get('priority'), 
+                  data.get('notes'))
     return {"success": True, "message": "Ticket created", "ticket_id": ticket_id}
   
   
@@ -158,8 +176,11 @@ def get_ticket_endpoint():
             "notes": "notes"
         }
     }
-    '''
+    '''    
     data = request.json
+    
+    assert data.get('ticket_id') != None
+    
     ticket = get_ticket(data.get('ticket_id'))
     if ticket == None:
         return {"success": False, "message": "Ticket not found"}
@@ -183,6 +204,9 @@ def get_user_schedule_endpoint():
     }
     '''
     data = request.json
+    
+    assert data.get('user_id') != None
+    
     schedule = get_user_schedule(data.get('user_id'))
     if schedule == None:
         return {"success": False, "message": "Schedule not found"}
@@ -206,5 +230,35 @@ def set_user_schedule_endpoint():
     }
     '''
     data = request.json
+    
+    assert data.get('user_id') != None
+    
     set_user_schedule(data.get('user_id'), data.get('schedule'))
     return {"success": True, "message": "Schedule set"}
+  
+
+@app.route('/update_ticket', methods=['POST'])
+def update_ticket_endpoint():
+    '''
+    POST
+    {
+        "ticket_id": "ticket_id",
+        "status": "status",
+        "assignee_id": "assignee_id",
+        "notes": "notes"
+    }
+
+    RESPONSE
+    {
+        "success": true,
+        "message": "Ticket updated"
+    }
+    '''
+    data = request.json
+    
+    assert data.get('ticket_id') != None
+    assert data.get('status') != None
+    assert data.get('assignee_id') != None
+    
+    update_ticket(data.get('ticket_id'), data.get('status'), data.get('assignee_id'), data.get('notes'))
+    return {"success": True, "message": "Ticket updated"}

@@ -106,7 +106,7 @@ def login(username, password):
         return user_id[0]
 
 
-def view_all_tickets(user_id):
+def get_user_tickets(user_id):
     con = sqlite3.connect('helpdesk.db')
     cur = con.cursor()
     results = cur.execute("SELECT * FROM tickets WHERE requestor_id = ? OR assignee_id = ?", (user_id, user_id))
@@ -175,5 +175,13 @@ def set_user_schedule(user_id, schedule):
     con = sqlite3.connect('helpdesk.db')
     cur = con.cursor()
     cur.execute("UPDATE user_schedules SET schedule = ? WHERE user_id = ?", (schedule, user_id))
+    con.commit()
+    con.close()
+    
+    
+def update_ticket(ticket_id, assignee_id, status, notes):
+    con = sqlite3.connect('helpdesk.db')
+    cur = con.cursor()
+    cur.execute("UPDATE tickets SET assignee_id = ?, status = ?, notes = ? WHERE ticket_id = ?", (assignee_id, status, notes, ticket_id))
     con.commit()
     con.close()
