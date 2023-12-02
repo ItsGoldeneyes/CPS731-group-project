@@ -4,10 +4,9 @@ import os
 
 app = Flask(__name__)
 
-@app.route('/api')
-def my_login():
+@app.route('/')
+def root_route():
   response_body = {
-    'api': 'version 1',
     'message': 'Hello World!'
   }
   return response_body
