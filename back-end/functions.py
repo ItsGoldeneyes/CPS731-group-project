@@ -77,11 +77,8 @@ def setup_db():
     create_new_user("Emma Baker", "emma.baker@aaier.ca", "user", "Marketing")
     
     # Create randomized schedules for users
-    res, i = set_user_schedule(1, ",".join(["0 10 * * 1", "0 11 * * 2", "0 12 * * 3", "0 13 * * 4", "0 14 * * 5"]))
-    print(res,i)
-    set_user_schedule(6, ",".join(["0 12 * * 1", "0 15 * * 2", "0 13 * * 3", "0 13 * * 4", "0 14 * * 5"]))
-    
-
+    set_user_schedule(1, ["0 10 * * 1", "0 11 * * 2", "0 12 * * 3", "0 13 * * 4", "0 14 * * 5"])
+    set_user_schedule(6, ["0 12 * * 1", "0 15 * * 2", "0 13 * * 3", "0 13 * * 4", "0 14 * * 5"])
     
 
 def create_new_user(user_name, user_email, user_permissions, department, specialty="None", password="password"):
@@ -103,7 +100,7 @@ def create_new_user(user_name, user_email, user_permissions, department, special
         return False, "Invalid department"
     
     # Verify specialty is valid
-    specialties = ["computer", "phone", "other"]
+    specialties = ["computer", "phone", "other", "None"]
     if specialty not in specialties:
         return False, "Invalid specialty"
     
@@ -154,36 +151,26 @@ def get_user_tickets(user_id):
     return tickets, "Tickets found"
 
 
-
-
 def assign_personnel(specialty, requester_id):
     con = sqlite3.connect('helpdesk.db')
     cur = con.cursor()
-    
-    res = cur.execute(f'SELECT users.user_id, schedule FROM users inner join user_schedules on users.user_id = user_schedules.user_id where users.user_id = "{requester_id}"')
-    print(res.fetchone())
 
+    res = cur.execute(f'SELECT users.user_id, schedule FROM users inner join user_schedules on users.user_id = user_schedules.user_id where user_specialty = "{specialty}"')
+    personnel_schedules = res.fetchall()
+    customer_schedule, _ = get_user_schedule(requester_id)
     
-    it_personnel_schedule = cur.execute(f'SELECT t1.user_id, schedule FROM users as t1 inner join user_schedules as t2 on t1.user_id = t2.user_id where user_specialty = "{specialty}"')
-    it_customer_schedule = cur.execute(f'SELECT t1.user_id, schedule FROM users as t1 inner join user_schedules as t2 on t1.user_id = t2.user_id where t1.user_id = "{requester_id}"')
-    it_personnel_schedule = it_personnel_schedule.fetchall()
-    it_customer_schedule = it_customer_schedule.fetchone()
-    
-    if it_personnel_schedule == None:
+    if personnel_schedules == None:
         return False, "No compatible IT personnel found"
-    if it_customer_schedule  == None:
+    if customer_schedule  == None:
         return False, "Customer id not valid"
     
-    for personnel in it_personnel_schedule:
-        schedule1 = personnel[1].split(',')
-        schedule2 = it_customer_schedule[1].split(',')
-        result = [x for x in schedule1 if x in schedule2]
+    for personnel in personnel_schedules:
+        result = [x for x in personnel[1].split(',') if x in customer_schedule]
         if result == []:
             continue
         return personnel[0], result[0]
 
     return False, "No compatible IT personnel found"
-
 
 
 def create_ticket(title, requestor_id, description, category, priority, notes):
@@ -195,7 +182,7 @@ def create_ticket(title, requestor_id, description, category, priority, notes):
         return False, "Invalid title"
     
     # Verify requestor_id is valid
-    results = cur.execute("SELECT user_id FROM users WHERE user_id = ?", (requestor_id,))
+    results = cur.execute(f'SELECT user_id FROM users WHERE user_id = "{requestor_id}"')
     if results.fetchone() == None:
         return False, "Invalid requestor_id"
     
@@ -258,6 +245,7 @@ def get_user(user_id):
     user = results.fetchone()
     con.close()
     return user, "User found"
+
 
 def get_user_schedule(user_id):
     con = sqlite3.connect('helpdesk.db')
