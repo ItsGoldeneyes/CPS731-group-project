@@ -1,6 +1,7 @@
 import sqlite3
 from cron_descriptor import get_description, ExpressionDescriptor
 import datetime
+import random
 
 
 def setup_db():
@@ -77,8 +78,19 @@ def setup_db():
     create_new_user("Emma Baker", "emma.baker@aaier.ca", "user", "Marketing")
     
     # Create randomized schedules for users
-    set_user_schedule(1, ["0 10 * * 1", "0 11 * * 2", "0 12 * * 3", "0 13 * * 4", "0 14 * * 5"])
-    set_user_schedule(6, ["0 12 * * 1", "0 15 * * 2", "0 13 * * 3", "0 13 * * 4", "0 14 * * 5"])
+    for i in range(1, 25):
+        schedule = []
+        for j in range(1,6):
+            schedule.append("0 " + str(random.randint(8, 18)) + " * * " + str(j))
+        res, i = set_user_schedule(i, schedule)
+        if res == False:
+            print(i)
+            
+    # Set definite schedules for employees used for demonstration
+    set_user_schedule(1, ["0 10 * * 1", "0 8 * * 2", "0 15 * * 3", "0 16 * * 4", "0 10 * * 5"])
+    set_user_schedule(6, ["0 9 * * 1", "0 9 * * 2", "0 12 * * 3", "0 16 * * 4", "0 13 * * 5"])
+    
+    
     
 
 def create_new_user(user_name, user_email, user_permissions, department, specialty="None", password="password"):
