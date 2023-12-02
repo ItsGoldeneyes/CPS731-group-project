@@ -52,11 +52,28 @@
     background-color: #51993f;
 }
 
+#create-ticket-button:hover {
+    background-color: #6bb359;
+    cursor: pointer;
+}
+
 #cancel-ticket-button {
     background-color: #f5471b;
+    cursor: pointer;
+}
+
+#cancel-ticket-button:hover {
+    background-color: #f36e4d;
 }
 
 input[type="text"], input[type="datetime-local"] {
+    border-radius: 7px;
+    border: 1px solid #ccc;
+    padding: 12px;
+    margin-bottom: 10px;
+}
+
+.create-ticket-form textarea {
     border-radius: 7px;
     border: 1px solid #ccc;
     padding: 12px;
@@ -116,4 +133,5 @@ select {
 
 #create-notes {
     height: 200px;
+    resize: none;
 }

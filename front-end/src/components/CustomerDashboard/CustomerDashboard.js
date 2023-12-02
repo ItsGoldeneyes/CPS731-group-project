@@ -1,10 +1,21 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './customer-dashboard-styles.css';
 import Header from '../Header/Header';
 import compose_icon from '../../assets/dashboard-customer-compose.svg';
 import inbox_icon from '../../assets/dashboard-customer-inbox.svg';
 
 export default function CustomerDashboard() {
+    const navigate = useNavigate();
+
+    const createTicketButtonClick = () => {
+        navigate('/create-ticket');
+    };
+
+    const viewAllTicketsButtonClick = () => {
+        navigate('/view-all-tickets');
+    };
+
   return (
     <div className="customer-dashboard-background">
         <Header/>
@@ -13,14 +24,14 @@ export default function CustomerDashboard() {
                 IT Help Desk
             </div>
             <div className="customer-options-card">
-                <button className="customer-first-option" type='button'>
+                <button className="customer-first-option" type='button' onClick={() => createTicketButtonClick()}>
                     <img className="customer-icons" src={compose_icon} alt='Compose' />
                     <div className="customer-option-text-container">
                         <div className="options-titlecase">Create Ticket</div>
                         Request IT services for issues you are facing
                     </div>
                 </button>
-                <button className="customer-second-option" type='button'>
+                <button className="customer-second-option" type='button' onClick={() => viewAllTicketsButtonClick()}>
                     <img className="customer-icons" src={inbox_icon} alt='Inbox' />
                     <div className="customer-option-text-container">
                         <div className="options-titlecase">View My Tickets</div>

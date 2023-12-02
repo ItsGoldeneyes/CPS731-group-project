@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './personnel-availability-styles.css';
 import Header from '../Header/Header';
 import Sidebar from '../Sidebar/Sidebar';
@@ -8,6 +9,7 @@ import personnel_phone_icon from '../../assets/personnel-dashboard-phone-icon.sv
 import info_icon from '../../assets/ticket-info-icon.svg';
 
 export default function PersonnelSubmitAvailability() {
+    const navigate = useNavigate();
     const [selectedCells, setSelectedCells] = useState([]);
     const possibleTimes = ["9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm", "5 pm"];
   
@@ -42,6 +44,10 @@ export default function PersonnelSubmitAvailability() {
       
         // Send cronstrings
         console.log(cronStrings);
+    };
+
+    const cancelAvailabilityButtonClick = () => {
+        navigate('/personnel-dashboard');
     };
 
 
@@ -86,7 +92,7 @@ export default function PersonnelSubmitAvailability() {
                                         <button id="availability-update-button" type='button' onClick={() => submitPersonnelAvailability()}>Update</button>
                                     </div>
                                     <div className="availability-button">
-                                        <button id="availability-cancel-button" type='button'>Cancel</button>
+                                        <button id="availability-cancel-button" type='button' onClick={() => cancelAvailabilityButtonClick()}>Cancel</button>
                                     </div>
                                 </div>
                             </div>

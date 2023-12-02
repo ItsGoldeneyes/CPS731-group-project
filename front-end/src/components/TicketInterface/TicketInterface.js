@@ -77,7 +77,7 @@ export default function TicketInterface() {
                                     <label for='shortDescription'>Short description</label>
                                     <input id='shortDescription' type='text' />
                                     <label for='notes'>Notes</label>
-                                    <input id='notes' type='text' />
+                                    <textarea id='notes' type='text' />
                             </div>
                         </form>
                     </div>
