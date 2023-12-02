@@ -31,6 +31,7 @@
 }
 
 .customer-first-option {
+    border: None;
     background-color: #91A6FF;
     border-radius: 15px;
     color: white;
@@ -46,6 +47,7 @@
 }
 
 .customer-second-option {
+    border: None;
     background-color: #7577CB;
     border-radius: 15px;
     color: white;

@@ -12,9 +12,9 @@ export default function Header() {
             <img className="logo-resize" src={Logo} alt='AAIER Corporation' />
         </div>
         <div className="header-icons-container"> 
-            <img className="header-icon-style" src={help_icon} alt='FAQ' />
-            <img className="header-icon-style" src={notification_icon} alt='Notifications' />
-            <img className="header-icon-style" src={user_icon} alt='User Icon' />
+            <button className="header-help-icon-style" type='button' alt='Help'></button>
+            <button className="header-notifications-icon-style" type='button' alt='Notifications'></button>
+            <button className="header-user-icon-style" type='button' alt='User Icon'></button>
         </div>
     </div>
   )

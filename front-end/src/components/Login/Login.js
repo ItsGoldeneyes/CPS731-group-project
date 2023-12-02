@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './styles.css';
 import Logo from '../../assets/Logo.svg';
 
 export default function Login() {
+
     return(
       <div className="login-container">
         <div className="company-logo">
@@ -23,7 +24,7 @@ export default function Login() {
               <input id='password' type='text' />
             </div>
             <div className="login-button">
-              <button type='submit'>Login</button>
+              <button type='submit' >Login</button>
             </div>
           </form>
         </div>

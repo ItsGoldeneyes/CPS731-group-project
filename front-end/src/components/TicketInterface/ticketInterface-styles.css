@@ -33,6 +33,13 @@ input[type="text"], input[type="datetime-local"] {
     margin-bottom: 10px;
 }
 
+.ticket-form textarea {
+    border-radius: 7px;
+    border: 1px solid #ccc;
+    padding: 12px;
+    margin-bottom: 10px;
+}
+
 select {
     border-radius: 7px;
     border: 1px solid #ccc;
