@@ -1,3 +1,3 @@
 ### TO START
 
->> flask run
+>> python main.py

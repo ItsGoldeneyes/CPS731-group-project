@@ -1,24 +1,24 @@
 from flask import Flask, request
 from functions import *
+import os
 
-api = Flask(__name__)
+app = Flask(__name__)
 
-@api.route('/api')
-def my_login():
+@app.route('/')
+def root_route():
   response_body = {
-    'api': 'version 1',
     'message': 'Hello World!'
   }
   return response_body
 
 
-@api.route('/reset')
+@app.route('/reset')
 def reset_endpoint():
     setup_db()
     return "Database reset"
 
 
-@api.route('/login', methods=['POST'])
+@app.route('/login', methods=['POST'])
 def login_endpoint():
     '''
     POST
@@ -34,42 +34,231 @@ def login_endpoint():
     }
     '''
     data = request.json
+    
+    assert data.get('username') != None
+    assert data.get('password') != None
+    
     if login(data.get('username'), data.get('password')):
       return {"success": True, "message": "Login successful"}
     else:
       return {"success": False, "message": "Login failed"}
-  
-  
-# @api.route('/ticket_info', methods=['POST']):
-#     '''
-#     POST
-#     {
-#         "ticket_id": "ticket_id"
-#     }
 
-#     RESPONSE
-#     {
-#         "success": true,
-#         "message": "Ticket found",
-#         "ticket": {
-#             "ticket_id": "ticket_id",
-#             "requestor_id": "requestor_id",
-#             "assignee_id": "assignee_id",
-#             "opened_on": "opened_on",
-#             "updated_on": "updated_on",
-#             "priority": "priority",
-#             "category": "category",
-#             "description": "description",
-#             "notes": "notes"
-#         },
-#         "meetings": [
-#             {
-#                 "meeting_id": "meeting_id",
-#                 "meeting_date": "meeting_date",
-#                 "meeting_time": "meeting_time"
-#             },
-#             ...
-#         ]
-#     }
-#     '''
-#     pass
+      
+@app.route('/get_user', methods=['POST'])
+def get_user_endpoint():
+    '''
+    POST
+    {
+        "user_id": "user_id"
+    }
+
+    RESPONSE
+    {
+        "success": true,
+        "message": "User found",
+        "user": {
+            "user_id": "user_id",
+            "user_name": "user_name",
+            "user_email": "user_email",
+            "user_permissions": "user_permissions",
+            "specialty": "specialty",
+            "department": "department"
+        }
+    }
+    '''
+    data = request.json
+    
+    assert data.get('user_id') != None
+    
+    user = get_user(data.get('user_id'))
+    if user == None:
+        return {"success": False, "message": "User not found"}
+    else:
+        return {"success": True, "message": "User found", "user": user}
+
+
+@app.route('/get_user_tickets', methods=['POST'])
+def get_user_tickets_endpoint():
+    '''
+    POST
+    {
+        "user_id": "user_id"
+    }
+
+    RESPONSE
+    {
+        "success": true,
+        "message": "Tickets found",
+        "tickets": [
+            {
+                "ticket_id": "ticket_id",
+                "requestor_id": "requestor_id",
+                "assignee_id": "assignee_id",
+                "opened_on": "opened_on",
+                "updated_on": "updated_on",
+                "priority": "priority",
+                "category": "category",
+                "description": "description",
+                "notes": "notes"
+            }
+        ]
+    }
+    '''
+    
+    assert data.get('user_id') != None
+    
+    data = request.json
+    tickets = get_user_tickets(data.get('user_id'))
+    if tickets == None:
+        return {"success": False, "message": "No tickets found"}
+    else:
+        return {"success": True, "message": "Tickets found", "tickets": tickets}
+  
+  
+@app.route('/create_ticket', methods=['POST'])
+def create_ticket_endpoint():
+    '''
+    POST
+    {
+        "title": "title",
+        "requestor_id": "requestor_id",
+        "description": "description",
+        "category": "category",
+        "priority": "priority",
+        "notes": "notes",
+    }
+
+    RESPONSE
+    {
+        "success": true,
+        "message": "Ticket created"
+        "ticket_id": "ticket_id"
+    }
+    '''
+    data = request.json
+    
+    assert data.get('title') != None
+    assert data.get('requestor_id') != None
+    assert data.get('description') != None
+    assert data.get('category') != None
+    assert data.get('priority') != None
+    
+    ticket_id = create_ticket(data.get('title'), 
+                  data.get('requestor_id'), 
+                  data.get('description'), 
+                  data.get('category'), 
+                  data.get('priority'), 
+                  data.get('notes'))
+    return {"success": True, "message": "Ticket created", "ticket_id": ticket_id}
+  
+  
+@app.route('/get_ticket', methods=['POST'])
+def get_ticket_endpoint():
+    '''
+    POST
+    {
+        "ticket_id": "ticket_id"
+    }
+
+    RESPONSE
+    {
+        "success": true,
+        "message": "Ticket found",
+        "ticket": {
+            "ticket_id": "ticket_id",
+            "requestor_id": "requestor_id",
+            "assignee_id": "assignee_id",
+            "opened_on": "opened_on",
+            "updated_on": "updated_on",
+            "priority": "priority",
+            "category": "category",
+            "description": "description",
+            "notes": "notes"
+        }
+    }
+    '''    
+    data = request.json
+    
+    assert data.get('ticket_id') != None
+    
+    ticket = get_ticket(data.get('ticket_id'))
+    if ticket == None:
+        return {"success": False, "message": "Ticket not found"}
+    else:
+        return {"success": True, "message": "Ticket found", "ticket": ticket}
+      
+      
+@app.route('/get_user_schedule', methods=['POST'])
+def get_user_schedule_endpoint():
+    '''
+    POST
+    {
+        "user_id": "user_id"
+    }
+
+    RESPONSE
+    {
+        "success": true,
+        "message": "Schedule found",
+        "schedule": [cronstring, cronstring, ...]
+    }
+    '''
+    data = request.json
+    
+    assert data.get('user_id') != None
+    
+    schedule = get_user_schedule(data.get('user_id'))
+    if schedule == None:
+        return {"success": False, "message": "Schedule not found"}
+    else:
+        return {"success": True, "message": "Schedule found", "schedule": schedule}
+      
+      
+@app.route('/set_user_schedule', methods=['POST'])
+def set_user_schedule_endpoint():
+    '''
+    POST
+    {
+        "user_id": "user_id",
+        "schedule": [cronstring, cronstring, ...]
+    }
+
+    RESPONSE
+    {
+        "success": true,
+        "message": "Schedule set"
+    }
+    '''
+    data = request.json
+    
+    assert data.get('user_id') != None
+    
+    set_user_schedule(data.get('user_id'), data.get('schedule'))
+    return {"success": True, "message": "Schedule set"}
+  
+
+@app.route('/update_ticket', methods=['POST'])
+def update_ticket_endpoint():
+    '''
+    POST
+    {
+        "ticket_id": "ticket_id",
+        "status": "status",
+        "assignee_id": "assignee_id",
+        "notes": "notes"
+    }
+
+    RESPONSE
+    {
+        "success": true,
+        "message": "Ticket updated"
+    }
+    '''
+    data = request.json
+    
+    assert data.get('ticket_id') != None
+    assert data.get('status') != None
+    assert data.get('assignee_id') != None
+    
+    update_ticket(data.get('ticket_id'), data.get('status'), data.get('assignee_id'), data.get('notes'))
+    return {"success": True, "message": "Ticket updated"}
