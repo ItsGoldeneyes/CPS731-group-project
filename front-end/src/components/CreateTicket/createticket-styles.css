@@ -1,0 +1,111 @@
+.ticket-background {
+    padding: 25px;
+    background-color: #f0f0f0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ticket-form-card {
+    background-color: white;
+    padding: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
+    height: 100%;
+    width: 100vw;
+    border-radius: 15px;
+    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
+}
+
+.create-ticket-header {
+    display: flex;
+    align-items: center;
+    height: auto;
+    padding-bottom: 50px;
+}
+
+.create-ticket-title {
+    font-weight: bold;
+}
+
+.create-ticket-buttons-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-left: auto;
+    width: auto;
+    gap: 60px;
+}
+
+.create-ticket-button {
+    >button {
+        padding: 15px 50px;
+        background-color: #080957;
+        color: #ffffff;
+        border: none;
+        border-radius: 6px;
+    }
+}
+
+#create-ticket-button {
+    background-color: #51993f;
+}
+
+#create-ticket-button:hover {
+    background-color: #6bb359;
+    cursor: pointer;
+}
+
+#cancel-ticket-button {
+    background-color: #f5471b;
+    cursor: pointer;
+}
+
+#cancel-ticket-button:hover {
+    background-color: #f36e4d;
+}
+
+input[type="text"], input[type="datetime-local"] {
+    border-radius: 7px;
+    border: 1px solid #ccc;
+    padding: 12px;
+    margin-bottom: 10px;
+}
+
+.create-ticket-form textarea {
+    border-radius: 7px;
+    border: 1px solid #ccc;
+    padding: 12px;
+    margin-bottom: 10px;
+}
+
+select {
+    border-radius: 7px;
+    border: 1px solid #ccc;
+    padding: 12px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.create-ticket-input-container {
+    display: grid;
+    grid-template-columns: 1fr 87%; 
+    gap: 10px; 
+    margin: auto; 
+    margin-bottom: 20px;
+
+    > label {
+        padding: 12px;
+    }
+}
+
+#user-availability {
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+#create-notes {
+    height: 200px;
+    resize: none;
+}

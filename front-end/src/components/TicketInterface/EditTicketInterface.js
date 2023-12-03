@@ -1,24 +1,19 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './ticketInterface-styles.css';
+import styles from './editTicketInterface-styles.css';
 import Header from '../Header/Header';
 import Sidebar from '../Sidebar/Sidebar';
 
 export default function TicketInterface() {
     const navigate = useNavigate();
 
-    const closeTicketButtonClick = () => {
-        window.alert("Ticket has been moved to closed state")
+    const saveEditTicketButtonClick = () => {
+        navigate('/individual-ticket');
     };
 
-    const editTicketButtonClick = () => {
-        navigate('/edit-ticket');
+    const cancelEditTicketButtonClick = () => {
+        navigate('/individual-ticket');
     };
-
-    const deleteTicketButtonClick = () => {
-        window.alert("Ticket has now been deleted")
-    };
-
 
     return (
         <div className="page-background">
@@ -37,13 +32,10 @@ export default function TicketInterface() {
                                     </div>
                                     <div className="buttons-container">
                                         <div className="ticket-button">
-                                            <button type='submit' onClick={() => closeTicketButtonClick()}>Close Ticket</button>
+                                            <button type='submit' id='save-edit-ticket-button' onClick={() => saveEditTicketButtonClick()}>Save</button>
                                         </div>
                                         <div className="ticket-button">
-                                            <button type='submit' onClick={() => editTicketButtonClick()}>Edit Ticket</button>
-                                        </div>
-                                        <div className="ticket-button">
-                                            <button type='submit' onClick={() => deleteTicketButtonClick()}>Delete Ticket</button>
+                                            <button type='submit' id='cancel-edit-ticket-button' onClick={() => cancelEditTicketButtonClick()}>Cancel</button>
                                         </div>
                                     </div>
                                 </div>

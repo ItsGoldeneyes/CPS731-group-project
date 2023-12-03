@@ -64,15 +64,28 @@ select {
     >button {
         cursor: pointer;
         padding: 15px 50px;
-        background-color: #080957;
         color: #ffffff;
         border: none;
         border-radius: 6px;
     }
 }
 
-.ticket-button button:hover {
-    background-color: #1e207a;
+#save-edit-ticket-button {
+    background-color: #51993f;
+}
+
+#save-edit-ticket-button:hover {
+    background-color: #6bb359;
+    cursor: pointer;
+}
+
+#cancel-edit-ticket-button {
+    background-color: #f5471b;
+    cursor: pointer;
+}
+
+#cancel-edit-ticket-button:hover {
+    background-color: #f36e4d;
 }
 
 .ticket-middle-container {
