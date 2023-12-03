@@ -4,7 +4,7 @@ import styles from './all-tickets-table.css';
 import info_icon from '../../assets/ticket-info-icon.svg';
 import whitespace from '../../assets/tickets-table-placeholder.svg';
 
-export default function AllTicketsTable() {
+export default function AllTicketsTable({ ticketData }) {
   return (
     <div>
         <div className="personnel-dashboard-tickets-table">
@@ -20,38 +20,16 @@ export default function AllTicketsTable() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    {ticketData.map((ticket, index) => (
+                    <tr key={index}>
                         <td><img src={info_icon} alt='Notifications' /></td>
-                        <td><Link to='/individual-ticket'>TCKT001</Link></td>
-                        <td>This is a sample description that is quite long</td>
-                        <td>John Doe</td>
-                        <td>Software</td>
-                        <td>Jane Smith</td>
+                        <td><Link to={`/individual-ticket/${ticket.ticket_id}`}>{ticket.ticket_id}</Link></td>
+                        <td>{ticket.description}</td>
+                        <td>{ticket.requestor_id}</td>
+                        <td>{ticket.category}</td>
+                        <td>{ticket.assignee_id}</td>
                     </tr>
-                    <tr>
-                        <td><img src={info_icon} alt='Notifications' /></td>
-                        <td><Link to='/individual-ticket'>TCKT002</Link></td>
-                        <td>Short Description</td>
-                        <td>Alice Johnson</td>
-                        <td>Hardware</td>
-                        <td>Bob Williams</td>
-                    </tr>
-                    <tr>
-                        <td class="leftAlign"><img src={info_icon} alt='Notifications' /></td>
-                        <td><Link to='/individual-ticket'>TCKT003</Link></td>
-                        <td>Another Description</td>
-                        <td>Charlie Brown</td>
-                        <td>Network</td>
-                        <td>Diana Miller</td>
-                    </tr>
-                    <tr>
-                        <td><img src={info_icon} alt='Notifications' /></td>
-                        <td><Link to='/individual-ticket'>TCKT004</Link></td>
-                        <td>Lorem Ipsum</td>
-                        <td>Eve Davis</td>
-                        <td>Database</td>
-                        <td>Frank Wilson</td>
-                    </tr>
+                    ))}
                 </tbody>
             </table>
         </div>

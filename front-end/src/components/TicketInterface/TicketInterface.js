@@ -1,11 +1,34 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Link, useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import styles from './ticketInterface-styles.css';
 import Header from '../Header/Header';
 import Sidebar from '../Sidebar/Sidebar';
 
 export default function TicketInterface() {
+    const { ticketId } = useParams();
     const navigate = useNavigate();
+    const [apiTicketId, setTicketId] = useState('');
+    const [ticketInfo, setTicket] = useState(null);
+
+    useEffect(() => {
+        console.log({ticketId})
+        const getTicket = () => {
+            axios
+              .post('http://localhost:5000/get_ticket', {
+                apiTicketId: {ticketId},
+            })
+            .then((response) => {
+                setTicket(response.data.ticket);
+            })
+            .catch((error) => {
+                console.error('Error fetching ticket:', error);
+            });
+        };
+  
+        getTicket();
+    }, []);
 
     const closeTicketButtonClick = () => {
         window.alert("Ticket has been moved to closed state")
@@ -33,7 +56,7 @@ export default function TicketInterface() {
                             <form action="" className="ticket-form">
                                 <div className="ticket-header">
                                     <div className="ticket-title">
-                                        Ticket Details - <span id="ticketNumber">INC09394</span>
+                                        Ticket Details - {ticketId}
                                     </div>
                                     <div className="buttons-container">
                                         <div className="ticket-button">
