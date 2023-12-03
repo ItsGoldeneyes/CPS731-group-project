@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Dashboard from '../Dashboard/Dashboard';
@@ -16,9 +16,16 @@ import AllTicketsTable from '../AllTicketsTable/AllTicketsTable';
 import AvailabilityChart from '../AvailabilityChart/AvailabilityChart';
 
 function App() {
+  const [ userId, setUserId ] = useState();
+
+  console.log('userId: ', userId);
+
+  if(!localStorage.token) {
+    return <Login setUserId={setUserId} />
+  }
+
   return (
     <div className="wrapper">
-      {/* <h1>Hello World!</h1> */}
       <Router>
         <Routes>
           <Route path='/' element={<CreateTicket />} />
