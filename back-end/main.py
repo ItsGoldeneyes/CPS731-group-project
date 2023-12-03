@@ -34,7 +34,8 @@ def login_endpoint():
     {
         "success": true,
         "message": "Login successful",
-        "access_token" : "user_id"
+        "access_token" : "accessgranted"
+        "user_id": "user_id"
     }
     '''
     data = request.json
@@ -44,7 +45,7 @@ def login_endpoint():
     if not user_id:
       return {"success": False, "message": "Login failed: {}".format(reason)}, 403
     else:
-      return {"success": True, "message": "Login successful", "access_token": user_id}
+      return {"success": True, "message": "Login successful", "access_token": "accessgranted", "user_id": user_id}
 
       
 @app.route('/get_user', methods=['POST'])
