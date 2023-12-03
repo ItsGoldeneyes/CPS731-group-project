@@ -86,8 +86,51 @@ class TestGetUser(unittest.TestCase):
         # Check if response is correct
         self.assertEqual(response.status_code, 403)
         self.assertEqual(response.json(), {"message": "Error finding user: Invalid user_id", "success": False})
-                
+
+class TestGetUserTickets(unittest.TestCase):
+    def setup(self):
+        # Reset the database
+        requests.get('http://127.0.0.1:5000/reset')
+        
+        # Create a new ticket
+        requests.post('http://127.0.0.1:5000/create_ticket', json={
+            "user_id": "6",
+            "title": "Test ticket",
+            "description": "Test description",
+            "priority": "low",
+            "status": "open",
+            "category": "computer",
+            "assigned_to": "1"
+        })
     
+    def test_get_users_requestor_success(self):
+        # Test get_users endpoint
+        response = requests.post('http://127.0.0.1:5000/get_user_tickets', 
+                                json={"user_id": "6"})
+        
+        # Check if response is correct        
+        response_edited = response.json()
+        response_edited['tickets'][0][6] = "None"
+        
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response_edited, {
+            "message": "Tickets found",
+            "success": True,
+            "tickets": [
+                [1, 
+                6,
+                1,
+                'Test Ticket',
+                'This is a test ticket',
+                'computer',
+                "None",
+                'low',
+                'closed',
+                None,
+                '0 16 * * 4'
+                ]
+            ]
+        })
     
     
     

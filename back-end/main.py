@@ -87,16 +87,18 @@ def get_user_tickets_endpoint():
         "success": true,
         "message": "Tickets found",
         "tickets": [
-            {
+            {               
                 "ticket_id": "ticket_id",
                 "requestor_id": "requestor_id",
                 "assignee_id": "assignee_id",
-                "opened_on": "opened_on",
-                "updated_on": "updated_on",
-                "priority": "priority",
-                "category": "category",
+                "title": "title",
                 "description": "description",
-                "notes": "notes"
+                "category": "category",
+                "opened_on": "opened_on",
+                "priority": "priority",
+                "status": "status",
+                "notes": "notes",
+                "meeting_timestamp": "meeting_timestamp"
             }
         ]
     }

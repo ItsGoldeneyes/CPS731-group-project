@@ -38,8 +38,9 @@ def setup_db():
                 )"
     ]
     con = sqlite3.connect('helpdesk.db')
-    # Remove all data from database
     cur = con.cursor()
+    
+    # Remove all data from database
     cur.execute("DROP TABLE IF EXISTS login")
     cur.execute("DROP TABLE IF EXISTS users")
     cur.execute("DROP TABLE IF EXISTS user_schedules")
@@ -89,8 +90,6 @@ def setup_db():
     # Set definite schedules for employees used for demonstration
     set_user_schedule(1, ["0 10 * * 1", "0 8 * * 2", "0 15 * * 3", "0 16 * * 4", "0 10 * * 5"])
     set_user_schedule(6, ["0 9 * * 1", "0 9 * * 2", "0 12 * * 3", "0 16 * * 4", "0 13 * * 5"])
-    
-    
     
 
 def create_new_user(user_name, user_email, user_permissions, department, specialty="None", password="password"):
