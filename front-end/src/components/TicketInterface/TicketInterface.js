@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { redirect } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import styles from './ticketInterface-styles.css';
@@ -7,10 +8,9 @@ import Header from '../Header/Header';
 import Sidebar from '../Sidebar/Sidebar';
 
 export default function TicketInterface() {
-    const { ticketId } = useParams();
     const navigate = useNavigate();
-    const [apiTicketId, setTicketId] = useState('');
-    const [ticketInfo, setTicket] = useState(null);
+    const { ticketId } = useParams();
+    const [ticketInfo, setTicket] = useState([]);
 
     useEffect(() => {
         const getTicket = () => {
@@ -18,6 +18,7 @@ export default function TicketInterface() {
                 ticket_id: ticketId,
             })
             .then((response) => {
+                console.log('API response:', response.data);
                 setTicket(response.data.ticket);
             })
             .catch((error) => {

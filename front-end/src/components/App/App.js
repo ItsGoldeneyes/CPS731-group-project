@@ -31,7 +31,7 @@ function App() {
       {/* <h1>Hello World!</h1> */}
       <Router>
         <Routes>
-          <Route path='/' element={<ViewAllTickets />} />
+          <Route path='/' element={<Login />} />
           <Route path='/customer-dashboard' element={<CustomerDashboard />} />
           <Route path='/personnel-dashboard' element={<PersonnelDashboard />} />
           <Route path='/personnel-submit-availability' element={<PersonnelSubmitAvailability />} />
