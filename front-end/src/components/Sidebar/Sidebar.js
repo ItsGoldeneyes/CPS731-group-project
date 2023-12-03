@@ -8,7 +8,7 @@ export default function Sidebar() {
   return (
     <div className="sidebar-element">
         <div className="sidebar-icons-container"> 
-            <button className="sidebar-home-icon-style" type='button' alt='FAQ'></button>
+            <button className="sidebar-home-icon-style" type='button' onClick={() => console.log("TEST BUTTON")} alt='FAQ'></button>
             <button className="sidebar-inbox-icon-style" type='button' alt='Notifications'></button>
             <button className="sidebar-list-icon-style" type='button' alt='User Icon'></button>
         </div>

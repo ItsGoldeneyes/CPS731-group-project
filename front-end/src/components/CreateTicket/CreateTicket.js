@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { redirect } from 'react-router';
 import styles from './createticket-styles.css';
 import Header from '../Header/Header';
 import Sidebar from '../Sidebar/Sidebar';
@@ -12,6 +13,27 @@ export default function CreateTicket() {
         navigate('/customer-dashboard');
     };
 
+    const createForm = async (payload) => {
+        // e.preventDefault();
+        axios.post('http://localhost:5000/create_ticket', {
+            title: payload.title,
+            requestor_id: payload.requestor_id,
+            description: payload.description,
+            category: payload.category,
+            priority: payload.priority,
+            notes: payload.notes
+        })
+        .then((response) => {
+          console.log(response);
+          redirect('/');
+    
+        })
+        .catch((error) => {
+          console.log(error, 'error');
+        })
+        
+    }
+
     const createTicketButtonClick = () => {
         var shortDescription = document.getElementById('create-shortDescription').value;
         var requestedBy = document.getElementById('create-requested-by').value;
@@ -19,6 +41,10 @@ export default function CreateTicket() {
         var chosenCategory = document.getElementById('create-category').value;
         var userEmail = document.getElementById('create-email').value;
         var userNotes = document.getElementById('create-notes').value;
+
+        const requestorMapping = {'Adam Cameron': 1, 'Rachita Singh':2, 'Inaya Rajwani':3, 'Emily Chiu':4, 'Abee Allen':5}
+        const specialtyMapping = {'Laptop':'computer', 'Desktop':'computer', 'Monitor':'computer','MobilePhone':'phone','LandlinePhone':'phone', 'Printer':'other','Tablet':'other'}
+        createForm({title:shortDescription, requestor_id:requestorMapping[requestedBy], category:specialtyMapping[chosenCategory], description:userEmail, priority:"", notes:userNotes})
 
         window.alert(shortDescription +"\n"+ 
                     requestedBy +"\n"+ 
