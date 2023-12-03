@@ -33,18 +33,17 @@ def login_endpoint():
     RESPONSE
     {
         "success": true,
-        "message": "Login successful",
-        "access_token" : "user_id"
+        "message": "Login successful"
     }
     '''
     data = request.json
   
     # Check if username and password are correct
-    user_id, reason = login(data.get('username'), data.get('password')) 
-    if not user_id:
+    status, reason = login(data.get('username'), data.get('password')) 
+    if not status:
       return {"success": False, "message": "Login failed: {}".format(reason)}, 403
     else:
-      return {"success": True, "message": "Login successful", "access_token": user_id}
+      return {"success": True, "message": "Login successful", "user_id": status}
 
       
 @app.route('/get_user', methods=['POST'])
@@ -293,8 +292,3 @@ def update_ticket_endpoint():
         return {"success": False, "message": "Error updating ticket: {}".format(reason)}, 403
     else:
         return {"success": True, "message": "{}".format(reason)}
-    
-# if __name__ == '__main__':
-#   app.run(debug=True)
-#   return {"success": True, "message": "{}".format(reason)}
-

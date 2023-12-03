@@ -81,41 +81,6 @@ export default function CreateTicket() {
                                         </div>
                                     </div>
                                 </div>
-
-                                <div className="create-ticket-first-container">
-                                    <label for='create-shortDescription'>Short description</label>
-                                    <input id='create-shortDescription' type='text' value="New User Ticket" required/>
-                                </div>
-                                <div className="create-ticket-middle-container">
-                                    <div className="create-ticket-middle-section">
-                                        <label for='create-requested-by'>Requested by</label>
-                                        <input id='create-requested-by' type='text' required/>
-
-                                        <label for='create-availability'>Availability</label>
-                                        <input id='create-availability' type='text' required/>
-                                    </div>
-                                    <div className="create-ticket-middle-section">
-                                        <label for='create-category'>Category</label>
-                                        <select id="create-category" name="category" required>
-                                            <option value="" selected disabled></option>
-                                            <option value="Laptop">Laptop</option>
-                                            <option value="Desktop">Desktop</option>
-                                            <option value="Monitor">Monitor</option>
-                                            <option value="MobilePhone">Mobile Phone</option>
-                                            <option value="LandlinePhone">Landline Phone</option>
-                                            <option value="Printer">Printer</option>
-                                            <option value="Tablet">Tablet</option>
-                                        </select>
-
-                                        <label for='create-email'>Email</label>
-                                        <input id='create-email' type='text' required/>
-                                    </div>
-                                </div>
-                                <div className="create-ticket-last-section">
-                                        <label for='create-notes'>Notes</label>
-                                        <textarea id='create-notes' type='text'/>
-                                </div>
-
                                 <div className="create-ticket-input-container">
                                     <label for='create-shortDescription'>Short description</label>
                                     <input id='create-shortDescription' type='text' value="New User Ticket" required/>

@@ -89,10 +89,9 @@ def setup_db():
             
     # Set definite schedules for employees used for demonstration
     set_user_schedule(1, ["0 10 * * 1", "0 8 * * 2", "0 15 * * 3", "0 16 * * 4", "0 10 * * 5"])
-    set_user_schedule(3, ["0 10 * * 1", "0 8 * * 2", "0 15 * * 3", "0 16 * * 2", "0 10 * * 5"])
     set_user_schedule(6, ["0 9 * * 1", "0 9 * * 2", "0 12 * * 3", "0 16 * * 4", "0 13 * * 5"])
     
-    
+
 def create_new_user(user_name, user_email, user_permissions, department, specialty="None", password="password"):
     con = sqlite3.connect('helpdesk.db')
     cur = con.cursor()
@@ -156,8 +155,6 @@ def login(username, password):
 def get_user_tickets(user_id):
     con = sqlite3.connect('helpdesk.db')
     cur = con.cursor()
-    con.close()
-
     
     # Verify user_id is valid
     results = cur.execute("SELECT user_id FROM users WHERE user_id = ?", (user_id,))
@@ -222,8 +219,7 @@ def create_ticket(title, requestor_id, description, category, priority, notes):
         return False, "Invalid category"
     
     # Verify priority is valid
-
-    priorities = ["low", "medium", "high",""]
+    priorities = ["low", "medium", "high"]
     if priority not in priorities:
         return False, "Invalid priority"
     
@@ -239,6 +235,7 @@ def create_ticket(title, requestor_id, description, category, priority, notes):
     
     if assignee_id == False:
         return False, meeting_timestamp
+    
     cur.execute("INSERT INTO tickets VALUES(?,?,?,?,?,?,?,?,?,?,?)", (ticket_id, requestor_id, assignee_id, title, description, category, 
                                                                       datetime.datetime.now(), priority, "Open", notes, meeting_timestamp))
     con.commit()
@@ -337,5 +334,5 @@ def update_ticket(ticket_id, assignee_id, status, notes):
     cur.execute("UPDATE tickets SET assignee_id = ?, status = ?, notes = ? WHERE ticket_id = ?", (assignee_id, status, notes, ticket_id))
     con.commit()
     con.close()
-
+    
     return True, "Ticket updated"
