@@ -14,8 +14,15 @@ import PersonnelDashboard from '../PersonnelDashboard/PersonnelDashboard';
 import PersonnelSubmitAvailability from '../PersonnelDashboard/PersonnelSubmitAvailability';
 import AllTicketsTable from '../AllTicketsTable/AllTicketsTable';
 import AvailabilityChart from '../AvailabilityChart/AvailabilityChart';
+import useToken from './useToken';
 
 function App() {
+  const { token, setToken } = useToken();
+
+  if(!token) {
+    return <Login setToken={setToken} />
+  }
+
   return (
     <div className="wrapper">
       {/* <h1>Hello World!</h1> */}
