@@ -30,7 +30,8 @@ def login_endpoint():
     RESPONSE
     {
         "success": true,
-        "message": "Login successful"
+        "message": "Login successful",
+        "access_token" : "user_id"
     }
     '''
     data = request.json
