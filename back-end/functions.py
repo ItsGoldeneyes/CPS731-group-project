@@ -1,5 +1,8 @@
 import sqlite3
 from cron_descriptor import get_description, ExpressionDescriptor
+import datetime
+import random
+
 
 def setup_db():
     query_strings = [
@@ -13,7 +16,8 @@ def setup_db():
                 user_name STRING NOT NULL, \
                 user_email STRING NOT NULL UNIQUE, \
                 user_permissions STRING NOT NULL, \
-                department STRING NOT NULL\
+                user_specialty STRING NOT NULL, \
+                department STRING NOT NULL \
                 )",
         "CREATE TABLE user_schedules(\
                 user_id INTEGER NOT NULL PRIMARY KEY, \
@@ -23,6 +27,7 @@ def setup_db():
                 ticket_id STRING NOT NULL PRIMARY KEY, \
                 requestor_id STRING NOT NULL, \
                 assignee_id STRING NOT NULL, \
+                title STRING NOT NULL, \
                 description STRING NOT NULL, \
                 category STRING NOT NULL, \
                 openedon STRING NOT NULL, \
@@ -33,17 +38,22 @@ def setup_db():
                 )"
     ]
     con = sqlite3.connect('helpdesk.db')
+    # Remove all data from database
     cur = con.cursor()
+    cur.execute("DROP TABLE IF EXISTS login")
+    cur.execute("DROP TABLE IF EXISTS users")
+    cur.execute("DROP TABLE IF EXISTS user_schedules")
+    cur.execute("DROP TABLE IF EXISTS tickets")
     for query in query_strings:
         cur.execute(query)
     con.close()
     
     # Create new admin users
-    create_new_user("Adam Cameron", "adam.cameron@aaier.ca", 'admin', 'IT')
-    create_new_user("Rachita Singh", "rachita.singh@aaier.ca", 'admin', 'IT')
-    create_new_user("Inaya Rajwani", "inaya.rajwani@aaier.ca", 'admin', 'IT')
-    create_new_user("Emily Chiu", "emily.chiu@aaier.ca", 'admin', 'IT')
-    create_new_user("Abee Allen", "abee.allen@aaier.ca", 'admin', 'IT')
+    create_new_user("Adam Cameron", "adam.cameron@aaier.ca", 'admin', 'IT', specialty="computer")
+    create_new_user("Rachita Singh", "rachita.singh@aaier.ca", 'admin', 'IT', specialty="phone")
+    create_new_user("Inaya Rajwani", "inaya.rajwani@aaier.ca", 'admin', 'IT', specialty="other")
+    create_new_user("Emily Chiu", "emily.chiu@aaier.ca", 'admin', 'IT', specialty="computer")
+    create_new_user("Abee Allen", "abee.allen@aaier.ca", 'admin', 'IT', specialty="other")
 
     # Create new user users
     create_new_user("Ella Johnson", "ella.johnson@aaier.ca", "user", "Sales")
@@ -67,8 +77,6 @@ def setup_db():
     create_new_user("Noah Turner", "noah.turner@aaier.ca", "user", "Sales")
     create_new_user("Emma Baker", "emma.baker@aaier.ca", "user", "Marketing")
     
-<<<<<<< Updated upstream
-=======
     # Create randomized schedules for users
     for i in range(1, 25):
         schedule = []
@@ -85,11 +93,34 @@ def setup_db():
     
     
     
->>>>>>> Stashed changes
-
-def create_new_user(user_name, user_email, user_permissions, department, password="password"):
+def create_new_user(user_name, user_email, user_permissions, department, specialty="None", password="password"):
     con = sqlite3.connect('helpdesk.db')
     cur = con.cursor()
+    
+    # Verify user_email is valid
+    if user_email == None:
+        return False, "Invalid user_email"
+    
+    # Verify user_permissions is valid
+    permissions = ["admin", "user"]
+    if user_permissions not in permissions:
+        return False, "Invalid user_permissions"
+    
+    # Verify department is valid
+    departments = ["IT", "Sales", "Marketing", "Finance"]
+    if department not in departments:
+        return False, "Invalid department"
+    
+    # Verify specialty is valid
+    specialties = ["computer", "phone", "other", "None"]
+    if specialty not in specialties:
+        return False, "Invalid specialty"
+    
+    # Verify password is valid
+    if password == None:
+        return False, "Invalid password"
+    
+    # Fetch new user_id
     results = cur.execute("SELECT MAX(user_id) FROM users")
     if results.fetchone()[0] == None:
         user_id = 1
@@ -98,7 +129,7 @@ def create_new_user(user_name, user_email, user_permissions, department, passwor
         max_id = results.fetchone()[0]
         user_id = max_id + 1
         
-    cur.execute("INSERT INTO users VALUES(?,?,?,?,?)", (user_id, user_name, user_email, user_permissions, department)) 
+    cur.execute("INSERT INTO users VALUES(?,?,?,?,?,?)", (user_id, user_name, user_email, user_permissions, specialty, department)) 
     cur.execute("INSERT INTO login VALUES(?,?,?)", (user_id, user_email, password))
     cur.execute("INSERT INTO user_schedules VALUES(?,?)", (user_id, ""))
     con.commit()
@@ -108,20 +139,25 @@ def create_new_user(user_name, user_email, user_permissions, department, passwor
 def login(username, password):
     con = sqlite3.connect('helpdesk.db')
     cur = con.cursor()
+    
+    # Verify username and password are valid
+    if username == None or password == None:
+        return False, "Missing credentials"
+    
     results = cur.execute("SELECT user_id FROM login WHERE user_email = ? AND password = ?", (username, password))
     user_id = results.fetchone()
     con.close()
     if user_id == None:
-        return None
+        return False, "Incorrect credentials"
     else:
-        return user_id[0]
+        return user_id[0], "Login successful"
 
-def create_ticket(title, category, requestor_id, assignee_id, description, notes):
+
+def get_user_tickets(user_id):
     con = sqlite3.connect('helpdesk.db')
     cur = con.cursor()
-<<<<<<< Updated upstream
     con.close()
-=======
+
     
     # Verify user_id is valid
     results = cur.execute("SELECT user_id FROM users WHERE user_id = ?", (user_id,))
@@ -176,6 +212,7 @@ def create_ticket(title, requestor_id, description, category, priority, notes):
         return False, "Invalid category"
     
     # Verify priority is valid
+
     priorities = ["low", "medium", "high",""]
     if priority not in priorities:
         return False, "Invalid priority"
@@ -290,6 +327,5 @@ def update_ticket(ticket_id, assignee_id, status, notes):
     cur.execute("UPDATE tickets SET assignee_id = ?, status = ?, notes = ? WHERE ticket_id = ?", (assignee_id, status, notes, ticket_id))
     con.commit()
     con.close()
-    
+
     return True, "Ticket updated"
->>>>>>> Stashed changes

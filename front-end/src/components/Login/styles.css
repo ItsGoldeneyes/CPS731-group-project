@@ -15,7 +15,7 @@
   >img {
     width: 45vw;
     position: absolute;
-    top: 20vh;
+    top: 18vh;
   }
 }
 
@@ -64,6 +64,7 @@
   flex-grow: 1;
 
   >button {
+    cursor: pointer;
     padding: 15px 50px;
     background-color: #080957;
     color: #ffffff;

@@ -1,11 +1,12 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Dashboard from '../Dashboard/Dashboard';
 import Login from '../Login/Login';
 import Header from '../Header/Header';
 import Sidebar from '../Sidebar/Sidebar';
 import TicketInterface from '../TicketInterface/TicketInterface';
+import EditTicketInterface from '../TicketInterface/EditTicketInterface';
 import CreateTicket from '../CreateTicket/CreateTicket';
 import ViewAllTickets from '../ViewAllTickets/ViewAllTickets';
 import CustomerDashboard from '../CustomerDashboard/CustomerDashboard';
@@ -18,12 +19,18 @@ function App() {
   return (
     <div className="wrapper">
       {/* <h1>Hello World!</h1> */}
-      <Login />
-      <BrowserRouter>
+      <Router>
         <Routes>
-          <Route path='/dashboard' element={<Dashboard />}/>
+          <Route path='/' element={<CreateTicket />} />
+          <Route path='/customer-dashboard' element={<CustomerDashboard />} />
+          <Route path='/personnel-dashboard' element={<PersonnelDashboard />} />
+          <Route path='/personnel-submit-availability' element={<PersonnelSubmitAvailability />} />
+          <Route path='/create-ticket' element={<CreateTicket />} />
+          <Route path='/view-all-tickets' element={<ViewAllTickets />} />
+          <Route path='/individual-ticket' element={<TicketInterface />} />
+          <Route path='/edit-ticket' element={<EditTicketInterface />} />
         </Routes>
-      </BrowserRouter>
+      </Router>
     </div>
   );
 }

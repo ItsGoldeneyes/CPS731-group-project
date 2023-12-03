@@ -1,16 +1,15 @@
 from flask import Flask, request
+from flask_cors import CORS, cross_origin
 from functions import *
 import os
 
 app = Flask(__name__)
 
-if __name__ == '__main__':
-    app.run(debug=True, port=os.getenv("PORT", default=5000))
+CORS(app, supports_credentials=True)
 
-@app.route('/api')
-def my_login():
+@app.route('/')
+def root_route():
   response_body = {
-    'api': 'version 1',
     'message': 'Hello World!'
   }
   return response_body
@@ -38,20 +37,13 @@ def login_endpoint():
     }
     '''
     data = request.json
-    if login(data.get('username'), data.get('password')):
-      return {"success": True, "message": "Login successful"}
+  
+    # Check if username and password are correct
+    status, reason = login(data.get('username'), data.get('password')) 
+    if not status:
+      return {"success": False, "message": "Login failed: {}".format(reason)}, 403
     else:
-      return {"success": False, "message": "Login failed"}
-  
-  
-# @api.route('/ticket_info', methods=['POST']):
-#     '''
-#     POST
-#     {
-#         "ticket_id": "ticket_id"
-#     }
-
-<<<<<<< Updated upstream
+      return {"success": True, "message": "Login successful"}
 #     RESPONSE
 #     {
 #         "success": true,
@@ -78,7 +70,88 @@ def login_endpoint():
 #     }
 #     '''
 #     pass
-=======
+
+      
+@app.route('/get_user', methods=['POST'])
+def get_user_endpoint():
+    '''
+    POST
+    {
+        "user_id": "user_id"
+    }
+
+    RESPONSE
+    {
+        "success": true,
+        "message": "User found",
+        "user": {
+            "user_id": "user_id",
+            "user_name": "user_name",
+            "user_email": "user_email",
+            "user_permissions": "user_permissions",
+            "specialty": "specialty",
+            "department": "department"
+        }
+    }
+    '''
+    data = request.json
+    
+    user, reason = get_user(data.get('user_id'))
+    if not user:
+        return {"success": False, "message": "Error finding user: {}".format(reason)}, 403
+    else:
+        return {"success": True, "message": "User found", "user": user}
+
+
+@app.route('/get_user_tickets', methods=['POST'])
+def get_user_tickets_endpoint():
+    '''
+    POST
+    {
+        "user_id": "user_id"
+    }
+
+    RESPONSE
+    {
+        "success": true,
+        "message": "Tickets found",
+        "tickets": [
+            {
+                "ticket_id": "ticket_id",
+                "requestor_id": "requestor_id",
+                "assignee_id": "assignee_id",
+                "opened_on": "opened_on",
+                "updated_on": "updated_on",
+                "priority": "priority",
+                "category": "category",
+                "description": "description",
+                "notes": "notes"
+            }
+        ]
+    }
+    '''
+    data = request.json
+    
+    tickets, reason = get_user_tickets(data.get('user_id'))
+    if tickets == None:
+        return {"success": False, "message": "Error finding ticket: {}".format(reason)}, 403
+    else:
+        return {"success": True, "message": "Tickets found", "tickets": tickets}
+  
+  
+@app.route('/create_ticket', methods=['POST'])
+def create_ticket_endpoint():
+    '''
+    POST
+    {
+        "title": "title",
+        "requestor_id": "requestor_id",
+        "description": "description",
+        "category": "category",
+        "priority": "priority",
+        "notes": "notes",
+    }
+
     RESPONSE
     {
         "success": true,
@@ -207,6 +280,7 @@ def update_ticket_endpoint():
     else:
         return {"success": True, "message": "{}".format(reason)}
     
-if __name__ == '__main__':
-  app.run(debug=True)
->>>>>>> Stashed changes
+# if __name__ == '__main__':
+#   app.run(debug=True)
+#   return {"success": True, "message": "{}".format(reason)}
+
