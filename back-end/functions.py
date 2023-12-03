@@ -167,6 +167,16 @@ def get_user_tickets(user_id):
     return tickets, "Tickets found"
 
 
+def get_all_tickets():
+    con = sqlite3.connect('helpdesk.db')
+    cur = con.cursor()
+    
+    results = cur.execute("SELECT * FROM tickets")
+    tickets = results.fetchall()
+    con.close()
+    return tickets, "Tickets found"
+
+
 def assign_personnel(specialty, requester_id):
     con = sqlite3.connect('helpdesk.db')
     cur = con.cursor()
