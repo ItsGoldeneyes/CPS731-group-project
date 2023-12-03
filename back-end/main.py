@@ -36,8 +36,8 @@ def login_endpoint():
     data = request.json
   
     # Check if username and password are correct
-    login, reason = login(data.get('username'), data.get('password')) 
-    if not login:
+    status, reason = login(data.get('username'), data.get('password')) 
+    if not status:
       return {"success": False, "message": "Login failed: {}".format(reason)}, 403
     else:
       return {"success": True, "message": "Login successful"}

@@ -139,13 +139,18 @@ def create_new_user(user_name, user_email, user_permissions, department, special
 def login(username, password):
     con = sqlite3.connect('helpdesk.db')
     cur = con.cursor()
+    
+    # Verify username and password are valid
+    if username == None or password == None:
+        return False, "Missing credentials"
+    
     results = cur.execute("SELECT user_id FROM login WHERE user_email = ? AND password = ?", (username, password))
     user_id = results.fetchone()
     con.close()
     if user_id == None:
-        return None
+        return False, "Incorrect credentials"
     else:
-        return user_id[0]
+        return user_id[0], "Login successful"
 
 
 def get_user_tickets(user_id):
