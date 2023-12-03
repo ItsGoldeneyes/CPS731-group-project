@@ -19,8 +19,8 @@ export default function ViewAllTickets() {
                 console.log('API response:', response.data);
 
                 //Set fake data
-                const fakeTicketData = [
-                    {
+                /*const fakeTicketData = [
+                    [
                       "ticket_id": "12345",
                       "requestor_id": "user123",
                       "assignee_id": "support456",
@@ -30,7 +30,7 @@ export default function ViewAllTickets() {
                       "category": "Technical Issue",
                       "description": "Cannot access the system",
                       "notes": "User reported error message on login screen.",
-                    },
+                    ],
                     {
                       "ticket_id": "67890",
                       "requestor_id": "user456",
@@ -42,10 +42,11 @@ export default function ViewAllTickets() {
                       "description": "Application crashes when clicking button X.",
                       "notes": "Issue observed on Windows operating system.",
                     },
-                ];
+                ];*/
                 
-                //setTickets(response.data.tickets);
-                setTickets(fakeTicketData);
+                setTickets(response.data.tickets);
+
+                //setTickets(fakeTicketData);
             })
             .catch((error) => {
                 console.error('API error:', error);
@@ -69,7 +70,7 @@ export default function ViewAllTickets() {
                                     All Tickets 
                             </div>
                             <div>
-                                <TicketsTable ticketData={tickets}/>
+                                { /*<TicketsTable ticketData={tickets}/> */ }
                             </div>
                         </div>
                     </div>

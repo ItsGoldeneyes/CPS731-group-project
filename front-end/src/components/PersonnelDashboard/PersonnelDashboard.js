@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 import styles from './personnel-dashboard-styles.css';
 import Header from '../Header/Header';
 import Sidebar from '../Sidebar/Sidebar';
@@ -12,8 +14,32 @@ import info_icon from '../../assets/ticket-info-icon.svg';
 
 export default function PersonnelDashboard() {
     const navigate = useNavigate();
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const userId = searchParams.get('userId');
+    console.log(userId) //This is the userId of the user logged in
+    const [ticket, setAllTickets] = useState([]);
 
-    const dashbiardAvailabilityButtonClick = () => {
+    useEffect(() => {
+        const fetchAllTickets = () => {
+            axios.post('http://localhost:5000/get_all_tickets', {
+            })
+            .then((response) => {
+                console.log('API response:', response.data);
+                setAllTickets(response.data.tickets);
+            })
+            .catch((error) => {
+                console.error('API error:', error);
+            });
+        };
+  
+        fetchAllTickets();
+    }, []);
+
+
+
+
+    const dashboardAvailabilityButtonClick = () => {
         navigate('/personnel-submit-availability');
     };
 
@@ -47,7 +73,7 @@ export default function PersonnelDashboard() {
                                     </div>
                                 </div>
                                 <div className="personnel-availability-button-container">
-                                    <button id="dashboard-availability-button" type="button" onClick={() => dashbiardAvailabilityButtonClick()}>Update Availability</button>
+                                    <button id="dashboard-availability-button" type="button" onClick={() => dashboardAvailabilityButtonClick()}>Update Availability</button>
                                 </div>
                             </div>
                         </div>
@@ -60,7 +86,7 @@ export default function PersonnelDashboard() {
                                     <button type="button">All Tickets</button>
                             </div>
                             <div>
-                                {/* <TicketsTable/> */}
+                                <TicketsTable ticketData={ticket}/>
                             </div>
                         </div>
                     </div>

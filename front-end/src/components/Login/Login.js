@@ -18,7 +18,6 @@ export default function Login({ setUserId }) {
       password: password
     })
     .then((response) => {
-
       console.log(response);
       const userToken = response.data.access_token;
       localStorage.setItem("token", JSON.stringify(userToken));
@@ -42,11 +41,9 @@ export default function Login({ setUserId }) {
       
       //Redirect the user depending on their status
       if (user_level === 'admin') {
-        console.log("navigate to admin dash")
-        window.location.href = '/personnel-dashboard';
+        window.location.href = `/personnel-dashboard?userId=${userId}`;
       } else {
-        console.log("navigate to user dash")
-        window.location.href = '/customer-dashboard';
+        window.location.href = `/customer-dashboard?userId=${userId}`;
       }
     })
     .catch((error) => {
