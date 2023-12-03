@@ -1,11 +1,12 @@
-import React, { useRef, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { redirect } from "react-router";
-import styles from "./createticket-styles.css";
-import Header from "../Header/Header";
-import Sidebar from "../Sidebar/Sidebar";
-import AvailabilityChart from "../AvailabilityChart/AvailabilityChart";
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { redirect } from 'react-router';
+import styles from './createticket-styles.css';
+import Header from '../Header/Header';
+import Sidebar from '../Sidebar/Sidebar';
+import AvailabilityChart from '../AvailabilityChart/AvailabilityChart';
+
 
 export default function CreateTicket() {
   const navigate = useNavigate();
@@ -260,3 +261,4 @@ export default function CreateTicket() {
     </div>
   );
 }
+
