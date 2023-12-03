@@ -1,17 +1,11 @@
 from flask import Flask, request
 from flask_cors import CORS, cross_origin # pip install Flask-Cors
-from flask_jwt_extended import create_access_token, JWTManager, get_jwt, get_jwt_identity, jwt_required # pip install Flask-JWT-Extended
-from datetime import datetime, timedelta, timezone
-import json
 from functions import *
 import os
 
 app = Flask(__name__)
 
 CORS(app, supports_credentials=True)
-app.config['SECRET_KEY'] = 'aaier-is-awesome'
-app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=24)
-jwt = JWTManager(app)
 
 @app.route('/')
 def root_route():
@@ -49,25 +43,8 @@ def login_endpoint():
     if not status:
       return {"success": False, "message": "Login failed: {}".format(reason)}, 403
     else:
-      access_token = create_access_token(identity=status)
+      access_token = 'token123'
       return {"success": True, "message": "Login successful", "access_token": access_token, "user_id": status}
-    
-# @app.after_request
-# def refresh_expiring_jwts(response):
-#     try:
-#         exp_timestamp = get_jwt()["exp"]
-#         now = datetime.now(timezone.utc)
-#         target_timestamp = datetime.timestamp(now + timedelta(minutes=30))
-#         if target_timestamp > exp_timestamp:
-#             access_token = create_access_token(identity=get_jwt_identity())
-#             data = response.get_json()
-#             if type(data) is dict:
-#                 data["access_token"] = access_token
-#                 response.data = json.dumps(data)
-#         return response
-#     except(RuntimeError, KeyError):
-#         # Case where there is no valid JWT. return the original response
-#         return response
 
       
 @app.route('/get_user', methods=['POST'])
