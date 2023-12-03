@@ -60,7 +60,7 @@ export default function PersonnelDashboard() {
                                     <button type="button">All Tickets</button>
                             </div>
                             <div>
-                                <TicketsTable/>
+                                {/* <TicketsTable/> */}
                             </div>
                         </div>
                     </div>
