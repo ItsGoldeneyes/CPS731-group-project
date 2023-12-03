@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { redirect } from 'react-router';
+import axios from 'axios';
+import PropTypes from 'prop-types';
 import './styles.css';
 import Logo from '../../assets/Logo.svg';
 
-export default function Login() {
+export default function Login({ setUserId }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [userData, setUserData] = useState(null);
+  const [error, setError] = useState(null);
 
   const loginUser = async e => {
     e.preventDefault();
@@ -16,14 +19,37 @@ export default function Login() {
     })
     .then((response) => {
       console.log(response);
-      redirect('/');
+      const userToken = response.data.access_token;
+      localStorage.setItem("token", JSON.stringify(userToken));
+
+      //Call another subroutine to get the user details
+      getUserDetails(userToken);
+
 
     })
     .catch((error) => {
       console.log(error, 'error');
-    })
-    
+    }) 
   }
+
+  const getUserDetails = (userId) => {
+    axios.post('http://localhost:5000/get_user', {
+      user_id: userId,
+    })
+    .then((response) => {
+      const user_level = response.data.user[3];
+      setUserData(response.data.user);
+      //Redirect the user depending on their status
+      if (user_level === 'admin') {
+        window.location.href = `/personnel-dashboard?userId=${userId}`;
+      } else {
+        window.location.href = `/customer-dashboard?userId=${userId}`;
+      }
+    })
+    .catch((error) => {
+      console.log(error, 'error');
+    }) 
+  };
 
   return(
     <div className="login-container">
@@ -59,4 +85,8 @@ export default function Login() {
       </div>
     </div>
   );
+}
+
+Login.propTypes = {
+  setToken: PropTypes.func.isRequired
 }

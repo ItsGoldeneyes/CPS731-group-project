@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import styles from './customer-dashboard-styles.css';
 import Header from '../Header/Header';
 import compose_icon from '../../assets/dashboard-customer-compose.svg';
@@ -7,6 +8,10 @@ import inbox_icon from '../../assets/dashboard-customer-inbox.svg';
 
 export default function CustomerDashboard() {
     const navigate = useNavigate();
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const userId = searchParams.get('userId');
+    console.log(userId) //This is the userId of the user logged in
 
     const createTicketButtonClick = () => {
         navigate('/create-ticket');
