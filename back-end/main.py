@@ -114,16 +114,18 @@ def get_user_tickets_endpoint():
         "success": true,
         "message": "Tickets found",
         "tickets": [
-            {
+            {               
                 "ticket_id": "ticket_id",
                 "requestor_id": "requestor_id",
                 "assignee_id": "assignee_id",
-                "opened_on": "opened_on",
-                "updated_on": "updated_on",
-                "priority": "priority",
-                "category": "category",
+                "title": "title",
                 "description": "description",
-                "notes": "notes"
+                "category": "category",
+                "opened_on": "opened_on",
+                "priority": "priority",
+                "status": "status",
+                "notes": "notes",
+                "meeting_timestamp": "meeting_timestamp"
             }
         ]
     }
@@ -135,7 +137,44 @@ def get_user_tickets_endpoint():
         return {"success": False, "message": "Error finding ticket: {}".format(reason)}, 403
     else:
         return {"success": True, "message": "Tickets found", "tickets": tickets}
-  
+
+
+@app.route('/get_all_tickets', methods=['POST'])
+def get_all_tickets_endpoint():
+    '''
+    POST
+    {}
+
+    RESPONSE
+    {
+        "success": true,
+        "message": "Tickets found",
+        "tickets": [
+            {               
+                "ticket_id": "ticket_id",
+                "requestor_id": "requestor_id",
+                "assignee_id": "assignee_id",
+                "title": "title",
+                "description": "description",
+                "category": "category",
+                "opened_on": "opened_on",
+                "priority": "priority",
+                "status": "status",
+                "notes": "notes",
+                "meeting_timestamp": "meeting_timestamp"
+            },
+            ...
+        ]
+    }
+    '''
+    data = request.json
+    
+    tickets, reason = get_all_tickets()
+    if not tickets:
+        return {"success": False, "message": "Error finding tickets: {}".format(reason)}, 403
+    else:
+        return {"success": True, "message": "Tickets found", "tickets": tickets}
+
   
 @app.route('/create_ticket', methods=['POST'])
 def create_ticket_endpoint():
