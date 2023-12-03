@@ -28,7 +28,7 @@ function App() {
     <div className="wrapper">
       <Router>
         <Routes>
-          <Route path='/' element={<Login />} />
+          {/* <Route path='/' element={<Login />} /> */}
           <Route path='/customer-dashboard' element={<CustomerDashboard />} />
           <Route path='/personnel-dashboard' element={<PersonnelDashboard />} />
           <Route path='/personnel-submit-availability' element={<PersonnelSubmitAvailability />} />
