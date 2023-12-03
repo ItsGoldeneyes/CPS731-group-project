@@ -88,7 +88,7 @@ select {
     width: 100%;
 }
 
-.create-ticket-first-container {
+.create-ticket-input-container {
     display: grid;
     grid-template-columns: 1fr 87%; 
     gap: 10px; 
@@ -100,35 +100,9 @@ select {
     }
 }
 
-.create-ticket-middle-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr; 
-    gap: 100px; 
-    margin-bottom: 20px;
-}
-
-.create-ticket-middle-section{
-    display: grid;
-    grid-template-columns: 1fr 3fr; 
-    grid-template-rows: repeat(2, 1fr);
-    gap: 30px;
-
-    > label {
-        text-align: center;
-        padding: 12px;
-    }
-}
-
-.create-ticket-last-section {
-    display: grid;
-    grid-template-columns: 1fr 87%; 
-    gap: 10px; 
-    margin: auto; 
-
-    > label {
-        text-align: center;
-        padding: 12px;
-    }
+#user-availability {
+    margin-top: 20px;
+    margin-bottom: 40px;
 }
 
 #create-notes {
