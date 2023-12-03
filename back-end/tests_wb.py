@@ -10,7 +10,7 @@ import json
 """
 
 class TestLogin(unittest.TestCase):
-    def setup(self):
+    def setUp(self):
         # Reset the database
         requests.get('http://127.0.0.1:5000/reset')
         
@@ -20,7 +20,7 @@ class TestLogin(unittest.TestCase):
         
         # Check if the response is correct
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json(), {"success": True, "message": "Login successful"})
+        self.assertEqual(response.json(), {"success": True, "message": "Login successful", "access_token": "accessgranted", "user_id": 1})
     
     
     def test_login_failure(self):
@@ -56,9 +56,8 @@ class TestLogin(unittest.TestCase):
         self.assertEqual(response.status_code, 403)
         self.assertEqual(response.json(), {"success": False, "message": "Login failed: Missing credentials"})
     
-
 class TestGetUser(unittest.TestCase):
-    def setup(self):
+    def setUp(self):
         # Reset the database
         requests.get('http://127.0.0.1:5000/reset')
         
@@ -88,30 +87,29 @@ class TestGetUser(unittest.TestCase):
         self.assertEqual(response.json(), {"message": "Error finding user: Invalid user_id", "success": False})
 
 class TestGetUserTickets(unittest.TestCase):
-    def setup(self):
+    def setUp(self):
         # Reset the database
         requests.get('http://127.0.0.1:5000/reset')
         
         # Create a new ticket
-        requests.post('http://127.0.0.1:5000/create_ticket', json={
-            "user_id": "6",
+        response = requests.post('http://127.0.0.1:5000/create_ticket', json={
             "title": "Test ticket",
+            "requestor_id": "6",
             "description": "Test description",
-            "priority": "low",
-            "status": "open",
             "category": "computer",
-            "assigned_to": "1"
+            "priority": "low",
         })
     
-    def test_get_users_requestor_success(self):
+    def test_get_user_tickets_requestor_success(self):
         # Test get_users endpoint
         response = requests.post('http://127.0.0.1:5000/get_user_tickets', 
                                 json={"user_id": "6"})
         
-        # Check if response is correct        
+        # Setting timestamp to None because it is not possible to predict or control
         response_edited = response.json()
         response_edited['tickets'][0][6] = "None"
         
+        # Check if response is correct      
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response_edited, {
             "message": "Tickets found",
@@ -120,19 +118,378 @@ class TestGetUserTickets(unittest.TestCase):
                 [1, 
                 6,
                 1,
-                'Test Ticket',
-                'This is a test ticket',
+                'Test ticket',
+                'Test description',
                 'computer',
-                "None",
+                'None',
                 'low',
-                'closed',
+                'open',
                 None,
                 '0 16 * * 4'
                 ]
             ]
         })
     
+    def test_get_user_tickets_assignee_success(self):
+        # Test get_users endpoint
+        response = requests.post('http://127.0.0.1:5000/get_user_tickets',
+                                json={"user_id": "1"})
+        
+        # Setting timestamp to None because it is not possible to predict or control
+        response_edited = response.json()
+        response_edited['tickets'][0][6] = "None"
+        
+        # Check if response is correct
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response_edited, {
+            "message": "Tickets found",
+            "success": True,
+            "tickets": [
+                [1, 
+                6,
+                1,
+                'Test ticket',
+                'Test description',
+                'computer',
+                'None',
+                'low',
+                'open',
+                None,
+                '0 16 * * 4'
+                ]
+            ]
+        })
+        
+    def test_get_user_tickets_failure(self):
+        # Test get_users endpoint
+        response = requests.post('http://127.0.0.1:5000/get_user_tickets', json={"user_id": "1600"})
+        
+        # Check if response is correct
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.json(), {"message": "Error finding tickets: Invalid user_id", "success": False})
+            
+    def test_get_user_tickets_multiple(self):
+        # Create a new ticket
+        response = requests.post('http://127.0.0.1:5000/create_ticket', json={
+            "title": "Test ticket 2",
+            "requestor_id": "6",
+            "description": "Test description",
+            "category": "computer",
+            "priority": "low",
+        })
+        
+        # Test get_users endpoint
+        response = requests.post('http://127.0.0.1:5000/get_user_tickets', json={"user_id": "1"})
+        
+        response_edited = response.json()
+        for i in range(len(response_edited['tickets'])):
+            response_edited['tickets'][i][6] = "None"
+        
+        # Check if response is correct
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response_edited, {
+            "message": "Tickets found",
+            "success": True,
+            "tickets": [
+                [1, 
+                6,
+                1,
+                'Test ticket',
+                'Test description',
+                'computer',
+                'None',
+                'low',
+                'open',
+                None,
+                '0 16 * * 4'
+                ],
+                [2,
+                 6,
+                 1,
+                 'Test ticket 2',
+                 'Test description',
+                 'computer',
+                 'None',
+                 'low',
+                 'open',
+                 None,
+                 '0 16 * * 4'
+                 ]
+            ]
+        })
     
+class TestCreateTicket(unittest.TestCase):
+    def setUp(self):
+        # Reset the database
+        requests.get('http://127.0.0.1:5000/reset')
+        
+    def test_create_ticket_success(self):
+        # Test create_ticket endpoint
+        response = requests.post('http://127.0.0.1:5000/create_ticket', json={
+            "title": "Test ticket",
+            "requestor_id": "6",
+            "description": "Test description",
+            "category": "computer",
+            "priority": "low",
+        })
+        
+        # Check if response is correct
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), {"message": "Ticket created", "success": True, "ticket_id": 1})
+        
+    def test_create_ticket_invalid_user(self):
+        # Test create_ticket endpoint
+        response = requests.post('http://127.0.0.1:5000/create_ticket', json={
+            "title": "Test ticket",
+            "requestor_id": "1600",
+            "description": "Test description",
+            "category": "computer",
+            "priority": "low",
+        })
+        
+        # Check if response is correct
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.json(), {"message": "Ticket not created: Invalid requestor_id", "success": False})
+        
+    def test_create_ticket_missing_title(self):
+        # Test create_ticket endpoint
+        response = requests.post('http://127.0.0.1:5000/create_ticket', json={
+            "requestor_id": "6",
+            "description": "Test description",
+            "category": "computer",
+            "priority": "low",
+        })
+        
+        # Check if response is correct
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.json(), {"message": "Ticket not created: Invalid title", "success": False})
+    
+    def test_create_ticket_missing_requestor_id(self):
+        # Test create_ticket endpoint
+        response = requests.post('http://127.0.0.1:5000/create_ticket', json={
+            "title": "Test ticket",
+            "description": "Test description",
+            "category": "computer",
+            "priority": "low",
+        })
+        
+        # Check if response is correct
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.json(), {"message": "Ticket not created: Invalid requestor_id", "success": False})
+        
+    def test_create_ticket_missing_description(self):
+        # Test create_ticket endpoint
+        response = requests.post('http://127.0.0.1:5000/create_ticket', json={
+            "title": "Test ticket",
+            "requestor_id": "6",
+            "category": "computer",
+            "priority": "low",
+        })
+        
+        # Check if response is correct
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.json(), {"message": "Ticket not created: Invalid description", "success": False})
+        
+    def test_create_ticket_missing_category(self):
+        # Test create_ticket endpoint
+        response = requests.post('http://127.0.0.1:5000/create_ticket', json={
+            "title": "Test ticket",
+            "requestor_id": "6",
+            "description": "Test description",
+            "priority": "low",
+        })
+        
+        # Check if response is correct
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.json(), {"message": "Ticket not created: Invalid category", "success": False})
+        
+    def test_create_ticket_missing_priority(self):
+        # Test create_ticket endpoint
+        response = requests.post('http://127.0.0.1:5000/create_ticket', json={
+            "title": "Test ticket",
+            "requestor_id": "6",
+            "description": "Test description",
+            "category": "computer",
+        })
+        
+        # Check if response is correct
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.json(), {"message": "Ticket not created: Invalid priority", "success": False})
+    
+    def test_create_ticket_invalid_category(self):
+        # Test create_ticket endpoint
+        response = requests.post('http://127.0.0.1:5000/create_ticket', json={
+            "title": "Test ticket",
+            "requestor_id": "6",
+            "description": "Test description",
+            "category": "invalid",
+            "priority": "low",
+        })
+        
+        # Check if response is correct
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.json(), {"message": "Ticket not created: Invalid category", "success": False})
+        
+    def test_create_ticket_invalid_priority(self):
+        # Test create_ticket endpoint
+        response = requests.post('http://127.0.0.1:5000/create_ticket', json={
+            "title": "Test ticket",
+            "requestor_id": "6",
+            "description": "Test description",
+            "category": "computer",
+            "priority": "invalid",
+        })
+        
+        # Check if response is correct
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.json(), {"message": "Ticket not created: Invalid priority", "success": False})
+            
+class TestGetTicket(unittest.TestCase):
+    def setUp(self):
+        # Reset the database
+        requests.get('http://127.0.0.1:5000/reset')
+
+        # Create a new ticket
+        response = requests.post('http://127.0.0.1:5000/create_ticket', json={
+            "title": "Test ticket",
+            "requestor_id": "6",
+            "description": "Test description",
+            "category": "computer",
+            "priority": "low",
+        })
+        
+    def test_get_ticket_success(self):
+        # Test get_ticket endpoint
+        response = requests.post('http://127.0.0.1:5000/get_ticket', json={"ticket_id": "1"})
+        
+        # Setting timestamp to None because it is not possible to predict or control
+        response_edited = response.json()
+        response_edited['ticket'][6] = "None"
+        
+        # Check if response is correct
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response_edited, {
+            "message": "Ticket found",
+            "success": True,
+            "ticket": [
+                1, 
+                6,
+                1,
+                'Test ticket',
+                'Test description',
+                'computer',
+                'None',
+                'low',
+                'open',
+                None,
+                '0 16 * * 4'
+            ]
+        })
+        
+    def test_get_ticket_failure(self):
+        # Test get_ticket endpoint
+        response = requests.post('http://127.0.0.1:5000/get_ticket', json={"ticket_id": "1600"})
+        
+        # Check if response is correct
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.json(), {"message": "Ticket not found: Invalid ticket_id", "success": False})
+        
+class TestGetAllTickets(unittest.TestCase):
+    def setUp(self):
+        self.maxDiff = None
+        # Reset the database
+        requests.get('http://127.0.0.1:5000/reset')
+        
+        # Create a new ticket
+        response = requests.post('http://127.0.0.1:5000/create_ticket', json={
+            "title": "Test ticket",
+            "requestor_id": "6",
+            "description": "Test description",
+            "category": "computer",
+            "priority": "low",
+        })
+    
+    def test_get_all_tickets_success(self):
+        # Test get_all_tickets endpoint
+        response = requests.post('http://127.0.0.1:5000/get_all_tickets', json={})
+        
+        # Setting timestamp to None because it is not possible to predict or control
+        response_edited = response.json()
+        for i in range(len(response_edited['tickets'])):
+            response_edited['tickets'][i][6] = "None"
+        
+        # Check if response is correct
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response_edited, {
+            "message": "Tickets found",
+            "success": True,
+            "tickets": [
+                [1, 
+                6,
+                1,
+                'Test ticket',
+                'Test description',
+                'computer',
+                'None',
+                'low',
+                'open',
+                None,
+                '0 16 * * 4'
+                ]
+            ]
+        })
+        
+    def test_get_all_tickets_multiple(self):
+        # Create a new ticket
+        response = requests.post('http://127.0.0.1:5000/create_ticket', json={
+            "title": "Test ticket 2",
+            "requestor_id": "6",
+            "description": "Test description",
+            "category": "computer",
+            "priority": "low",
+        })
+        
+        # Test get_all_tickets endpoint
+        response = requests.post('http://127.0.0.1:5000/get_all_tickets', json={})
+        
+        # Setting timestamp to None because it is not possible to predict or control
+        response_edited = response.json()
+        for i in range(len(response_edited['tickets'])):
+            response_edited['tickets'][i][6] = "None"
+        
+        # Check if response is correct
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response_edited, {
+            "message": "Tickets found",
+            "success": True,
+            "tickets": [
+                [1, 
+                6,
+                1,
+                'Test ticket',
+                'Test description',
+                'computer',
+                'None',
+                'low',
+                'open',
+                None,
+                '0 16 * * 4'
+                ],
+                [2,
+                 6,
+                 1,
+                 'Test ticket 2',
+                 'Test description',
+                 'computer',
+                 'None',
+                 'low',
+                 'open',
+                 None,
+                 '0 16 * * 4'
+                 ]
+            ]
+        })
+        
     
 if __name__ == '__main__':
     unittest.main()
