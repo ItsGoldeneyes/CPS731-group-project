@@ -1,8 +1,11 @@
 from flask import Flask, request
+from flask_cors import CORS, cross_origin
 from functions import *
 import os
 
 app = Flask(__name__)
+
+CORS(app, supports_credentials=True)
 
 @app.route('/')
 def root_route():
