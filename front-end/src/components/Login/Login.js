@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 import { redirect } from 'react-router';
 import './styles.css';
 import Logo from '../../assets/Logo.svg';
 
-export default function Login() {
+export default function Login({ setToken }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -16,6 +17,7 @@ export default function Login() {
     })
     .then((response) => {
       console.log(response);
+      setToken(response.data.access_token);
       redirect('/');
 
     })
@@ -59,4 +61,8 @@ export default function Login() {
       </div>
     </div>
   );
+}
+
+Login.propTypes = {
+  setToken: PropTypes.func.isRequired
 }
