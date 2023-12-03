@@ -28,13 +28,13 @@ function App() {
     <div className="wrapper">
       <Router>
         <Routes>
-          <Route path='/' element={<CreateTicket />} />
+          <Route path='/' element={<Login />} />
           <Route path='/customer-dashboard' element={<CustomerDashboard />} />
           <Route path='/personnel-dashboard' element={<PersonnelDashboard />} />
           <Route path='/personnel-submit-availability' element={<PersonnelSubmitAvailability />} />
           <Route path='/create-ticket' element={<CreateTicket />} />
           <Route path='/view-all-tickets' element={<ViewAllTickets />} />
-          <Route path='/individual-ticket' element={<TicketInterface />} />
+          <Route path="/individual-ticket/:ticketId" element={<TicketInterface />} />
           <Route path='/edit-ticket' element={<EditTicketInterface />} />
         </Routes>
       </Router>
