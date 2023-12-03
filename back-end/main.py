@@ -50,7 +50,7 @@ def login_endpoint():
       return {"success": False, "message": "Login failed: {}".format(reason)}, 403
     else:
       access_token = create_access_token(identity=status)
-      return {"success": True, "message": "Login successful", "access_token": access_token}
+      return {"success": True, "message": "Login successful", "access_token": access_token, "user_id": status}
     
 # @app.after_request
 # def refresh_expiring_jwts(response):
