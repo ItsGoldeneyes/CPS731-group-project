@@ -36,11 +36,11 @@ def login_endpoint():
     data = request.json
   
     # Check if username and password are correct
-    status, reason = login(data.get('username'), data.get('password')) 
-    if not status:
+    user_id, reason = login(data.get('username'), data.get('password')) 
+    if not user_id:
       return {"success": False, "message": "Login failed: {}".format(reason)}, 403
     else:
-      return {"success": True, "message": "Login successful"}
+      return {"success": True, "message": "Login successful", "access_token": user_id}
 
       
 @app.route('/get_user', methods=['POST'])
