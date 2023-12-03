@@ -5,7 +5,7 @@ import { redirect } from 'react-router';
 import './styles.css';
 import Logo from '../../assets/Logo.svg';
 
-export default function Login({ setToken, setUserId }) {
+export default function Login({ setUserId }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -17,7 +17,8 @@ export default function Login({ setToken, setUserId }) {
     })
     .then((response) => {
       console.log(response);
-      setToken(response.data.access_token);
+      const userToken = response.data.access_token
+      localStorage.setItem("token", JSON.stringify(userToken));
       setUserId(response.data.user_id)
       redirect('/');
 

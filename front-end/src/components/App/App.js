@@ -14,21 +14,18 @@ import PersonnelDashboard from '../PersonnelDashboard/PersonnelDashboard';
 import PersonnelSubmitAvailability from '../PersonnelDashboard/PersonnelSubmitAvailability';
 import AllTicketsTable from '../AllTicketsTable/AllTicketsTable';
 import AvailabilityChart from '../AvailabilityChart/AvailabilityChart';
-import useToken from './useToken';
 
 function App() {
-  const { token, setToken } = useToken();
   const [ userId, setUserId ] = useState();
 
-  console.log(userId);
+  console.log('userId: ', userId);
 
-  if(!token) {
-    return <Login setToken={setToken} setUserId={setUserId} />
+  if(!localStorage.token) {
+    return <Login setUserId={setUserId} />
   }
 
   return (
     <div className="wrapper">
-      {/* <h1>Hello World!</h1> */}
       <Router>
         <Routes>
           <Route path='/' element={<CreateTicket />} />
