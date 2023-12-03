@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import './styles.css';
 import Logo from '../../assets/Logo.svg';
 
-export default function Login({ setToken, setUserId }) {
+export default function Login({ setUserId }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [userData, setUserData] = useState(null);
@@ -18,7 +18,11 @@ export default function Login({ setToken, setUserId }) {
       password: password
     })
     .then((response) => {
-      setToken(response.data.access_token);
+
+      console.log(response);
+      const userToken = response.data.access_token
+      localStorage.setItem("token", JSON.stringify(userToken));
+
       setUserId(response.data.user_id)
       //redirect('/');
 
