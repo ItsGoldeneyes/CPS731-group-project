@@ -16,6 +16,7 @@ export default function CreateTicket() {
   };
 
   const createForm = async (payload) => {
+    console.log(payload);
     axios
       .post("http://localhost:5000/create_ticket", {
         title: payload.title,
@@ -73,14 +74,15 @@ export default function CreateTicket() {
   const createTicketButtonClick = () => {
     console.log(document.getElementById("user-availability"));
 
+    var title = "";
     var shortDescription = document.getElementById(
       "create-shortDescription"
     ).value;
-    var requestedBy = document.getElementById("create-requested-by").value;
+    var requestedBy = "6";
+    var userEmail = "ella.johnson@aaier.ca"
     var customerAvailability =
       document.getElementById("user-availability").value;
     var chosenCategory = document.getElementById("create-category").value;
-    var userEmail = document.getElementById("create-email").value;
     var userNotes = document.getElementById("create-notes").value;
 
     const requestorMapping = {
@@ -103,26 +105,20 @@ export default function CreateTicket() {
 
     if (
       !shortDescription ||
-      !requestedBy ||
-      !chosenCategory ||
-      !userEmail ||
-      !userNotes
+      !chosenCategory 
     ) {
       window.alert("Please fill out all required fields.");
-      return;
-    } else if (!requestorMapping[requestedBy]) {
-      window.alert("Valid requestor is required.");
       return;
     }
 
     createForm({
-      title: shortDescription,
-      requestor_id: requestorMapping[requestedBy],
+      title: title,
+      requestor_id: requestedBy,
       category: specialtyMapping[chosenCategory],
-      description: userEmail,
-      priority: "",
+      description: shortDescription,
+      priority: "low",
       notes: userNotes,
-    });
+    }); 
 
     let selectedCellsAlert = selectedCells
       .map(function (cell) {
@@ -189,9 +185,6 @@ export default function CreateTicket() {
                     required
                   />
 
-                  <label for="create-requested-by">Requested by</label>
-                  <input id="create-requested-by" type="text" required />
-
                   <label for="create-category">Category</label>
                   <select id="create-category" name="category" required>
                     <option value="" selected disabled></option>
@@ -204,8 +197,8 @@ export default function CreateTicket() {
                     <option value="Tablet">Tablet</option>
                   </select>
 
-                  <label for="create-email">Email</label>
-                  <input id="create-email" type="text" required />
+                  {/* <label for="create-email">Email</label>
+                  <input id="create-email" type="text" required /> */}
 
                   <label for="create-availability">Availability</label>
                   <div required>

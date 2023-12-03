@@ -13,7 +13,7 @@ export default function ViewAllTickets() {
     useEffect(() => {
         const fetchTickets = () => {
             axios.post('http://localhost:5000/get_user_tickets', {
-                user_id: 'ella.johnson@aaier.ca', //Replace with user id variable
+                user_id: '4', //Replace with user id variable
             })
             .then((response) => {
                 console.log('API response:', response.data);
