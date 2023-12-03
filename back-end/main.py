@@ -33,43 +33,18 @@ def login_endpoint():
     RESPONSE
     {
         "success": true,
-        "message": "Login successful"
+        "message": "Login successful",
+        "access_token" : "user_id"
     }
     '''
     data = request.json
   
     # Check if username and password are correct
-    status, reason = login(data.get('username'), data.get('password')) 
-    if not status:
+    user_id, reason = login(data.get('username'), data.get('password')) 
+    if not user_id:
       return {"success": False, "message": "Login failed: {}".format(reason)}, 403
     else:
-      return {"success": True, "message": "Login successful"}
-#     RESPONSE
-#     {
-#         "success": true,
-#         "message": "Ticket found",
-#         "ticket": {
-#             "ticket_id": "ticket_id",
-#             "requestor_id": "requestor_id",
-#             "assignee_id": "assignee_id",
-#             "opened_on": "opened_on",
-#             "updated_on": "updated_on",
-#             "priority": "priority",
-#             "category": "category",
-#             "description": "description",
-#             "notes": "notes"
-#         },
-#         "meetings": [
-#             {
-#                 "meeting_id": "meeting_id",
-#                 "meeting_date": "meeting_date",
-#                 "meeting_time": "meeting_time"
-#             },
-#             ...
-#         ]
-#     }
-#     '''
-#     pass
+      return {"success": True, "message": "Login successful", "access_token": user_id}
 
       
 @app.route('/get_user', methods=['POST'])
@@ -116,16 +91,18 @@ def get_user_tickets_endpoint():
         "success": true,
         "message": "Tickets found",
         "tickets": [
-            {
+            {               
                 "ticket_id": "ticket_id",
                 "requestor_id": "requestor_id",
                 "assignee_id": "assignee_id",
-                "opened_on": "opened_on",
-                "updated_on": "updated_on",
-                "priority": "priority",
-                "category": "category",
+                "title": "title",
                 "description": "description",
-                "notes": "notes"
+                "category": "category",
+                "opened_on": "opened_on",
+                "priority": "priority",
+                "status": "status",
+                "notes": "notes",
+                "meeting_timestamp": "meeting_timestamp"
             }
         ]
     }
@@ -137,7 +114,44 @@ def get_user_tickets_endpoint():
         return {"success": False, "message": "Error finding ticket: {}".format(reason)}, 403
     else:
         return {"success": True, "message": "Tickets found", "tickets": tickets}
-  
+
+
+@app.route('/get_all_tickets', methods=['POST'])
+def get_all_tickets_endpoint():
+    '''
+    POST
+    {}
+
+    RESPONSE
+    {
+        "success": true,
+        "message": "Tickets found",
+        "tickets": [
+            {               
+                "ticket_id": "ticket_id",
+                "requestor_id": "requestor_id",
+                "assignee_id": "assignee_id",
+                "title": "title",
+                "description": "description",
+                "category": "category",
+                "opened_on": "opened_on",
+                "priority": "priority",
+                "status": "status",
+                "notes": "notes",
+                "meeting_timestamp": "meeting_timestamp"
+            },
+            ...
+        ]
+    }
+    '''
+    data = request.json
+    
+    tickets, reason = get_all_tickets()
+    if not tickets:
+        return {"success": False, "message": "Error finding tickets: {}".format(reason)}, 403
+    else:
+        return {"success": True, "message": "Tickets found", "tickets": tickets}
+
   
 @app.route('/create_ticket', methods=['POST'])
 def create_ticket_endpoint():
