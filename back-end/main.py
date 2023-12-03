@@ -43,8 +43,7 @@ def login_endpoint():
     if not status:
       return {"success": False, "message": "Login failed: {}".format(reason)}, 403
     else:
-      access_token = 'token123'
-      return {"success": True, "message": "Login successful", "access_token": access_token, "user_id": status}
+      return {"success": True, "message": "Login successful", "user_id": status}
 
       
 @app.route('/get_user', methods=['POST'])
