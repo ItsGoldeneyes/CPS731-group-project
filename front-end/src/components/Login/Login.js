@@ -23,7 +23,8 @@ export default function Login({ setUserId }) {
       localStorage.setItem("token", JSON.stringify(userToken));
 
       //Call another subroutine to get the user details
-      getUserDetails(response.data.user_id);
+      getUserDetails(userToken);
+
 
     })
     .catch((error) => {
@@ -38,7 +39,6 @@ export default function Login({ setUserId }) {
     .then((response) => {
       const user_level = response.data.user[3];
       setUserData(response.data.user);
-      
       //Redirect the user depending on their status
       if (user_level === 'admin') {
         window.location.href = `/personnel-dashboard?userId=${userId}`;

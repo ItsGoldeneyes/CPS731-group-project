@@ -68,8 +68,7 @@ export default function PersonnelDashboard() {
                                         <span id="personnel-dashboard-details-email">janedoe@aaier.com</span>
                                     </div>
                                     <div className="personnel-dashboard-details-phone-number-style">
-                                        <img className="personnel_info_contact_icon" src={personnel_phone_icon} alt='Phone' />
-                                        <span id="personnel-dashboard-details-phone-number">(416) 123-4567</span>
+
                                     </div>
                                 </div>
                                 <div className="personnel-availability-button-container">
