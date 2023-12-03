@@ -13,11 +13,9 @@ export default function TicketInterface() {
     const [ticketInfo, setTicket] = useState(null);
 
     useEffect(() => {
-        console.log({ticketId})
         const getTicket = () => {
-            axios
-              .post('http://localhost:5000/get_ticket', {
-                apiTicketId: {ticketId},
+            axios.post('http://localhost:5000/get_ticket', {
+                ticket_id: ticketId,
             })
             .then((response) => {
                 setTicket(response.data.ticket);
