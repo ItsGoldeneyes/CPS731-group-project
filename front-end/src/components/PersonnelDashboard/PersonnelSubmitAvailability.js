@@ -68,6 +68,16 @@ export default function PersonnelSubmitAvailability() {
         // Send cronstrings
         console.log(cronStrings);
 
+        axios.post(`${API_URL}/set_user_schedule`, {
+            user_id: userId,
+            schedule: cronStrings
+        })
+            .then((response) => response)
+            .catch((error) => {
+            console.error('API error:', error);
+            return 'N/A';
+        });
+
         //Go back to homepage
         window.location.href = `/home`;
     };
