@@ -45,7 +45,6 @@ export default function TicketInterface() {
             user_id: userId,
         })
         .then((response) => {
-            console.log(response.data.user[1])
             setRequestorName(response.data.user[1]);
         })
         .catch((error) => {
@@ -58,7 +57,6 @@ export default function TicketInterface() {
             user_id: userId,
         })
         .then((response) => {
-            console.log(response.data.user[1])
             setAssigneeName(response.data.user[1]);
         })
         .catch((error) => {
@@ -79,7 +77,17 @@ export default function TicketInterface() {
     };
 
     const deleteTicketButtonClick = () => {
-        console.log("delete")
+        console.log(ticketId)
+        axios.post(`http://${API_URL}/delete_ticket`, {
+            ticket_id: ticketId,
+        })
+        .then((response) => {
+            console.log(response)
+            navigate('/home');
+        })
+        .catch((error) => {
+        console.log(error.response.data, 'error');
+        }) 
     };
 
 
@@ -106,7 +114,7 @@ export default function TicketInterface() {
                                             <button type='submit' onClick={() => editTicketButtonClick()}>Edit Ticket</button>
                                         </div>
                                         <div className="ticket-button">
-                                            <button type='submit' onClick={() => deleteTicketButtonClick()}>Delete Ticket</button>
+                                            <button type='button' onClick={() => deleteTicketButtonClick()}>Delete Ticket</button>
                                         </div>
                                     </div>
                                 </div>
