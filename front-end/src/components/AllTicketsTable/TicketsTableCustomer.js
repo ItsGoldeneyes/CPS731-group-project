@@ -54,7 +54,7 @@ export default function TicketsTableCustomer({ ticketData }) {
                         {ticketData.map((ticket, index) => (
                             <tr key={index}>
                                 <td><img src={info_icon} alt='Notifications' /></td>
-                                <td><Link to={`/individual-ticket/${ticket[0]}`}>{ticket[0]}</Link></td>
+                                <td><Link to={`/individual-ticket-customer/${ticket[0]}`}>{ticket[0]}</Link></td>
                                 <td>{ticket[4]}</td>
                                 <td>{requestorNames[index]}</td>
                                 <td>{ticket[5]}</td>

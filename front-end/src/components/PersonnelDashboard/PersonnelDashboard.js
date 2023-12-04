@@ -92,10 +92,10 @@ export default function PersonnelDashboard() {
                             <div className="personnel-dashboard-tickets-title">
                                 Tickets
                             </div>
-                            <div className="personnel-dashboard-tickets-buttons">
+                            {/* <div className="personnel-dashboard-tickets-buttons">
                                     <button type="button">Assigned to me</button>
                                     <button type="button">All Tickets</button>
-                            </div>
+                            </div> */}
                             <div>
                                 <TicketsTable ticketData={ticket}/>
                             </div>

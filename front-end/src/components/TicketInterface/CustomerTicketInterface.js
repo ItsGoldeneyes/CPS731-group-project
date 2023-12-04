@@ -7,8 +7,7 @@ import styles from './ticketInterface-styles.css';
 import Header from '../Header/Header';
 import Sidebar from '../Sidebar/Sidebar';
 
-export default function TicketInterface() {
-    const API_URL = process.env.REACT_APP_API_END_POINT
+export default function CustomerTicketInterface() {
     const navigate = useNavigate();
     const { ticketId } = useParams();
     const [ticketInfo, setTicket] = useState([]);
@@ -17,10 +16,9 @@ export default function TicketInterface() {
     const [newTime, setNewTime] = useState("");
 
 
-
     useEffect(() => {
         const getTicket = () => {
-            axios.post(`http://${API_URL}/get_ticket`, {
+            axios.post('http://localhost:5000/get_ticket', {
                 ticket_id: ticketId,
             })
             .then((response) => {
@@ -30,7 +28,6 @@ export default function TicketInterface() {
                 getRequestorName(response.data.ticket[1]);
                 getAssigneeName(response.data.ticket[2]);
                 changeTime(response.data.ticket[6]);
-
             })
             .catch((error) => {
                 console.error('Error fetching ticket:', error);
@@ -99,12 +96,9 @@ export default function TicketInterface() {
                                         Ticket Details - {ticketId}
                                     </div>
                                     <div className="buttons-container">
-                                        <div className="ticket-button">
-                                            <button type='submit' onClick={() => closeTicketButtonClick()}>Close Ticket</button>
-                                        </div>
-                                        <div className="ticket-button">
+                                        {/* <div className="ticket-button">
                                             <button type='submit' onClick={() => editTicketButtonClick()}>Edit Ticket</button>
-                                        </div>
+                                        </div> */}
                                         <div className="ticket-button">
                                             <button type='submit' onClick={() => deleteTicketButtonClick()}>Delete Ticket</button>
                                         </div>
