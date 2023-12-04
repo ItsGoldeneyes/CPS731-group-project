@@ -19,7 +19,13 @@
     "backend": "cd ../back-end && flask run",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "start:dev": "env-cmd -f ./environments/.dev.env react-scripts start",
+    "build:dev": "env-cmd -f ./environments/.dev.env npm run-script build",
+    "start:preprod": "env-cmd -f ./environments/.preprod.env react-scripts start",
+    "build:preprod": "env-cmd -f ./environments/.preprod.env npm run-script build",
+    "start:prod": "env-cmd -f ./environments/.prod.env react-scripts start",
+    "build:prod": "env-cmd -f ./environments/.prod.env npm run-script build"
   },
   "eslintConfig": {
     "extends": [
@@ -38,5 +44,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "env-cmd": "^10.1.0"
   }
 }

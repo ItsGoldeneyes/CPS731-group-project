@@ -12,13 +12,14 @@ import getToken from '../../hooks/getToken';
 
 
 export default function PersonnelDashboard() {
+    const API_URL = process.env.REACT_APP_API_END_POINT
     const userId = getToken();
     const [ticket, setAllTickets] = useState([]);
     const [userInfo, setUserInfo] = useState({ name: '', email: ''});
 
     useEffect(() => {
         const fetchAllTickets = () => {
-            axios.post('http://localhost:5000/get_all_tickets', {
+            axios.post(`http://${API_URL}/get_all_tickets`, {
             })
             .then((response) => {
                 console.log('API response:', response.data);
@@ -30,7 +31,7 @@ export default function PersonnelDashboard() {
         };
 
         const getDashboardInfo = () => {
-            axios.post('http://localhost:5000/get_user', {
+            axios.post(`http://${API_URL}/get_user`, {
               user_id: userId,
             })
             .then((response) => {

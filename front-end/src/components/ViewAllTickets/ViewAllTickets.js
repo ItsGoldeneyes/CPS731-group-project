@@ -10,6 +10,8 @@ import TicketsTableCustomer from '../AllTicketsTable/TicketsTableCustomer';
 import getToken from '../../hooks/getToken';
 
 export default function ViewAllTickets() {
+    const API_URL = process.env.REACT_APP_API_END_POINT
+
     const [tickets, setTickets] = useState([]);
     const [userInfo, setUserInfo] = useState([]);
     const token = getToken();
@@ -17,7 +19,7 @@ export default function ViewAllTickets() {
 
     useEffect(() => {
         const fetchTickets = () => {
-            axios.post('http://localhost:5000/get_user_tickets', {
+            axios.post(`http://${API_URL}/get_user_tickets`, {
                 user_id: token, 
             })
             .then((response) => {

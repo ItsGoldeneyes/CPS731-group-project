@@ -9,11 +9,11 @@ import personnel_user_icon from '../../assets/personnel-dashboard-user-icon.svg'
 import personnel_mail_icon from '../../assets/personnel-dashboard-mail-icon.svg';
 import personnel_phone_icon from '../../assets/personnel-dashboard-phone-icon.svg';
 import info_icon from '../../assets/ticket-info-icon.svg';
+import getToken from '../../hooks/getToken';
 
 export default function PersonnelSubmitAvailability() {
-    const location = useLocation();
-    const searchParams = new URLSearchParams(location.search);
-    const userId = searchParams.get('userId');
+    const API_URL = process.env.REACT_APP_API_END_POINT
+    const userId = getToken();
     const [userInfo, setUserInfo] = useState([]);
     
     const navigate = useNavigate();
@@ -22,7 +22,7 @@ export default function PersonnelSubmitAvailability() {
 
     useEffect(() => {
         const getDashboardInfo = () => {
-            axios.post('http://localhost:5000/get_user', {
+            axios.post(`http://${API_URL}/get_user`, {
               user_id: userId,
             })
             .then((response) => {
