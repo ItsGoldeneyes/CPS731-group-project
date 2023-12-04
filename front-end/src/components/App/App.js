@@ -4,6 +4,7 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from '../Login/Login';
 import TicketInterface from '../TicketInterface/TicketInterface';
+import CustomerTicketInterface from '../TicketInterface/CustomerTicketInterface';
 import EditTicketInterface from '../TicketInterface/EditTicketInterface';
 import CreateTicket from '../CreateTicket/CreateTicket';
 import ViewAllTickets from '../ViewAllTickets/ViewAllTickets';
@@ -59,6 +60,7 @@ function App() {
           <Route path='/personnel-submit-availability' element={<PersonnelSubmitAvailability />} />
           <Route path='/create-ticket' element={<CreateTicket />} />
           <Route path='/view-all-tickets' element={<ViewAllTickets />} />
+          <Route path="/individual-ticket-customer/:ticketId" element={<CustomerTicketInterface />} />
           <Route path="/individual-ticket/:ticketId" element={<TicketInterface />} />
           <Route path='/edit-ticket' element={<EditTicketInterface />} />
         </Routes>

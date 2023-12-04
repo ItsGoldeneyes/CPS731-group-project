@@ -56,9 +56,8 @@ export default function TicketInterface() {
 
                                             <label for='status'>Status</label>
                                             <select id="status" name="status" >
-                                                <option value="Waiting-to-be-assigned">Waiting to be assigned</option>
-                                                <option value="In-progress">In progress</option>
-                                                <option value="Complete">Complete</option>
+                                                <option value="open">Open</option>
+                                                <option value="closed">Closed</option>
                                             </select>
 
                                             <label for='priority'>Priority</label>
