@@ -75,6 +75,9 @@ export default function TicketInterface() {
             assignee_id: ticketInfo[2],
             notes: ''
         })
+        .then((response) => {
+            console.log(response);
+        })
         navigate('/home');
     };
 
