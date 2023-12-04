@@ -9,6 +9,8 @@ import AvailabilityChart from '../AvailabilityChart/AvailabilityChart';
 
 
 export default function CreateTicket() {
+  const API_URL = process.env.REACT_APP_API_END_POINT
+
   const navigate = useNavigate();
 
   const cancelCreateTicketButtonClick = () => {
@@ -18,7 +20,7 @@ export default function CreateTicket() {
   const createForm = async (payload) => {
     console.log(payload);
     axios
-      .post("http://localhost:5000/create_ticket", {
+      .post(`http://${API_URL}/create_ticket`, {
         title: payload.title,
         requestor_id: payload.requestor_id,
         description: payload.description,

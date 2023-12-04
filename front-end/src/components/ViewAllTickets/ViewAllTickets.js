@@ -9,11 +9,13 @@ import TicketsTable from '../AllTicketsTable/AllTicketsTable';
 import TicketsTableCustomer from '../AllTicketsTable/TicketsTableCustomer';
 
 export default function ViewAllTickets() {
+    const API_URL = process.env.REACT_APP_API_END_POINT
+
     const [tickets, setTickets] = useState([]);
 
     useEffect(() => {
         const fetchTickets = () => {
-            axios.post('http://localhost:5000/get_user_tickets', {
+            axios.post(`http://${API_URL}/get_user_tickets`, {
                 user_id: '4', //Replace with user id variable
             })
             .then((response) => {

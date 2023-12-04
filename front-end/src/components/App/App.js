@@ -15,6 +15,7 @@ import AvailabilityChart from '../AvailabilityChart/AvailabilityChart';
 import getToken from '../../hooks/getToken';
 
 function App() {
+  const API_URL = process.env.REACT_APP_API_END_POINT
   const [ userType, setUserType ] = useState();
   const user_id = getToken();
   const ADMIN = 'admin';
@@ -26,7 +27,7 @@ function App() {
 
   // want to try setting user type in Login and grab user type from localStorage here to optimize performance
   if(user_id) {
-    axios.post('http://localhost:5000/get_user', {
+    axios.post(`http://${API_URL}/get_user`, {
       user_id: user_id,
     })
     .then((response) => {

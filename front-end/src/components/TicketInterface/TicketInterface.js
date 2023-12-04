@@ -8,13 +8,14 @@ import Header from '../Header/Header';
 import Sidebar from '../Sidebar/Sidebar';
 
 export default function TicketInterface() {
+    const API_URL = process.env.REACT_APP_API_END_POINT
     const navigate = useNavigate();
     const { ticketId } = useParams();
     const [ticketInfo, setTicket] = useState([]);
 
     useEffect(() => {
         const getTicket = () => {
-            axios.post('http://localhost:5000/get_ticket', {
+            axios.post(`http://${API_URL}/get_ticket`, {
                 ticket_id: ticketId,
             })
             .then((response) => {
