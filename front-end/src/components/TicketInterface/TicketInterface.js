@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { redirect } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import styles from './ticketInterface-styles.css';
@@ -11,7 +10,7 @@ export default function TicketInterface() {
     const API_URL = process.env.REACT_APP_API_END_POINT
     const navigate = useNavigate();
     const { ticketId } = useParams();
-    const [ticketInfo, setTicket] = useState([]);
+    const [ticketInfo, setTicketInfo] = useState([]);
     const [requestorName, setRequestorName] = useState("");
     const [assigneeName, setAssigneeName] = useState("");
     const [newTime, setNewTime] = useState("");
@@ -25,7 +24,7 @@ export default function TicketInterface() {
             })
             .then((response) => {
                 console.log('API response:', response.data);
-                setTicket(response.data.ticket);
+                setTicketInfo(response.data.ticket);
 
                 getRequestorName(response.data.ticket[1]);
                 getAssigneeName(response.data.ticket[2]);
@@ -41,7 +40,7 @@ export default function TicketInterface() {
     }, []);
 
     const getRequestorName = (userId) => {
-        axios.post('http://localhost:5000/get_user', {
+        axios.post(`http://${API_URL}/get_user`, {
             user_id: userId,
         })
         .then((response) => {
@@ -54,7 +53,7 @@ export default function TicketInterface() {
     };
 
     const getAssigneeName = (userId) => {
-        axios.post('http://localhost:5000/get_user', {
+        axios.post(`http://${API_URL}/get_user`, {
             user_id: userId,
         })
         .then((response) => {
@@ -72,6 +71,13 @@ export default function TicketInterface() {
 
     const closeTicketButtonClick = () => {
         console.log("close")
+        axios.post(`http://${API_URL}/update_ticket`, {
+            ticket_id: ticketId,
+            status: 'resolved',
+            assignee_id: ticketInfo[2],
+            notes: ''
+        })
+        navigate('/home');
     };
 
     const editTicketButtonClick = () => {
@@ -100,13 +106,13 @@ export default function TicketInterface() {
                                     </div>
                                     <div className="buttons-container">
                                         <div className="ticket-button">
-                                            <button type='submit' onClick={() => closeTicketButtonClick()}>Close Ticket</button>
+                                            <button type='submit' onClick={closeTicketButtonClick}>Close Ticket</button>
                                         </div>
                                         <div className="ticket-button">
-                                            <button type='submit' onClick={() => editTicketButtonClick()}>Edit Ticket</button>
+                                            <button type='submit' onClick={editTicketButtonClick}>Edit Ticket</button>
                                         </div>
                                         <div className="ticket-button">
-                                            <button type='submit' onClick={() => deleteTicketButtonClick()}>Delete Ticket</button>
+                                            <button type='submit' onClick={deleteTicketButtonClick}>Delete Ticket</button>
                                         </div>
                                     </div>
                                 </div>
