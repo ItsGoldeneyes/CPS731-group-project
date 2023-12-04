@@ -12,7 +12,7 @@ export default function CreateTicket() {
   const navigate = useNavigate();
 
   const cancelCreateTicketButtonClick = () => {
-    navigate("/customer-dashboard");
+    navigate("/home");
   };
 
   const createForm = async (payload) => {
