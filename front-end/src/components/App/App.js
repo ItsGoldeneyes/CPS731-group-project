@@ -20,7 +20,7 @@ function App() {
   const ADMIN = 'admin';
   const USER = 'user';
 
-  if(!localStorage.token) {
+  if(!user_id) {
     return <Login />
   }
 

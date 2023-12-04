@@ -8,10 +8,11 @@ import personnel_user_icon from '../../assets/personnel-dashboard-user-icon.svg'
 import personnel_mail_icon from '../../assets/personnel-dashboard-mail-icon.svg';
 import personnel_phone_icon from '../../assets/personnel-dashboard-phone-icon.svg';
 import info_icon from '../../assets/ticket-info-icon.svg';
+import getToken from '../../hooks/getToken';
 
 
 export default function PersonnelDashboard() {
-    const userId = localStorage.getItem('token');
+    const userId = getToken();
     const [ticket, setAllTickets] = useState([]);
     const [userInfo, setUserInfo] = useState({ name: '', email: ''});
 

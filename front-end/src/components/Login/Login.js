@@ -20,8 +20,8 @@ export default function Login({ setUserId }) {
     .then((response) => {
 
       console.log(response);
-      const userToken = response.data.access_token;
-      localStorage.setItem("token", JSON.stringify(userToken));
+      const userToken = response.data.user_id;
+      localStorage.setItem("user_id", JSON.stringify(userToken));
       window.location.href = '/home';
 
       //Call another subroutine to get the user details
