@@ -126,19 +126,20 @@ export default function CreateTicket() {
       })
       .join("\n");
 
-    window.alert(
-      shortDescription +
-        "\n" +
-        requestedBy +
-        "\n Availability: \n" +
-        selectedCellsAlert +
-        "\n" +
-        chosenCategory +
-        "\n" +
-        userEmail +
-        "\n" +
-        userNotes
-    );
+    navigate('/home');
+    // window.alert(
+    //   shortDescription +
+    //     "\n" +
+    //     requestedBy +
+    //     "\n Availability: \n" +
+    //     selectedCellsAlert +
+    //     "\n" +
+    //     chosenCategory +
+    //     "\n" +
+    //     userEmail +
+    //     "\n" +
+    //     userNotes
+    // );
   };
 
   return (
