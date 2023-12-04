@@ -6,7 +6,6 @@ import info_icon from '../../assets/ticket-info-icon.svg';
 import whitespace from '../../assets/tickets-table-placeholder.svg';
 
 export default function AllTicketsTable({ ticketData }) {
-    console.log(ticketData)
     const [requestorNames, setTicketRequestorNames] = useState([]);
     const [assigneeNames, setTicketAssigneeNames] = useState([]);
 
@@ -34,7 +33,7 @@ export default function AllTicketsTable({ ticketData }) {
     };
     
     useEffect(() => {
-      fetchNames();
+        fetchNames();
     }, [ticketData]);
 
 

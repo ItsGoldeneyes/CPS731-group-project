@@ -17,8 +17,8 @@ export default function PersonnelDashboard() {
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const userId = searchParams.get('userId');
-    console.log(userId) //This is the userId of the user logged in
     const [ticket, setAllTickets] = useState([]);
+    const [userInfo, setUserInfo] = useState([]);
 
     useEffect(() => {
         const fetchAllTickets = () => {
@@ -32,15 +32,27 @@ export default function PersonnelDashboard() {
                 console.error('API error:', error);
             });
         };
+
+        const getDashboardInfo = () => {
+            axios.post('http://localhost:5000/get_user', {
+              user_id: userId,
+            })
+            .then((response) => {
+                console.log("Response", response.data.user)
+                setUserInfo(response.data.user);
+            })
+            .catch((error) => {
+              console.log(error, 'error');
+            }) 
+          };
   
         fetchAllTickets();
+        getDashboardInfo();
     }, []);
 
-
-
-
     const dashboardAvailabilityButtonClick = () => {
-        navigate('/personnel-submit-availability');
+        //navigate('/personnel-submit-availability');
+        window.location.href = `/personnel-submit-availability?userId=${userId}`;
     };
 
     return (
@@ -59,13 +71,13 @@ export default function PersonnelDashboard() {
                             <div className="personnel-dashboard-info-details-container">
                                 <img className="personnel_user_icon-style" src={personnel_user_icon} alt='User Icon' />
                                 <div>
-                                    <div id="personnel-dashboard-details-name">Jane Doe</div>
+                                    <div id="personnel-dashboard-details-name">{userInfo[1]}</div>
                                     <div>IT Specialist</div>
                                 </div>
                                 <div>
                                     <div className="personnel-dashboard-details-email-style">
                                         <img className="personnel_info_contact_icon" src={personnel_mail_icon} alt='Email' />
-                                        <span id="personnel-dashboard-details-email">janedoe@aaier.com</span>
+                                        <span id="personnel-dashboard-details-email">{userInfo[2]}</span>
                                     </div>
                                     <div className="personnel-dashboard-details-phone-number-style">
 
