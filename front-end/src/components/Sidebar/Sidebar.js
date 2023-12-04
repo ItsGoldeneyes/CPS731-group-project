@@ -1,16 +1,19 @@
 import React from 'react'
-import styles from './sidebar-styles.css';
-import home_icon from '../../assets/sidebar-home-icon.svg';
-import inbox_icon from '../../assets/sidebar-inbox-icon.svg';
-import list_icon from '../../assets/sidebar-list-icon.svg';
+import './sidebar-styles.css';
 
 export default function Sidebar() {
+
+  const logout = () => {
+    localStorage.removeItem('user_id')
+    window.location.href = '/'
+  }
+
   return (
     <div className="sidebar-element">
         <div className="sidebar-icons-container"> 
-            <button className="sidebar-home-icon-style" type='button' onClick={() => console.log("TEST BUTTON")} alt='FAQ'></button>
-            <button className="sidebar-inbox-icon-style" type='button' alt='Notifications'></button>
-            <button className="sidebar-list-icon-style" type='button' alt='User Icon'></button>
+            <button className="sidebar-home-icon-style" type='button' onClick={() => window.location.href='/home'} alt='Home Button'></button>
+            <button className="sidebar-list-icon-style" type='button' onClick={() => window.location.href='/view-all-tickets'} alt='List Tickets'></button>
+            <button className="sidebar-logout-icon-style" type='button' onClick={logout} alt='Logout'></button>
         </div>
     </div>
   )

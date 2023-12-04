@@ -43,8 +43,8 @@
     background: url('../../assets/sidebar-home-icon.svg') no-repeat center center;
 }
 
-.sidebar-inbox-icon-style {
-    background: url('../../assets/sidebar-inbox-icon.svg') no-repeat center center;
+.sidebar-logout-icon-style {
+    background: url('../../assets/Logout.svg') no-repeat center center;
 }
 
 .sidebar-list-icon-style {
