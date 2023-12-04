@@ -72,8 +72,6 @@ export default function CreateTicket() {
   };
 
   const createTicketButtonClick = () => {
-    console.log(document.getElementById("user-availability"));
-
     var title = "";
     var shortDescription = document.getElementById(
       "create-shortDescription"
@@ -139,6 +137,12 @@ export default function CreateTicket() {
         "\n" +
         userNotes
     );
+
+    shortDescription.value = "";
+    requestedBy.value = "";
+    userEmail.value = "";
+    chosenCategory.value = "";
+    userNotes.value = "";
   };
 
   return (
