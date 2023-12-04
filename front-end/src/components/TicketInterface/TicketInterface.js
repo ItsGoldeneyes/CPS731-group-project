@@ -71,7 +71,7 @@ export default function TicketInterface() {
     };
 
     const closeTicketButtonClick = () => {
-        window.alert("Ticket has been moved to closed state")
+        console.log("close")
     };
 
     const editTicketButtonClick = () => {
@@ -79,7 +79,7 @@ export default function TicketInterface() {
     };
 
     const deleteTicketButtonClick = () => {
-        window.alert("Ticket has now been deleted")
+        console.log("delete")
     };
 
 
