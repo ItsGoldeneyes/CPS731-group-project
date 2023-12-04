@@ -45,3 +45,7 @@
 .header-user-icon-style {
     background: url('../../assets/header-user-icon.svg') no-repeat center center;
 }
+
+.header-logout-icon-style {
+    background: url('../../assets/Logout.svg') no-repeat center center;
+}
