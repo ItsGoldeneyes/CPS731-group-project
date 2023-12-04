@@ -41,7 +41,7 @@ export default function TicketInterface() {
     }, []);
 
     const getRequestorName = (userId) => {
-        axios.post('http://localhost:5000/get_user', {
+        axios.post(`http://${API_URL}/get_user`, {
             user_id: userId,
         })
         .then((response) => {
@@ -53,7 +53,7 @@ export default function TicketInterface() {
     };
 
     const getAssigneeName = (userId) => {
-        axios.post('http://localhost:5000/get_user', {
+        axios.post(`http://${API_URL}/get_user`, {
             user_id: userId,
         })
         .then((response) => {
