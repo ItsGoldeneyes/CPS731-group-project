@@ -15,7 +15,7 @@ export default function Login() {
 
   const loginUser = async e => {
     e.preventDefault();
-    axios.post(`http://${API_URL}/login`, {
+    axios.post(`${API_URL}/login`, {
       username: username,
       password: password
     })

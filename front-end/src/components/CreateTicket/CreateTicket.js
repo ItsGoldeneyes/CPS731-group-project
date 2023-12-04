@@ -16,7 +16,7 @@ export default function CreateTicket() {
 
 //   useEffect(() => {
 //     const getUserInfo = () => {
-//         axios.post(`http://${API_URL}/get_user`, {
+//         axios.post(`${API_URL}/get_user`, {
 //           user_id: userId,
 //         })
 //         .then((response) => {
@@ -46,7 +46,7 @@ export default function CreateTicket() {
   const createForm = async (payload) => {
     console.log('payload', payload);
     axios
-      .post(`http://${API_URL}/create_ticket`, {
+      .post(`${API_URL}/create_ticket`, {
         title: payload.title,
         requestor_id: payload.requestor_id,
         description: payload.description,

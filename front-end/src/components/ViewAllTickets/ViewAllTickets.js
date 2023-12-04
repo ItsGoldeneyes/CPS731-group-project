@@ -19,7 +19,7 @@ export default function ViewAllTickets() {
 
     useEffect(() => {
         const fetchTickets = () => {
-            axios.post(`http://${API_URL}/get_user_tickets`, {
+            axios.post(`${API_URL}/get_user_tickets`, {
                 user_id: token, 
             })
             .then((response) => {

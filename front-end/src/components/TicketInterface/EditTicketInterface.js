@@ -90,7 +90,7 @@ export default function TicketInterface() {
     };
 
     const cancelEditTicketButtonClick = () => {
-        navigate('/individual-ticket');
+        navigate(`/individual-ticket/${ticketId}`);
     };
 
     return (

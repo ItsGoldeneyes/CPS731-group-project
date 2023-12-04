@@ -12,7 +12,7 @@ export default function AllTicketsTable({ ticketData }) {
     const [assigneeNames, setTicketAssigneeNames] = useState([]);
 
     const getName = (userId) => {
-        return axios.post(`http://${API_URL}/get_user`, {
+        return axios.post(`${API_URL}/get_user`, {
             user_id: userId,
         })
             .then((response) => response.data.user[1])

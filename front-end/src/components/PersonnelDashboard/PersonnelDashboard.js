@@ -19,7 +19,7 @@ export default function PersonnelDashboard() {
 
     useEffect(() => {
         const fetchAllTickets = () => {
-            axios.post(`http://${API_URL}/get_all_tickets`, {
+            axios.post(`${API_URL}/get_all_tickets`, {
             })
             .then((response) => {
                 console.log('API response:', response.data);
@@ -31,7 +31,7 @@ export default function PersonnelDashboard() {
         };
 
         const getDashboardInfo = () => {
-            axios.post(`http://${API_URL}/get_user`, {
+            axios.post(`${API_URL}/get_user`, {
               user_id: userId,
             })
             .then((response) => {

@@ -19,7 +19,7 @@ export default function CustomerTicketInterface() {
 
     useEffect(() => {
         const getTicket = () => {
-            axios.post(`http://${API_URL}/get_ticket`, {
+            axios.post(`${API_URL}/get_ticket`, {
                 ticket_id: ticketId,
             })
             .then((response) => {
@@ -39,7 +39,7 @@ export default function CustomerTicketInterface() {
     }, []);
 
     const getRequestorName = (userId) => {
-        axios.post(`http://${API_URL}/get_user`, {
+        axios.post(`${API_URL}/get_user`, {
             user_id: userId,
         })
         .then((response) => {
@@ -52,7 +52,7 @@ export default function CustomerTicketInterface() {
     };
 
     const getAssigneeName = (userId) => {
-        axios.post(`http://${API_URL}/get_user`, {
+        axios.post(`${API_URL}/get_user`, {
             user_id: userId,
         })
         .then((response) => {
@@ -78,7 +78,7 @@ export default function CustomerTicketInterface() {
 
     const deleteTicketButtonClick = () => {
         console.log(ticketId)
-        axios.post(`http://${API_URL}/delete_ticket`, {
+        axios.post(`${API_URL}/delete_ticket`, {
             ticket_id: ticketId,
         })
         .then((response) => {

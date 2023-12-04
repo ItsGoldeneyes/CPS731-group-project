@@ -28,7 +28,7 @@ function App() {
 
   // want to try setting user type in Login and grab user type from localStorage here to optimize performance
   if(user_id) {
-    axios.post(`http://${API_URL}/get_user`, {
+    axios.post(`${API_URL}/get_user`, {
       user_id: user_id,
     })
     .then((response) => {
