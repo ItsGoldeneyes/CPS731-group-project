@@ -28,7 +28,7 @@ export default function TicketInterface() {
     
     useEffect(() => {
         const getTicket = () => {
-            axios.post(`http://${API_URL}/get_ticket`, {
+            axios.post(`${API_URL}/get_ticket`, {
                 ticket_id: ticketId,
             })
             .then((response) => {
@@ -52,7 +52,7 @@ export default function TicketInterface() {
     }, []);
 
     const getRequestorName = (userId) => {
-        axios.post(`http://${API_URL}/get_user`, {
+        axios.post(`${API_URL}/get_user`, {
             user_id: userId,
         })
         .then((response) => {
@@ -64,7 +64,7 @@ export default function TicketInterface() {
     };
 
     const getAssigneeName = (userId) => {
-        axios.post(`http://${API_URL}/get_user`, {
+        axios.post(`${API_URL}/get_user`, {
             user_id: userId,
         })
         .then((response) => {
@@ -80,7 +80,7 @@ export default function TicketInterface() {
     };
 
     const saveEditTicketButtonClick = () => {
-        axios.post(`http://${API_URL}/update_ticket`, {
+        axios.post(`${API_URL}/update_ticket`, {
             ticket_id: ticketId,
             status: status,
             assignee_id: assignee_id,
