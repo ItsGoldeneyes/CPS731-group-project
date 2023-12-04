@@ -6,11 +6,12 @@ import info_icon from '../../assets/ticket-info-icon.svg';
 import whitespace from '../../assets/tickets-table-placeholder.svg';
 
 export default function TicketsTableCustomer({ ticketData }) {
+    const API_URL = process.env.REACT_APP_API_END_POINT
     const [requestorNames, setTicketRequestorNames] = useState([]);
     const [assigneeNames, setTicketAssigneeNames] = useState([]);
 
     const getName = (userId) => {
-        return axios.post('http://localhost:5000/get_user', {
+        return axios.post(`http://${API_URL}/get_user`, {
             user_id: userId,
         })
             .then((response) => response.data.user[1])
