@@ -18,13 +18,14 @@ export default function Login({ setUserId }) {
       password: password
     })
     .then((response) => {
+
       console.log(response);
       const userToken = response.data.access_token;
       localStorage.setItem("token", JSON.stringify(userToken));
+      window.location.href = '/home';
 
       //Call another subroutine to get the user details
-      getUserDetails(userToken);
-
+      // getUserDetails(response.data.user_id);
 
     })
     .catch((error) => {
@@ -32,24 +33,27 @@ export default function Login({ setUserId }) {
     }) 
   }
 
-  const getUserDetails = (userId) => {
-    axios.post('http://localhost:5000/get_user', {
-      user_id: userId,
-    })
-    .then((response) => {
-      const user_level = response.data.user[3];
-      setUserData(response.data.user);
-      //Redirect the user depending on their status
-      if (user_level === 'admin') {
-        window.location.href = `/personnel-dashboard?userId=${userId}`;
-      } else {
-        window.location.href = `/customer-dashboard?userId=${userId}`;
-      }
-    })
-    .catch((error) => {
-      console.log(error, 'error');
-    }) 
-  };
+  // const getUserDetails = (userId) => {
+  //   axios.post('http://localhost:5000/get_user', {
+  //     user_id: userId,
+  //   })
+  //   .then((response) => {
+  //     const user_level = response.data.user[3];
+  //     setUserData(response.data.user);
+      
+  //     //Redirect the user depending on their status
+  //     if (user_level === 'admin') {
+  //       console.log("navigate to admin dash")
+  //       window.location.href = '/personnel-dashboard';
+  //     } else {
+  //       console.log("navigate to user dash")
+  //       window.location.href = '/customer-dashboard';
+  //     }
+  //   })
+  //   .catch((error) => {
+  //     console.log(error, 'error');
+  //   }) 
+  // };
 
   return(
     <div className="login-container">
