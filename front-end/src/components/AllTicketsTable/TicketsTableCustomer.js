@@ -6,7 +6,35 @@ import info_icon from '../../assets/ticket-info-icon.svg';
 import whitespace from '../../assets/tickets-table-placeholder.svg';
 
 export default function TicketsTableCustomer({ ticketData }) {
-    console.log(ticketData)
+    const [requestorNames, setTicketRequestorNames] = useState([]);
+    const [assigneeNames, setTicketAssigneeNames] = useState([]);
+
+    const getName = (userId) => {
+        return axios.post('http://localhost:5000/get_user', {
+            user_id: userId,
+        })
+            .then((response) => response.data.user[1])
+            .catch((error) => {
+            console.error('API error:', error);
+            return 'N/A';
+        });
+    };
+    
+    const fetchNames = () => {
+        const requestorPromises = ticketData.map((i) => getName(i[1]));
+        const assigneePromises = ticketData.map((i) => getName(i[2]));
+        
+        Promise.all(requestorPromises).then((resolvedNames) => {
+            setTicketRequestorNames(resolvedNames);
+        });
+        Promise.all(assigneePromises).then((resolvedNames) => {
+            setTicketAssigneeNames(resolvedNames);
+    });
+    };
+    
+    useEffect(() => {
+        fetchNames();
+    }, [ticketData]);
 
     return (
         <div>
@@ -28,9 +56,9 @@ export default function TicketsTableCustomer({ ticketData }) {
                                 <td><img src={info_icon} alt='Notifications' /></td>
                                 <td><Link to={`/individual-ticket/${ticket[0]}`}>{ticket[0]}</Link></td>
                                 <td>{ticket[4]}</td>
-                                <td>{ticket[2]}</td>
+                                <td>{requestorNames[index]}</td>
                                 <td>{ticket[5]}</td>
-                                <td>{ticket[10]}</td>
+                                <td>{assigneeNames[index]}</td>
                             </tr>
                         ))}
                     </tbody>
