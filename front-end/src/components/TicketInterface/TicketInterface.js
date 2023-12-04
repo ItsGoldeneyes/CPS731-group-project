@@ -14,6 +14,7 @@ export default function TicketInterface() {
     const [requestorName, setRequestorName] = useState("");
     const [assigneeName, setAssigneeName] = useState("");
     const [newTime, setNewTime] = useState("");
+    const [isButtonVisible, setButtonVisibility] = useState(true);
 
 
 
@@ -29,6 +30,15 @@ export default function TicketInterface() {
                 getRequestorName(response.data.ticket[1]);
                 getAssigneeName(response.data.ticket[2]);
                 changeTime(response.data.ticket[6]);
+
+                //Check if ticket is resolved
+                console.log("thisticket",response.data.ticket[8])
+
+                if (response.data.ticket[8]==="resolved") {
+                    setButtonVisibility(false)
+                } else {
+                    setButtonVisibility(true)
+                }
 
             })
             .catch((error) => {
@@ -119,9 +129,11 @@ export default function TicketInterface() {
                                         <div className="ticket-button">
                                             <button type='button' onClick={closeTicketButtonClick}>Close Ticket</button>
                                         </div>
+                                        {isButtonVisible && (
                                         <div className="ticket-button">
                                             <button type='button' onClick={editTicketButtonClick}>Edit Ticket</button>
                                         </div>
+                                        )}
                                         <div className="ticket-button">
                                             <button type='button' onClick={deleteTicketButtonClick}>Delete Ticket</button>
                                         </div>
