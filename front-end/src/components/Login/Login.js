@@ -5,15 +5,15 @@ import PropTypes from 'prop-types';
 import './styles.css';
 import Logo from '../../assets/Logo.svg';
 
-export default function Login({ setUserId }) {
+export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [userData, setUserData] = useState(null);
-  const [error, setError] = useState(null);
+  // const [userData, setUserData] = useState(null);
+  // const [error, setError] = useState(null);
 
   const loginUser = async e => {
     e.preventDefault();
-    axios.post('http://localhost:5000/login', {
+    axios.post(`http://${API_URL}/login`, {
       username: username,
       password: password
     })
@@ -89,8 +89,4 @@ export default function Login({ setUserId }) {
       </div>
     </div>
   );
-}
-
-Login.propTypes = {
-  setToken: PropTypes.func.isRequired
 }
