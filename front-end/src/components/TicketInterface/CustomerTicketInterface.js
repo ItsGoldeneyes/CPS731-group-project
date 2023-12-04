@@ -7,7 +7,7 @@ import styles from './ticketInterface-styles.css';
 import Header from '../Header/Header';
 import Sidebar from '../Sidebar/Sidebar';
 
-export default function TicketInterface() {
+export default function CustomerTicketInterface() {
     const navigate = useNavigate();
     const { ticketId } = useParams();
     const [ticketInfo, setTicket] = useState([]);
@@ -92,12 +92,9 @@ export default function TicketInterface() {
                                         Ticket Details - {ticketId}
                                     </div>
                                     <div className="buttons-container">
-                                        <div className="ticket-button">
-                                            <button type='submit' onClick={() => closeTicketButtonClick()}>Close Ticket</button>
-                                        </div>
-                                        <div className="ticket-button">
+                                        {/* <div className="ticket-button">
                                             <button type='submit' onClick={() => editTicketButtonClick()}>Edit Ticket</button>
-                                        </div>
+                                        </div> */}
                                         <div className="ticket-button">
                                             <button type='submit' onClick={() => deleteTicketButtonClick()}>Delete Ticket</button>
                                         </div>
@@ -119,28 +116,18 @@ export default function TicketInterface() {
                                             <input id='opened' type='datetime-local' />
 
                                             <label for='status'>Status</label>
-                                            <select id="status" name="status" >
-                                                <option value="default" disabled>{ticketInfo[8]}</option>
-                                            </select>
+                                            <input id='status' type='text' value={ticketInfo[8]} disabled/>
 
                                             <label for='priority'>Priority</label>
-                                            <select id="priority" name="priority">
+                                            <input id='priority' type='text' value={ticketInfo[7]} disabled/>
+                                            {/* <select id="priority" name="priority">
                                                 <option value="Low">3 - Low</option>
                                                 <option value="Medium">2 - Medium</option>
                                                 <option value="High">1 - High</option>
-                                            </select>
+                                            </select> */}
 
                                             <label for='category'>Category</label>
-                                            <select id="category" name="category">
-                                                <option value="" selected disabled></option>
-                                                <option value="Laptop">Laptop</option>
-                                                <option value="Desktop">Desktop</option>
-                                                <option value="Monitor">Monitor</option>
-                                                <option value="MobilePhone">Mobile Phone</option>
-                                                <option value="LandlinePhone">Landline Phone</option>
-                                                <option value="Printer">Printer</option>
-                                                <option value="Tablet">Tablet</option>
-                                            </select>
+                                            <input id='category' type='text' value={ticketInfo[5]} disabled/>
                                     </div>
                                 </div>
                                 <div className="ticket-last-section">
