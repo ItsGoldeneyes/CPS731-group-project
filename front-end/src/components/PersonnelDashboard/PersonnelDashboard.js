@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import styles from './personnel-dashboard-styles.css';
 import Header from '../Header/Header';
@@ -13,12 +11,9 @@ import info_icon from '../../assets/ticket-info-icon.svg';
 
 
 export default function PersonnelDashboard() {
-    const navigate = useNavigate();
-    const location = useLocation();
-    const searchParams = new URLSearchParams(location.search);
-    const userId = searchParams.get('userId');
+    const userId = localStorage.getItem('token');
     const [ticket, setAllTickets] = useState([]);
-    const [userInfo, setUserInfo] = useState([]);
+    const [userInfo, setUserInfo] = useState({ name: '', email: ''});
 
     useEffect(() => {
         const fetchAllTickets = () => {
@@ -38,8 +33,12 @@ export default function PersonnelDashboard() {
               user_id: userId,
             })
             .then((response) => {
+                const user = response.data.user;
                 console.log("Response", response.data.user)
-                setUserInfo(response.data.user);
+                setUserInfo({
+                    name: user[1],
+                    email: user[2]
+                });
             })
             .catch((error) => {
               console.log(error, 'error');
@@ -51,7 +50,6 @@ export default function PersonnelDashboard() {
     }, []);
 
     const dashboardAvailabilityButtonClick = () => {
-        //navigate('/personnel-submit-availability');
         window.location.href = `/personnel-submit-availability?userId=${userId}`;
     };
 
@@ -71,13 +69,13 @@ export default function PersonnelDashboard() {
                             <div className="personnel-dashboard-info-details-container">
                                 <img className="personnel_user_icon-style" src={personnel_user_icon} alt='User Icon' />
                                 <div>
-                                    <div id="personnel-dashboard-details-name">{userInfo[1]}</div>
+                                    <div id="personnel-dashboard-details-name">{userInfo.name}</div>
                                     <div>IT Specialist</div>
                                 </div>
                                 <div>
                                     <div className="personnel-dashboard-details-email-style">
                                         <img className="personnel_info_contact_icon" src={personnel_mail_icon} alt='Email' />
-                                        <span id="personnel-dashboard-details-email">{userInfo[2]}</span>
+                                        <span id="personnel-dashboard-details-email">{userInfo.email}</span>
                                     </div>
                                     <div className="personnel-dashboard-details-phone-number-style">
 
