@@ -7,39 +7,29 @@ import Header from '../Header/Header';
 import Sidebar from '../Sidebar/Sidebar';
 import TicketsTable from '../AllTicketsTable/AllTicketsTable';
 import TicketsTableCustomer from '../AllTicketsTable/TicketsTableCustomer';
+import getToken from '../../hooks/getToken';
 
 export default function ViewAllTickets() {
     const [tickets, setTickets] = useState([]);
+    const [userInfo, setUserInfo] = useState([]);
+    const token = getToken();
+    console.log(token);
 
     useEffect(() => {
         const fetchTickets = () => {
             axios.post('http://localhost:5000/get_user_tickets', {
-                user_id: 6, //Replace with user id variable
+                user_id: token, 
             })
             .then((response) => {
-                console.log('API response:', response.data);           
+                //console.log('API response:', response.data.tickets);           
                 setTickets(response.data.tickets);
             })
             .catch((error) => {
                 console.error('API error:', error);
             });
         };
-
-        // const getDashboardInfo = () => {
-        //     axios.post('http://localhost:5000/get_user', {
-        //       user_id: userId,
-        //     })
-        //     .then((response) => {
-        //         console.log("Response", response.data.user)
-        //         setUserInfo(response.data.user);
-        //     })
-        //     .catch((error) => {
-        //       console.log(error, 'error');
-        //     }) 
-        //   };
   
         fetchTickets();
-        // getUserInfo();
     }, []);
   
     return (
@@ -56,7 +46,7 @@ export default function ViewAllTickets() {
                                     All Tickets 
                             </div>
                             <div>
-                                {/* <TicketsTableCustomer ticketData={tickets}/>  */}
+                                <TicketsTableCustomer ticketData={tickets}/> 
                             </div>
                         </div>
                     </div>
