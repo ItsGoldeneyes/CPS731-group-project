@@ -69,12 +69,12 @@ export default function PersonnelSubmitAvailability() {
         console.log(cronStrings);
 
         //Go back to homepage
-        window.location.href = `/personnel-dashboard?userId=${userId}`;
+        window.location.href = `/home`;
     };
 
     const cancelAvailabilityButtonClick = () => {
         //navigate('/personnel-dashboard');
-        window.location.href = `/personnel-dashboard?userId=${userId}`;
+        window.location.href = `/home`;
     };
 
 
