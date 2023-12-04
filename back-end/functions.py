@@ -94,11 +94,12 @@ def setup_db():
     
     create_ticket("Title", 6, "Computer not working", "computer", "high", None)
     create_ticket("Title", 6, "I dropped my phone", "phone", "high", None)
+    create_ticket("Title", 6, "I dropped my tablet", "other", "high", None)
     create_ticket("Title", 6, "battery exploded", "other", "high", None)
-    create_ticket("Title", 7, "battery also exploded", "other", "high", None)
+    create_ticket("Title", 7, "site broken", "other", "high", None)
     create_ticket("Title", 8, "battery also exploded", "other", "high", None)
     create_ticket("Title", 9, "battery also exploded", "other", "high", None)
-    create_ticket("Title", 10, "battery also exploded", "other", "high", None)
+    create_ticket("Title", 10, "helpdesk site broken", "other", "high", None)
     
     
     update_ticket(1, 1, "resolved", "I fixed it")
