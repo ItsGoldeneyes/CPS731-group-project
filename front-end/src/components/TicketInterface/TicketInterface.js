@@ -114,10 +114,10 @@ export default function TicketInterface() {
                                     </div>
                                     <div className="buttons-container">
                                         <div className="ticket-button">
-                                            <button type='submit' onClick={closeTicketButtonClick}>Close Ticket</button>
+                                            <button type='button' onClick={closeTicketButtonClick}>Close Ticket</button>
                                         </div>
                                         <div className="ticket-button">
-                                            <button type='submit' onClick={editTicketButtonClick}>Edit Ticket</button>
+                                            <button type='button' onClick={editTicketButtonClick}>Edit Ticket</button>
                                         </div>
                                         <div className="ticket-button">
                                             <button type='button' onClick={deleteTicketButtonClick}>Delete Ticket</button>
