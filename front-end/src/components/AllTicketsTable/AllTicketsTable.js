@@ -7,6 +7,7 @@ import whitespace from '../../assets/tickets-table-placeholder.svg';
 
 export default function AllTicketsTable({ ticketData }) {
     const API_URL = process.env.REACT_APP_API_END_POINT
+    
     const [requestorNames, setTicketRequestorNames] = useState([]);
     const [assigneeNames, setTicketAssigneeNames] = useState([]);
 
