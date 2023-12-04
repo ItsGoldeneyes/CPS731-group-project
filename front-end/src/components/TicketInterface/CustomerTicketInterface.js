@@ -13,7 +13,7 @@ export default function CustomerTicketInterface() {
     const [ticketInfo, setTicket] = useState([]);
     const [requestorName, setRequestorName] = useState("");
     const [assigneeName, setAssigneeName] = useState("");
-    const [status, setStatus] = useState(0);
+    const [newTime, setNewTime] = useState("");
 
 
     useEffect(() => {
@@ -27,7 +27,7 @@ export default function CustomerTicketInterface() {
 
                 getRequestorName(response.data.ticket[1]);
                 getAssigneeName(response.data.ticket[2]);
-
+                changeTime(response.data.ticket[6]);
             })
             .catch((error) => {
                 console.error('Error fetching ticket:', error);
@@ -61,6 +61,10 @@ export default function CustomerTicketInterface() {
         .catch((error) => {
         console.log(error, 'error');
         }) 
+    };
+
+    const changeTime = (time) => {
+        setNewTime(time.slice(0, 19));
     };
 
     const closeTicketButtonClick = () => {
@@ -113,18 +117,13 @@ export default function CustomerTicketInterface() {
                                     </div>
                                     <div className="ticket-middle-section">
                                             <label for='opened'>Opened</label>
-                                            <input id='opened' type='datetime-local' />
+                                            <input id='opened' type='text' value={newTime} disabled/>
 
                                             <label for='status'>Status</label>
                                             <input id='status' type='text' value={ticketInfo[8]} disabled/>
 
                                             <label for='priority'>Priority</label>
                                             <input id='priority' type='text' value={ticketInfo[7]} disabled/>
-                                            {/* <select id="priority" name="priority">
-                                                <option value="Low">3 - Low</option>
-                                                <option value="Medium">2 - Medium</option>
-                                                <option value="High">1 - High</option>
-                                            </select> */}
 
                                             <label for='category'>Category</label>
                                             <input id='category' type='text' value={ticketInfo[5]} disabled/>
