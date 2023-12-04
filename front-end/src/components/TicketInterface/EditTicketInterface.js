@@ -1,18 +1,21 @@
 import React from 'react';
+import { Link, useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import styles from './editTicketInterface-styles.css';
 import Header from '../Header/Header';
 import Sidebar from '../Sidebar/Sidebar';
 
 export default function TicketInterface() {
+    const API_URL = process.env.REACT_APP_API_END_POINT
     const navigate = useNavigate();
+    const { ticketId } = useParams();
 
     const saveEditTicketButtonClick = () => {
         navigate('/individual-ticket');
     };
 
     const cancelEditTicketButtonClick = () => {
-        navigate('/individual-ticket');
+        navigate(`/individual-ticket/${ticketId}`);
     };
 
     return (
