@@ -294,8 +294,27 @@ def update_ticket_endpoint():
         return {"success": False, "message": "Error updating ticket: {}".format(reason)}, 403
     else:
         return {"success": True, "message": "{}".format(reason)}
+
+
+@app.route('/delete_ticket', methods=['POST'])
+def delete_ticket_endpoint():
+    '''
+    POST
+    {
+        "ticket_id": "ticket_id"
+    }
+
+    RESPONSE
+    {
+        "success": true,
+        "message": "Ticket deleted"
+    }
+    '''
+    data = request.json
     
-# if __name__ == '__main__':
-#   app.run(debug=True)
-#   return {"success": True, "message": "{}".format(reason)}
+    ticket, reason = delete_ticket(data.get('ticket_id'))
+    if not ticket:
+        return {"success": False, "message": "Error deleting ticket: {}".format(reason)}, 403
+    else:
+        return {"success": True, "message": "Ticket deleted"}
 

@@ -332,7 +332,7 @@ def update_ticket(ticket_id, assignee_id, status, notes):
         return False, "Invalid assignee_id"
     
     # Verify status is valid
-    if status not in ["open", "closed"]:
+    if status not in ["open", "resolved"]:
         return False, "Invalid status"
     
     cur.execute("UPDATE tickets SET assignee_id = ?, status = ?, notes = ? WHERE ticket_id = ?", (assignee_id, status, notes, ticket_id))
@@ -340,3 +340,18 @@ def update_ticket(ticket_id, assignee_id, status, notes):
     con.close()
 
     return True, "Ticket updated"
+
+
+def delete_ticket(ticket_id):
+    con = sqlite3.connect('helpdesk.db')
+    cur = con.cursor()
+    
+    # Verify ticket_id is valid
+    results = cur.execute("SELECT ticket_id FROM tickets WHERE ticket_id = ?", (ticket_id,))
+    if results.fetchone() == None:
+        return False, "Invalid ticket_id"
+    
+    cur.execute("DELETE FROM tickets WHERE ticket_id = ?", (ticket_id,))
+    con.commit()
+    con.close()
+    return True, "Ticket deleted"
