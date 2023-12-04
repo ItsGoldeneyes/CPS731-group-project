@@ -53,12 +53,10 @@ export default function CustomerDashboard() {
                     </div>
                     <div className="customer-faq-card-section">
                         <div className="faq-questioncase">
-                            <div>I am not able to make my appointment.</div>
-                            <div>Can I reschedule?</div>
+                            <div>How can I see all of my current tickets?</div>
                         </div>
                         <div>
-                            Yes, if you click on your ticket in 'View My Tickets', you will 
-                            have the option to edit ticket details.
+                            If you click the 'View My Tickets' button, you can see any open tickets that you currently have.
                         </div>
                     </div>
                 </div>

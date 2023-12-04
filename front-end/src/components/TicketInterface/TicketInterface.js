@@ -79,7 +79,7 @@ export default function TicketInterface() {
     };
 
     const editTicketButtonClick = () => {
-        navigate('/edit-ticket');
+        navigate(`/edit-ticket/${ticketId}`);
     };
 
     const deleteTicketButtonClick = () => {

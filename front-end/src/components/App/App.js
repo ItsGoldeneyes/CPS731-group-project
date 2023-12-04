@@ -62,7 +62,7 @@ function App() {
           <Route path='/view-all-tickets' element={<ViewAllTickets />} />
           <Route path="/individual-ticket-customer/:ticketId" element={<CustomerTicketInterface />} />
           <Route path="/individual-ticket/:ticketId" element={<TicketInterface />} />
-          <Route path='/edit-ticket' element={<EditTicketInterface />} />
+          <Route path='/edit-ticket/:ticketId' element={<EditTicketInterface />} />
         </Routes>
       </Router>
     </div>
