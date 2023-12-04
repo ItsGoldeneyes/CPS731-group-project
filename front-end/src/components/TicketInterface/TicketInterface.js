@@ -14,7 +14,8 @@ export default function TicketInterface() {
     const [ticketInfo, setTicket] = useState([]);
     const [requestorName, setRequestorName] = useState("");
     const [assigneeName, setAssigneeName] = useState("");
-    const [status, setStatus] = useState(0);
+    const [newTime, setNewTime] = useState("");
+
 
 
     useEffect(() => {
@@ -28,6 +29,7 @@ export default function TicketInterface() {
 
                 getRequestorName(response.data.ticket[1]);
                 getAssigneeName(response.data.ticket[2]);
+                changeTime(response.data.ticket[6]);
 
             })
             .catch((error) => {
@@ -62,6 +64,10 @@ export default function TicketInterface() {
         .catch((error) => {
         console.log(error, 'error');
         }) 
+    };
+
+    const changeTime = (time) => {
+        setNewTime(time.slice(0, 19));
     };
 
     const closeTicketButtonClick = () => {
@@ -117,31 +123,16 @@ export default function TicketInterface() {
                                     </div>
                                     <div className="ticket-middle-section">
                                             <label for='opened'>Opened</label>
-                                            <input id='opened' type='datetime-local' />
+                                            <input id='opened' type='text' value={newTime} disabled/>
 
                                             <label for='status'>Status</label>
-                                            <select id="status" name="status" >
-                                                <option value="default" disabled>{ticketInfo[8]}</option>
-                                            </select>
+                                            <input id='status' type='text' value={ticketInfo[8]} disabled/>
 
                                             <label for='priority'>Priority</label>
-                                            <select id="priority" name="priority">
-                                                <option value="Low">3 - Low</option>
-                                                <option value="Medium">2 - Medium</option>
-                                                <option value="High">1 - High</option>
-                                            </select>
+                                            <input id='priority' type='text' value={ticketInfo[7]} disabled/>
 
                                             <label for='category'>Category</label>
-                                            <select id="category" name="category">
-                                                <option value="" selected disabled></option>
-                                                <option value="Laptop">Laptop</option>
-                                                <option value="Desktop">Desktop</option>
-                                                <option value="Monitor">Monitor</option>
-                                                <option value="MobilePhone">Mobile Phone</option>
-                                                <option value="LandlinePhone">Landline Phone</option>
-                                                <option value="Printer">Printer</option>
-                                                <option value="Tablet">Tablet</option>
-                                            </select>
+                                            <input id='category' type='text' value={ticketInfo[5]} disabled/>
                                     </div>
                                 </div>
                                 <div className="ticket-last-section">

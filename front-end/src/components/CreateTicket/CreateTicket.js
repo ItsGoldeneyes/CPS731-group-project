@@ -184,7 +184,6 @@ export default function CreateTicket() {
                   <input
                     id="create-shortDescription"
                     type="text"
-                    value="New User Ticket"
                     required
                   />
 
