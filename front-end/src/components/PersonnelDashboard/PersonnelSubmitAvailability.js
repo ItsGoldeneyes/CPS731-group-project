@@ -125,10 +125,10 @@ export default function PersonnelSubmitAvailability() {
                                 </div>
                                 <div className="availability-buttons-container">
                                     <div className="availability-button">
-                                        <button id="availability-update-button" type='button' onClick={() => submitPersonnelAvailability()}>Update</button>
+                                        <button id="availability-update-button" type='button' onClick={submitPersonnelAvailability}>Update</button>
                                     </div>
                                     <div className="availability-button">
-                                        <button id="availability-cancel-button" type='button' onClick={() => cancelAvailabilityButtonClick()}>Cancel</button>
+                                        <button id="availability-cancel-button" type='button' onClick={cancelAvailabilityButtonClick}>Cancel</button>
                                     </div>
                                 </div>
                             </div>

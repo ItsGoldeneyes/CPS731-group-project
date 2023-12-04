@@ -59,6 +59,28 @@ export default function CreateTicket() {
       });
   };
 
+  const setSchedule = async() => {
+    // Map selected cells to cron strings
+    const cronStrings = selectedCells.map((cell) => {
+      const dayOfWeek = cell.day;
+      const hour = cell.time.split(' ')[0];
+      return `0 ${hour} * * ${dayOfWeek}`;
+    });
+  
+    // Send cronstrings
+    console.log(cronStrings);
+
+    axios.post(`${API_URL}/set_user_schedule`, {
+        user_id: userId,
+        schedule: cronStrings
+    })
+        .then((response) => response)
+        .catch((error) => {
+        console.error('API error:', error);
+        return 'N/A';
+    });
+  }
+
   const [selectedCells, setSelectedCells] = React.useState([]);
   const possibleTimes = [
     "9 am",
@@ -132,6 +154,8 @@ export default function CreateTicket() {
       window.alert("Please fill out all required fields.");
       return;
     }
+
+    setSchedule();
 
     createForm({
       title: title,
