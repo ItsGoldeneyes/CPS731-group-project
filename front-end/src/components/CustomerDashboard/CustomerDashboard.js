@@ -44,11 +44,10 @@ export default function CustomerDashboard() {
                 <div className="customer-faq-card-container">
                     <div className="customer-faq-card-section">
                         <div className="faq-questioncase">
-                            How will I know if there are any changes to my appointment?
+                            How do I create a ticket?
                         </div>  
                         <div>
-                            You will receive a notification in your email if any changes 
-                            have been made to your appointment after it has been created. 
+                            If you click the 'Create Ticket' button, you will be redirected to a form to fill out about the issue you are facing.
                         </div>
                     </div>
                     <div className="customer-faq-card-section">
