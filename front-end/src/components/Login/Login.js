@@ -6,6 +6,8 @@ import './styles.css';
 import Logo from '../../assets/Logo.svg';
 
 export default function Login() {
+  const API_URL = process.env.REACT_APP_API_END_POINT
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   // const [userData, setUserData] = useState(null);
