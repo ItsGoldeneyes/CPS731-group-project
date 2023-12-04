@@ -156,8 +156,6 @@ def login(username, password):
 def get_user_tickets(user_id):
     con = sqlite3.connect('helpdesk.db')
     cur = con.cursor()
-    con.close()
-
     
     # Verify user_id is valid
     results = cur.execute("SELECT user_id FROM users WHERE user_id = ?", (user_id,))
@@ -210,6 +208,10 @@ def create_ticket(title, requestor_id, description, category, priority, notes):
     if title == None:
         return False, "Invalid title"
     
+    # Verify description is valid
+    if description == None:
+        return False, "Invalid description"
+    
     # Verify requestor_id is valid
     results = cur.execute(f'SELECT user_id FROM users WHERE user_id = "{requestor_id}"')
     if results.fetchone() == None:
@@ -222,7 +224,6 @@ def create_ticket(title, requestor_id, description, category, priority, notes):
         return False, "Invalid category"
     
     # Verify priority is valid
-
     priorities = ["low", "medium", "high",""]
     if priority not in priorities:
         return False, "Invalid priority"
@@ -240,7 +241,7 @@ def create_ticket(title, requestor_id, description, category, priority, notes):
     if assignee_id == False:
         return False, meeting_timestamp
     cur.execute("INSERT INTO tickets VALUES(?,?,?,?,?,?,?,?,?,?,?)", (ticket_id, requestor_id, assignee_id, title, description, category, 
-                                                                      datetime.datetime.now(), priority, "Open", notes, meeting_timestamp))
+                                                                      datetime.datetime.now(), priority, "open", notes, meeting_timestamp))
     con.commit()
     con.close()
     return ticket_id, "Ticket created"
