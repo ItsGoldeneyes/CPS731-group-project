@@ -16,7 +16,7 @@ class TestLogin(unittest.TestCase):
         
     def test_login_success(self):
         # Test login endpoint
-        response = requests.post('http://127.0.0.1:5000/login', json={"username": "adam.cameron@aaier.ca", "password": "password"})
+        response = requests.post('http://127.0.0.1:5000/login', json={"username": "adam.cameron@aaier.ca", "password": "supersecret"})
         
         # Check if the response is correct
         self.assertEqual(response.status_code, 200)
@@ -573,7 +573,7 @@ class TestUpdateTicket(unittest.TestCase):
         # Test update_ticket endpoint
         response = requests.post('http://127.0.0.1:5000/update_ticket', json={
             "ticket_id": "1",
-            "status": "closed",
+            "status": "resolved",
             "assignee_id": "1",
             "notes": "Test notes"
         })
@@ -603,7 +603,7 @@ class TestUpdateTicket(unittest.TestCase):
                 'computer',
                 'None',
                 'low',
-                'closed',
+                'resolved',
                 'Test notes',
                 '0 16 * * 4'
             ]
