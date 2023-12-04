@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Dashboard from '../Dashboard/Dashboard';
 import Login from '../Login/Login';
-import Header from '../Header/Header';
-import Sidebar from '../Sidebar/Sidebar';
 import TicketInterface from '../TicketInterface/TicketInterface';
+import CustomerTicketInterface from '../TicketInterface/CustomerTicketInterface';
 import EditTicketInterface from '../TicketInterface/EditTicketInterface';
 import CreateTicket from '../CreateTicket/CreateTicket';
 import ViewAllTickets from '../ViewAllTickets/ViewAllTickets';
@@ -14,29 +13,56 @@ import PersonnelDashboard from '../PersonnelDashboard/PersonnelDashboard';
 import PersonnelSubmitAvailability from '../PersonnelDashboard/PersonnelSubmitAvailability';
 import AllTicketsTable from '../AllTicketsTable/AllTicketsTable';
 import AvailabilityChart from '../AvailabilityChart/AvailabilityChart';
+import getToken from '../../hooks/getToken';
 
 function App() {
-  const [ userId, setUserId ] = useState();
+  const API_URL = process.env.REACT_APP_API_END_POINT
+  const [ userType, setUserType ] = useState();
+  const user_id = getToken();
+  const ADMIN = 'admin';
+  const USER = 'user';
 
-  console.log('userId: ', userId);
+  if(!user_id) {
+    return <Login />
+  }
 
-  if(!localStorage.token) {
-    return <Login setUserId={setUserId} />
+  // want to try setting user type in Login and grab user type from localStorage here to optimize performance
+  if(user_id) {
+    axios.post(`${API_URL}/get_user`, {
+      user_id: user_id,
+    })
+    .then((response) => {
+      const user_level = response.data.user[3];
+      setUserType(user_level);
+      localStorage.setItem("user", JSON.stringify(user_level));
+    })
+    .catch((error) => {
+      console.log(error, 'error');
+    }) 
   }
 
   return (
     <div className="wrapper">
       <Router>
         <Routes>
-          {/* <Route path='/' element={<Login />} /> */}
-          <Route path='/' element={<Login />} />
-          <Route path='/customer-dashboard' element={<CustomerDashboard />} />
-          <Route path='/personnel-dashboard' element={<PersonnelDashboard />} />
+          {userType === ADMIN &&
+            <>
+              <Route path='/' element={<PersonnelDashboard />} />
+              <Route path='/home' element={<PersonnelDashboard />} />
+            </>
+          }
+          {userType === USER &&
+            <>
+              <Route path='/' element={<CustomerDashboard />} />
+              <Route path='/home' element={<CustomerDashboard />} />
+            </>
+          }
           <Route path='/personnel-submit-availability' element={<PersonnelSubmitAvailability />} />
           <Route path='/create-ticket' element={<CreateTicket />} />
           <Route path='/view-all-tickets' element={<ViewAllTickets />} />
+          <Route path="/individual-ticket-customer/:ticketId" element={<CustomerTicketInterface />} />
           <Route path="/individual-ticket/:ticketId" element={<TicketInterface />} />
-          <Route path='/edit-ticket' element={<EditTicketInterface />} />
+          <Route path='/edit-ticket/:ticketId' element={<EditTicketInterface />} />
         </Routes>
       </Router>
     </div>

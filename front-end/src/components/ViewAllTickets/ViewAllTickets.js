@@ -6,47 +6,25 @@ import info_icon from '../../assets/ticket-info-icon.svg';
 import Header from '../Header/Header';
 import Sidebar from '../Sidebar/Sidebar';
 import TicketsTable from '../AllTicketsTable/AllTicketsTable';
+import TicketsTableCustomer from '../AllTicketsTable/TicketsTableCustomer';
+import getToken from '../../hooks/getToken';
 
 export default function ViewAllTickets() {
+    const API_URL = process.env.REACT_APP_API_END_POINT
+
     const [tickets, setTickets] = useState([]);
+    const [userInfo, setUserInfo] = useState([]);
+    const token = getToken();
+    console.log(token);
 
     useEffect(() => {
         const fetchTickets = () => {
-            axios.post('http://localhost:5000/get_user_tickets', {
-                user_id: '4', //Replace with user id variable
+            axios.post(`${API_URL}/get_user_tickets`, {
+                user_id: token, 
             })
             .then((response) => {
-                console.log('API response:', response.data);
-
-                //Set fake data
-                /*const fakeTicketData = [
-                    [
-                      "ticket_id": "12345",
-                      "requestor_id": "user123",
-                      "assignee_id": "support456",
-                      "opened_on": "2023-01-01",
-                      "updated_on": "2023-01-02",
-                      "priority": "High",
-                      "category": "Technical Issue",
-                      "description": "Cannot access the system",
-                      "notes": "User reported error message on login screen.",
-                    ],
-                    {
-                      "ticket_id": "67890",
-                      "requestor_id": "user456",
-                      "assignee_id": "support789",
-                      "opened_on": "2023-01-03",
-                      "updated_on": "2023-01-04",
-                      "priority": "Medium",
-                      "category": "Bug Report",
-                      "description": "Application crashes when clicking button X.",
-                      "notes": "Issue observed on Windows operating system.",
-                    },
-                ];*/
-                
+                //console.log('API response:', response.data.tickets);           
                 setTickets(response.data.tickets);
-
-                //setTickets(fakeTicketData);
             })
             .catch((error) => {
                 console.error('API error:', error);
@@ -70,7 +48,7 @@ export default function ViewAllTickets() {
                                     All Tickets 
                             </div>
                             <div>
-                                { /*<TicketsTable ticketData={tickets}/> */ }
+                                <TicketsTableCustomer ticketData={tickets}/> 
                             </div>
                         </div>
                     </div>

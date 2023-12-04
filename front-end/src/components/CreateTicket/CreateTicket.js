@@ -1,24 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { redirect } from 'react-router';
-import styles from './createticket-styles.css';
+import './createticket-styles.css';
 import Header from '../Header/Header';
 import Sidebar from '../Sidebar/Sidebar';
 import AvailabilityChart from '../AvailabilityChart/AvailabilityChart';
+import getToken from '../../hooks/getToken';
 
 
 export default function CreateTicket() {
+  const API_URL = process.env.REACT_APP_API_END_POINT
+
+//   const [userInfo, setUserInfo] = useState({ name: '', email: ''});
+  const userId = getToken();
+
+//   useEffect(() => {
+//     const getUserInfo = () => {
+//         axios.post(`${API_URL}/get_user`, {
+//           user_id: userId,
+//         })
+//         .then((response) => {
+//             const user = response.data.user;
+//             console.log("Response", response.data.user)
+//             setUserInfo({
+//                 name: user[1],
+//                 email: user[2]
+//             });
+//         })
+//         .catch((error) => {
+//           console.log(error, 'error');
+//         }) 
+//       };
+
+//       getUserInfo();
+//   }, []);
+
+//   console.log(userInfo);
+
   const navigate = useNavigate();
 
   const cancelCreateTicketButtonClick = () => {
-    navigate("/customer-dashboard");
+    navigate("/home");
   };
 
   const createForm = async (payload) => {
-    console.log(payload);
+    console.log('payload', payload);
     axios
-      .post("http://localhost:5000/create_ticket", {
+      .post(`${API_URL}/create_ticket`, {
         title: payload.title,
         requestor_id: payload.requestor_id,
         description: payload.description,
@@ -26,14 +54,32 @@ export default function CreateTicket() {
         priority: payload.priority,
         notes: payload.notes,
       })
-      .then((response) => {
-        console.log(response);
-        redirect("/");
-      })
       .catch((error) => {
         console.log(error, "error");
       });
   };
+
+  const setSchedule = async() => {
+    // Map selected cells to cron strings
+    const cronStrings = selectedCells.map((cell) => {
+      const dayOfWeek = cell.day;
+      const hour = cell.time.split(' ')[0];
+      return `0 ${hour} * * ${dayOfWeek}`;
+    });
+  
+    // Send cronstrings
+    console.log(cronStrings);
+
+    axios.post(`${API_URL}/set_user_schedule`, {
+        user_id: userId,
+        schedule: cronStrings
+    })
+        .then((response) => response)
+        .catch((error) => {
+        console.error('API error:', error);
+        return 'N/A';
+    });
+  }
 
   const [selectedCells, setSelectedCells] = React.useState([]);
   const possibleTimes = [
@@ -72,26 +118,24 @@ export default function CreateTicket() {
   };
 
   const createTicketButtonClick = () => {
-    console.log(document.getElementById("user-availability"));
-
-    var title = "";
-    var shortDescription = document.getElementById(
+    let title = "";
+    let shortDescription = document.getElementById(
       "create-shortDescription"
     ).value;
-    var requestedBy = "6";
-    var userEmail = "ella.johnson@aaier.ca"
-    var customerAvailability =
-      document.getElementById("user-availability").value;
-    var chosenCategory = document.getElementById("create-category").value;
-    var userNotes = document.getElementById("create-notes").value;
+    let requestedBy = userId;
+    // let userEmail = userInfo.email
+    // let customerAvailability =
+    //   document.getElementById("user-availability").value;
+    let chosenCategory = document.getElementById("create-category").value;
+    let userNotes = document.getElementById("create-notes").value;
 
-    const requestorMapping = {
-      "Adam Cameron": 1,
-      "Rachita Singh": 2,
-      "Inaya Rajwani": 3,
-      "Emily Chiu": 4,
-      "Abee Allen": 5,
-    };
+    // const requestorMapping = {
+    //   "Adam Cameron": 1,
+    //   "Rachita Singh": 2,
+    //   "Inaya Rajwani": 3,
+    //   "Emily Chiu": 4,
+    //   "Abee Allen": 5,
+    // };
 
     const specialtyMapping = {
       Laptop: "computer",
@@ -111,6 +155,8 @@ export default function CreateTicket() {
       return;
     }
 
+    setSchedule();
+
     createForm({
       title: title,
       requestor_id: requestedBy,
@@ -126,19 +172,20 @@ export default function CreateTicket() {
       })
       .join("\n");
 
-    window.alert(
-      shortDescription +
-        "\n" +
-        requestedBy +
-        "\n Availability: \n" +
-        selectedCellsAlert +
-        "\n" +
-        chosenCategory +
-        "\n" +
-        userEmail +
-        "\n" +
-        userNotes
-    );
+    navigate('/home');
+    // window.alert(
+    //   shortDescription +
+    //     "\n" +
+    //     requestedBy +
+    //     "\n Availability: \n" +
+    //     selectedCellsAlert +
+    //     "\n" +
+    //     chosenCategory +
+    //     "\n" +
+    //     userEmail +
+    //     "\n" +
+    //     userNotes
+    // );
   };
 
   return (
@@ -181,7 +228,6 @@ export default function CreateTicket() {
                   <input
                     id="create-shortDescription"
                     type="text"
-                    value="New User Ticket"
                     required
                   />
 

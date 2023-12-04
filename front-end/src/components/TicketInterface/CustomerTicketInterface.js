@@ -1,31 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import styles from './editTicketInterface-styles.css';
+import axios from 'axios';
+import { redirect } from 'react-router';
+import { Link, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import styles from './ticketInterface-styles.css';
 import Header from '../Header/Header';
 import Sidebar from '../Sidebar/Sidebar';
-import axios from 'axios';
 
-export default function TicketInterface() {
+export default function CustomerTicketInterface() {
     const API_URL = process.env.REACT_APP_API_END_POINT
     const navigate = useNavigate();
     const { ticketId } = useParams();
-    const [ticketInfo, setTicketInfo] = useState([]);
+    const [ticketInfo, setTicket] = useState([]);
     const [requestorName, setRequestorName] = useState("");
     const [assigneeName, setAssigneeName] = useState("");
     const [newTime, setNewTime] = useState("");
-    const [assignee_id, setAssigneeId] = useState("");
-    const [status, setStatus] = useState("");
-    const [notes, setNotes] = useState("");
 
 
-    const requestorMapping = [
-      {name: "Adam Cameron", id: 1},
-      {name: "Rachita Singh", id: 2},
-      {name: "Inaya Rajwani", id: 3},
-      {name: "Emily Chiu", id: 4},
-      {name: "Abee Allen", id: 5},
-    ];
-    
     useEffect(() => {
         const getTicket = () => {
             axios.post(`${API_URL}/get_ticket`, {
@@ -33,15 +24,11 @@ export default function TicketInterface() {
             })
             .then((response) => {
                 console.log('API response:', response.data);
-                setTicketInfo(response.data.ticket);
-                setAssigneeId(response.data.ticket[2]);
-                setStatus(response.data.ticket[8]);
-                setNotes(response.data.ticket[9]);
+                setTicket(response.data.ticket);
 
                 getRequestorName(response.data.ticket[1]);
                 getAssigneeName(response.data.ticket[2]);
                 changeTime(response.data.ticket[6]);
-
             })
             .catch((error) => {
                 console.error('Error fetching ticket:', error);
@@ -56,6 +43,7 @@ export default function TicketInterface() {
             user_id: userId,
         })
         .then((response) => {
+            console.log(response.data.user[1])
             setRequestorName(response.data.user[1]);
         })
         .catch((error) => {
@@ -68,6 +56,7 @@ export default function TicketInterface() {
             user_id: userId,
         })
         .then((response) => {
+            console.log(response.data.user[1])
             setAssigneeName(response.data.user[1]);
         })
         .catch((error) => {
@@ -79,19 +68,28 @@ export default function TicketInterface() {
         setNewTime(time.slice(0, 19));
     };
 
-    const saveEditTicketButtonClick = () => {
-        axios.post(`${API_URL}/update_ticket`, {
-            ticket_id: ticketId,
-            status: status,
-            assignee_id: assignee_id,
-            notes: notes
-        })
-        navigate('/home');
+    const closeTicketButtonClick = () => {
+        console.log("close")
     };
 
-    const cancelEditTicketButtonClick = () => {
-        navigate(`/individual-ticket/${ticketId}`);
+    const editTicketButtonClick = () => {
+        navigate('/edit-ticket');
     };
+
+    const deleteTicketButtonClick = () => {
+        console.log(ticketId)
+        axios.post(`${API_URL}/delete_ticket`, {
+            ticket_id: ticketId,
+        })
+        .then((response) => {
+            console.log(response)
+            navigate('/home');
+        })
+        .catch((error) => {
+        console.log(error.response.data, 'error');
+        }) 
+    };
+
 
     return (
         <div className="page-background">
@@ -109,16 +107,16 @@ export default function TicketInterface() {
                                         Ticket Details - {ticketId}
                                     </div>
                                     <div className="buttons-container">
+                                        {/* <div className="ticket-button">
+                                            <button type='submit' onClick={() => editTicketButtonClick()}>Edit Ticket</button>
+                                        </div> */}
                                         <div className="ticket-button">
-                                            <button type='submit' id='save-edit-ticket-button' onClick={saveEditTicketButtonClick}>Save</button>
-                                        </div>
-                                        <div className="ticket-button">
-                                            <button type='submit' id='cancel-edit-ticket-button' onClick={cancelEditTicketButtonClick}>Cancel</button>
+                                            <button type='button' onClick={() => deleteTicketButtonClick()}>Delete Ticket</button>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="ticket-middle-container">
-                                <div className="ticket-middle-section">
+                                    <div className="ticket-middle-section">
                                             <label for='number'>Number</label>
                                             <input id='number' type='text' value={ticketInfo[0]} disabled/>
 
@@ -126,31 +124,14 @@ export default function TicketInterface() {
                                             <input id='requested-by' type='text' value={requestorName} disabled/>
 
                                             <label for='assigned-to'>Assigned to</label>
-                                            <select 
-                                                id='assigned-to'
-                                                name='assigned-to'
-                                                defaultValue={assigneeName}
-                                                onChange={e => setAssigneeId(e.target.value)}
-                                            >
-                                                {requestorMapping.map(({name, id}) => {
-                                                    return <option value={id}>{name}</option>
-                                                })}
-                                            </select>
+                                            <input id='assigned-to' type='text' value={assigneeName} disabled/>
                                     </div>
                                     <div className="ticket-middle-section">
-                                    <label for='opened'>Opened</label>
+                                            <label for='opened'>Opened</label>
                                             <input id='opened' type='text' value={newTime} disabled/>
 
                                             <label for='status'>Status</label>
-                                            <select 
-                                                id="status" 
-                                                name="status"
-                                                defaultValue={ticketInfo[8]} 
-                                                onChange={e => setStatus(e.target.value)}
-                                            >
-                                                <option value="open">Open</option>
-                                                <option value="resolved">Resolved</option>
-                                            </select>
+                                            <input id='status' type='text' value={ticketInfo[8]} disabled/>
 
                                             <label for='priority'>Priority</label>
                                             <input id='priority' type='text' value={ticketInfo[7]} disabled/>
@@ -162,13 +143,9 @@ export default function TicketInterface() {
                                 <div className="ticket-last-section">
                                         <label for='shortDescription'>Short description</label>
                                         <input id='shortDescription' type='text' value={ticketInfo[4]} disabled/>
-                                        
+
                                         <label for='notes'>Notes</label>
-                                        <textarea 
-                                            id='notes' 
-                                            type='text' 
-                                            onChange={e => setNotes(e.target.value)}
-                                        />
+                                        <textarea id='notes' type='text' value={ticketInfo[9]} disabled/>
                                 </div>
                             </form>
                         </div>

@@ -5,26 +5,29 @@ import PropTypes from 'prop-types';
 import './styles.css';
 import Logo from '../../assets/Logo.svg';
 
-export default function Login({ setUserId }) {
+export default function Login() {
+  const API_URL = process.env.REACT_APP_API_END_POINT
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [userData, setUserData] = useState(null);
-  const [error, setError] = useState(null);
+  // const [userData, setUserData] = useState(null);
+  // const [error, setError] = useState(null);
 
   const loginUser = async e => {
     e.preventDefault();
-    axios.post('http://localhost:5000/login', {
+    axios.post(`${API_URL}/login`, {
       username: username,
       password: password
     })
     .then((response) => {
+
       console.log(response);
-      const userToken = response.data.access_token;
-      localStorage.setItem("token", JSON.stringify(userToken));
+      const userToken = response.data.user_id;
+      localStorage.setItem("user_id", JSON.stringify(userToken));
+      window.location.href = '/home';
 
       //Call another subroutine to get the user details
-      getUserDetails(userToken);
-
+      // getUserDetails(response.data.user_id);
 
     })
     .catch((error) => {
@@ -32,24 +35,27 @@ export default function Login({ setUserId }) {
     }) 
   }
 
-  const getUserDetails = (userId) => {
-    axios.post('http://localhost:5000/get_user', {
-      user_id: userId,
-    })
-    .then((response) => {
-      const user_level = response.data.user[3];
-      setUserData(response.data.user);
-      //Redirect the user depending on their status
-      if (user_level === 'admin') {
-        window.location.href = `/personnel-dashboard?userId=${userId}`;
-      } else {
-        window.location.href = `/customer-dashboard?userId=${userId}`;
-      }
-    })
-    .catch((error) => {
-      console.log(error, 'error');
-    }) 
-  };
+  // const getUserDetails = (userId) => {
+  //   axios.post('http://localhost:5000/get_user', {
+  //     user_id: userId,
+  //   })
+  //   .then((response) => {
+  //     const user_level = response.data.user[3];
+  //     setUserData(response.data.user);
+      
+  //     //Redirect the user depending on their status
+  //     if (user_level === 'admin') {
+  //       console.log("navigate to admin dash")
+  //       window.location.href = '/personnel-dashboard';
+  //     } else {
+  //       console.log("navigate to user dash")
+  //       window.location.href = '/customer-dashboard';
+  //     }
+  //   })
+  //   .catch((error) => {
+  //     console.log(error, 'error');
+  //   }) 
+  // };
 
   return(
     <div className="login-container">
@@ -74,7 +80,7 @@ export default function Login({ setUserId }) {
             </label>
             <input 
               id='password' 
-              type='text' 
+              type='password' 
               onChange={e => setPassword(e.target.value)}
             />
           </div>
@@ -85,8 +91,4 @@ export default function Login({ setUserId }) {
       </div>
     </div>
   );
-}
-
-Login.propTypes = {
-  setToken: PropTypes.func.isRequired
 }

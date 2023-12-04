@@ -50,14 +50,14 @@ def setup_db():
     con.close()
     
     # Create new admin users
-    create_new_user("Adam Cameron", "adam.cameron@aaier.ca", 'admin', 'IT', specialty="computer")
+    create_new_user("Adam Cameron", "adam.cameron@aaier.ca", 'admin', 'IT', specialty="computer", password="supersecret")
     create_new_user("Rachita Singh", "rachita.singh@aaier.ca", 'admin', 'IT', specialty="phone")
     create_new_user("Inaya Rajwani", "inaya.rajwani@aaier.ca", 'admin', 'IT', specialty="other")
     create_new_user("Emily Chiu", "emily.chiu@aaier.ca", 'admin', 'IT', specialty="computer")
     create_new_user("Abee Allen", "abee.allen@aaier.ca", 'admin', 'IT', specialty="other")
 
     # Create new user users
-    create_new_user("Ella Johnson", "ella.johnson@aaier.ca", "user", "Sales")
+    create_new_user("Ella Johnson", "ella.johnson@aaier.ca", "user", "Sales", password="password123")
     create_new_user("Mason Adams", "mason.adams@aaier.ca", "user", "Marketing")
     create_new_user("Ava Mitchell", "ava.mitchell@aaier.ca", "user", "Finance")
     create_new_user("Logan Parker", "logan.parker@aaier.ca", "user", "Sales")
@@ -91,6 +91,18 @@ def setup_db():
     set_user_schedule(1, ["0 10 * * 1", "0 8 * * 2", "0 15 * * 3", "0 16 * * 4", "0 10 * * 5"])
     set_user_schedule(3, ["0 10 * * 1", "0 8 * * 2", "0 15 * * 3", "0 16 * * 2", "0 10 * * 5"])
     set_user_schedule(6, ["0 9 * * 1", "0 9 * * 2", "0 12 * * 3", "0 16 * * 4", "0 13 * * 5"])
+    
+    create_ticket("Computer not working", 6, "Computer no worky", "computer", "high", None)
+    create_ticket("I dropped my phone", 6, "screen broke", "phone", "high", None)
+    create_ticket("battery exploded", 6, "Other no worky", "other", "high", None)
+    create_ticket("battery also exploded", 7, "Other no worky", "other", "high", None)
+    create_ticket("battery also exploded", 8, "Other no worky", "other", "high", None)
+    create_ticket("battery also exploded", 9, "Other no worky", "other", "high", None)
+    create_ticket("battery also exploded", 10, "Other no worky", "other", "high", None)
+    
+    
+    update_ticket(1, 1, "resolved", "I fixed it")
+    update_ticket(2, 2, "open", "still broke")
     
     
 def create_new_user(user_name, user_email, user_permissions, department, specialty="None", password="password"):

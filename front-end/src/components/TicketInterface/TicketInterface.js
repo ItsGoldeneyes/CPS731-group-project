@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { redirect } from 'react-router';
 import { Link, useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import styles from './ticketInterface-styles.css';
@@ -8,18 +7,39 @@ import Header from '../Header/Header';
 import Sidebar from '../Sidebar/Sidebar';
 
 export default function TicketInterface() {
+    const API_URL = process.env.REACT_APP_API_END_POINT
     const navigate = useNavigate();
     const { ticketId } = useParams();
-    const [ticketInfo, setTicket] = useState([]);
+    const [ticketInfo, setTicketInfo] = useState([]);
+    const [requestorName, setRequestorName] = useState("");
+    const [assigneeName, setAssigneeName] = useState("");
+    const [newTime, setNewTime] = useState("");
+    const [isButtonVisible, setButtonVisibility] = useState(true);
+
+
 
     useEffect(() => {
         const getTicket = () => {
-            axios.post('http://localhost:5000/get_ticket', {
+            axios.post(`${API_URL}/get_ticket`, {
                 ticket_id: ticketId,
             })
             .then((response) => {
                 console.log('API response:', response.data);
-                setTicket(response.data.ticket);
+                setTicketInfo(response.data.ticket);
+
+                getRequestorName(response.data.ticket[1]);
+                getAssigneeName(response.data.ticket[2]);
+                changeTime(response.data.ticket[6]);
+
+                //Check if ticket is resolved
+                console.log("thisticket",response.data.ticket[8])
+
+                if (response.data.ticket[8]==="resolved") {
+                    setButtonVisibility(false)
+                } else {
+                    setButtonVisibility(true)
+                }
+
             })
             .catch((error) => {
                 console.error('Error fetching ticket:', error);
@@ -29,16 +49,64 @@ export default function TicketInterface() {
         getTicket();
     }, []);
 
+    const getRequestorName = (userId) => {
+        axios.post(`${API_URL}/get_user`, {
+            user_id: userId,
+        })
+        .then((response) => {
+            setRequestorName(response.data.user[1]);
+        })
+        .catch((error) => {
+        console.log(error, 'error');
+        }) 
+    };
+
+    const getAssigneeName = (userId) => {
+        axios.post(`${API_URL}/get_user`, {
+            user_id: userId,
+        })
+        .then((response) => {
+            setAssigneeName(response.data.user[1]);
+        })
+        .catch((error) => {
+        console.log(error, 'error');
+        }) 
+    };
+
+    const changeTime = (time) => {
+        setNewTime(time.slice(0, 19));
+    };
+
     const closeTicketButtonClick = () => {
-        window.alert("Ticket has been moved to closed state")
+        console.log("close")
+        axios.post(`${API_URL}/update_ticket`, {
+            ticket_id: ticketId,
+            status: 'resolved',
+            assignee_id: ticketInfo[2],
+            notes: ''
+        })
+        .then((response) => {
+            console.log(response);
+        })
+        navigate('/home');
     };
 
     const editTicketButtonClick = () => {
-        navigate('/edit-ticket');
+        navigate(`/edit-ticket/${ticketId}`);
     };
 
     const deleteTicketButtonClick = () => {
-        window.alert("Ticket has now been deleted")
+        console.log(ticketId)
+        axios.post(`${API_URL}/delete_ticket`, {
+            ticket_id: ticketId,
+        })
+        .then((response) => {
+            console.log(response)
+            navigate('/home');
+        })
+        .catch((error) => {
+        console.log(error.response.data, 'error');
+        }) 
     };
 
 
@@ -59,63 +127,49 @@ export default function TicketInterface() {
                                     </div>
                                     <div className="buttons-container">
                                         <div className="ticket-button">
-                                            <button type='submit' onClick={() => closeTicketButtonClick()}>Close Ticket</button>
+                                            <button type='button' onClick={closeTicketButtonClick}>Close Ticket</button>
                                         </div>
+                                        {isButtonVisible && (
                                         <div className="ticket-button">
-                                            <button type='submit' onClick={() => editTicketButtonClick()}>Edit Ticket</button>
+                                            <button type='button' onClick={editTicketButtonClick}>Edit Ticket</button>
                                         </div>
+                                        )}
                                         <div className="ticket-button">
-                                            <button type='submit' onClick={() => deleteTicketButtonClick()}>Delete Ticket</button>
+                                            <button type='button' onClick={deleteTicketButtonClick}>Delete Ticket</button>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="ticket-middle-container">
                                     <div className="ticket-middle-section">
                                             <label for='number'>Number</label>
-                                            <input id='number' type='text' />
+                                            <input id='number' type='text' value={ticketInfo[0]} disabled/>
 
                                             <label for='requested-by'>Requested by</label>
-                                            <input id='requested-by' type='text' />
+                                            <input id='requested-by' type='text' value={requestorName} disabled/>
 
                                             <label for='assigned-to'>Assigned to</label>
-                                            <input id='assigned-to' type='text' />
+                                            <input id='assigned-to' type='text' value={assigneeName} disabled/>
                                     </div>
                                     <div className="ticket-middle-section">
                                             <label for='opened'>Opened</label>
-                                            <input id='opened' type='datetime-local' />
+                                            <input id='opened' type='text' value={newTime} disabled/>
 
                                             <label for='status'>Status</label>
-                                            <select id="status" name="status" >
-                                                <option value="Waiting-to-be-assigned">Waiting to be assigned</option>
-                                                <option value="In-progress">In progress</option>
-                                                <option value="Complete">Complete</option>
-                                            </select>
+                                            <input id='status' type='text' value={ticketInfo[8]} disabled/>
 
                                             <label for='priority'>Priority</label>
-                                            <select id="priority" name="priority">
-                                                <option value="Low">3 - Low</option>
-                                                <option value="Medium">2 - Medium</option>
-                                                <option value="High">1 - High</option>
-                                            </select>
+                                            <input id='priority' type='text' value={ticketInfo[7]} disabled/>
 
                                             <label for='category'>Category</label>
-                                            <select id="category" name="category">
-                                                <option value="" selected disabled></option>
-                                                <option value="Laptop">Laptop</option>
-                                                <option value="Desktop">Desktop</option>
-                                                <option value="Monitor">Monitor</option>
-                                                <option value="MobilePhone">Mobile Phone</option>
-                                                <option value="LandlinePhone">Landline Phone</option>
-                                                <option value="Printer">Printer</option>
-                                                <option value="Tablet">Tablet</option>
-                                            </select>
+                                            <input id='category' type='text' value={ticketInfo[5]} disabled/>
                                     </div>
                                 </div>
                                 <div className="ticket-last-section">
                                         <label for='shortDescription'>Short description</label>
-                                        <input id='shortDescription' type='text' />
+                                        <input id='shortDescription' type='text' value={ticketInfo[4]} disabled/>
+
                                         <label for='notes'>Notes</label>
-                                        <textarea id='notes' type='text' />
+                                        <textarea id='notes' type='text' value={ticketInfo[9]} disabled/>
                                 </div>
                             </form>
                         </div>

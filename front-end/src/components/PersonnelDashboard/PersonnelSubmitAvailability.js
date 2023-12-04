@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 import styles from './personnel-availability-styles.css';
 import Header from '../Header/Header';
 import Sidebar from '../Sidebar/Sidebar';
@@ -7,11 +9,32 @@ import personnel_user_icon from '../../assets/personnel-dashboard-user-icon.svg'
 import personnel_mail_icon from '../../assets/personnel-dashboard-mail-icon.svg';
 import personnel_phone_icon from '../../assets/personnel-dashboard-phone-icon.svg';
 import info_icon from '../../assets/ticket-info-icon.svg';
+import getToken from '../../hooks/getToken';
 
 export default function PersonnelSubmitAvailability() {
+    const API_URL = process.env.REACT_APP_API_END_POINT
+    const userId = getToken();
+    const [userInfo, setUserInfo] = useState([]);
+    
     const navigate = useNavigate();
     const [selectedCells, setSelectedCells] = useState([]);
     const possibleTimes = ["9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm", "5 pm"];
+
+    useEffect(() => {
+        const getDashboardInfo = () => {
+            axios.post(`${API_URL}/get_user`, {
+              user_id: userId,
+            })
+            .then((response) => {
+                console.log("Response", response.data.user)
+                setUserInfo(response.data.user);
+            })
+            .catch((error) => {
+              console.log(error, 'error');
+            }) 
+          };
+        getDashboardInfo();
+    }, []);
   
     const cellClickEvent = (day, time) => {
       const cell = { day, time };
@@ -44,10 +67,24 @@ export default function PersonnelSubmitAvailability() {
       
         // Send cronstrings
         console.log(cronStrings);
+
+        axios.post(`${API_URL}/set_user_schedule`, {
+            user_id: userId,
+            schedule: cronStrings
+        })
+            .then((response) => response)
+            .catch((error) => {
+            console.error('API error:', error);
+            return 'N/A';
+        });
+
+        //Go back to homepage
+        window.location.href = `/home`;
     };
 
     const cancelAvailabilityButtonClick = () => {
-        navigate('/personnel-dashboard');
+        //navigate('/personnel-dashboard');
+        window.location.href = `/home`;
     };
 
 
@@ -67,17 +104,16 @@ export default function PersonnelSubmitAvailability() {
                             <div className="personnel-dashboard-info-details-container">
                                 <img className="personnel_user_icon-style" src={personnel_user_icon} alt='User Icon' />
                                 <div>
-                                    <div id="personnel-dashboard-details-name">Jane Doe</div>
+                                    <div id="personnel-dashboard-details-name">{userInfo[1]}</div>
                                     <div>IT Specialist</div>
                                 </div>
                                 <div>
                                     <div className="personnel-dashboard-details-email-style">
                                         <img className="personnel_info_contact_icon" src={personnel_mail_icon} alt='Email' />
-                                        <span id="personnel-dashboard-details-email">janedoe@aaier.com</span>
+                                        <span id="personnel-dashboard-details-email">{userInfo[2]}</span>
                                     </div>
                                     <div className="personnel-dashboard-details-phone-number-style">
-                                        <img className="personnel_info_contact_icon" src={personnel_phone_icon} alt='Phone' />
-                                        <span id="personnel-dashboard-details-phone-number">(416) 123-4567</span>
+
                                     </div>
                                 </div>
                             </div>
@@ -89,10 +125,10 @@ export default function PersonnelSubmitAvailability() {
                                 </div>
                                 <div className="availability-buttons-container">
                                     <div className="availability-button">
-                                        <button id="availability-update-button" type='button' onClick={() => submitPersonnelAvailability()}>Update</button>
+                                        <button id="availability-update-button" type='button' onClick={submitPersonnelAvailability}>Update</button>
                                     </div>
                                     <div className="availability-button">
-                                        <button id="availability-cancel-button" type='button' onClick={() => cancelAvailabilityButtonClick()}>Cancel</button>
+                                        <button id="availability-cancel-button" type='button' onClick={cancelAvailabilityButtonClick}>Cancel</button>
                                     </div>
                                 </div>
                             </div>
